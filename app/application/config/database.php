@@ -45,24 +45,40 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'platform';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = '';
-$db['default']['password'] = '';
-$db['default']['database'] = '';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['platform']['hostname'] = 'localhost';
+$db['platform']['username'] = 'root';
+$db['platform']['password'] = '84@41%%wi96^4';
+$db['platform']['database'] = 'pulse_platform_db';
+$db['platform']['dbdriver'] = 'mysqli';
+$db['platform']['dbprefix'] = '';
+$db['platform']['pconnect'] = FALSE;
+$db['platform']['db_debug'] = TRUE;
+$db['platform']['cache_on'] = FALSE;
+$db['platform']['cachedir'] = '';
+$db['platform']['char_set'] = 'utf8';
+$db['platform']['dbcollat'] = 'utf8_general_ci';
+$db['platform']['swap_pre'] = '';
+$db['platform']['autoinit'] = TRUE;
+$db['platform']['stricton'] = FALSE;
+
+$db['gamedb']['hostname'] = 'localhost';
+$db['gamedb']['username'] = 'root';
+$db['gamedb']['password'] = '84@41%%wi96^4';
+$db['gamedb']['database'] = 'godwar_game_db';
+$db['gamedb']['dbdriver'] = 'mysqli';
+$db['gamedb']['dbprefix'] = '';
+$db['gamedb']['pconnect'] = FALSE;
+$db['gamedb']['db_debug'] = TRUE;
+$db['gamedb']['cache_on'] = FALSE;
+$db['gamedb']['cachedir'] = '';
+$db['gamedb']['char_set'] = 'utf8';
+$db['gamedb']['dbcollat'] = 'utf8_general_ci';
+$db['gamedb']['swap_pre'] = '';
+$db['gamedb']['autoinit'] = TRUE;
+$db['gamedb']['stricton'] = FALSE;
 
 
 /* End of file database.php */
