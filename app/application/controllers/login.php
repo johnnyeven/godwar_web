@@ -24,7 +24,7 @@ class Login extends CI_Controller
 			}
 			else
 			{
-				redirect( 'index' );
+				redirect( 'choose_role' );
 			}
 		}
 		else
@@ -86,7 +86,7 @@ class Login extends CI_Controller
 						'lasttime' => time() 
 				) );
 				
-				$redirectUrl = empty( $redirectUrl ) ? 'index' : $redirectUrl;
+				$redirectUrl = empty( $redirectUrl ) ? 'choose_role' : $redirectUrl;
 				showMessage( MESSAGE_TYPE_SUCCESS, 'USER_LOGIN_SUCCESS', '', $redirectUrl, 
 						true, 5 );
 			}
