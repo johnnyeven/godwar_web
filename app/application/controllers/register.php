@@ -54,7 +54,7 @@ class Register extends CI_Controller
 			);
 			$this->input->set_cookie( $cookie );
 			
-			showMessage( MESSAGE_TYPE_SUCCESS, 'USER_REGISTER_SUCCESS', '', 'index', true, 5 );
+			showMessage( MESSAGE_TYPE_SUCCESS, 'USER_REGISTER_SUCCESS', '', 'choose_role', true, 5 );
 		}
 		else
 		{

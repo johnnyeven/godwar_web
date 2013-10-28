@@ -3,10 +3,14 @@ if ( !defined( 'BASEPATH' ) )
 	exit( 'No direct script access allowed' );
 class Create_role extends CI_Controller
 {
+	private $pageName = 'create_role';
+	private $user = null;
 
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model( 'utils/check_user', 'check' );
+		$this->user = $this->check->validate();
 	}
 
 	public function index()
