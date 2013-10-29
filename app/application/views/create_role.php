@@ -17,13 +17,13 @@
       <td align="right">种族</td>
       <td><label for=""></label>
         <select name="role_race" id="role_race">
-          <option value="0" selected="selected">未选择</option>
-          <option value="1">人类</option>
-          <option value="2">天使</option>
-          <option value="3">恶魔</option>
-          <option value="4">精灵</option>
-          <option value="5">亡灵</option>
-          <option value="6">泰坦</option>
+          <option value="" selected="selected">未选择</option>
+          <option value="01001">人类</option>
+          <option value="01002">天使</option>
+          <option value="01003">恶魔</option>
+          <option value="01004">精灵</option>
+          <option value="01005">亡灵</option>
+          <option value="01006">泰坦</option>
       </select></td>
     </tr>
     <tr>

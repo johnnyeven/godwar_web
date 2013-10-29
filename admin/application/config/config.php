@@ -16,6 +16,7 @@ error_reporting(E_ERROR);
 |
 */
 $config['base_url']	= '';
+$config['upload_dir'] = 'resources/incoming';
 
 /*
 |--------------------------------------------------------------------------

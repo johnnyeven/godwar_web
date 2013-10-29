@@ -25,7 +25,37 @@ class Create_role extends CI_Controller
 		
 		if ( !empty( $roleName ) && !empty( $roleRace ) )
 		{
-			//TODO 根据种族获取对应种族的人物初始数据
+			$this->load->library('Mongo_db');
+			$parameter = array(
+					'id'	=>	$roleRace
+			);
+			$result = $this->mongo_db->where($parameter)->get('race');
+			$result = $result[0];
+			
+			$this->load->model('role');
+			$time = time();
+			$parameter = array(
+					'account_id'		=>	$this->user->id,
+					'role_name'			=>	$roleName,
+					'role_level'		=>	1,
+					'role_race'			=>	$roleRace,
+					'role_job'			=>	0,
+					'role_health_max'	=>	$result['health'],
+					'role_health'		=>	$result['health'],
+					'role_atk'			=>	$result['atk'],
+					'role_def'			=>	$result['def'],
+					'role_mdef'			=>	$result['mdef'],
+					'role_hit'			=>	$result['hit'],
+					'role_flee'			=>	$result['flee'],
+					'role_skill_config'	=>	$result['skill'],
+					'role_createtime'	=>	$time,
+					'role_lasttime'		=>	$time
+			);
+			if($this->role->create($parameter))
+			{
+				showMessage( MESSAGE_TYPE_SUCCESS, 'ROLE_CREATE_SUCCESS', '', 'choose_role',
+				true, 5 );
+			}
 		}
 		else
 		{
