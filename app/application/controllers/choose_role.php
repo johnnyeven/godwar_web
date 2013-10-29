@@ -42,6 +42,7 @@ class Choose_role extends CI_Controller
 			$cookie = array (
 					'name' => 'role',
 					'value' => $cookieStr,
+					'expire' => 0,
 					'domain' => $this->config->item( 'cookie_domain' ),
 					'path' => $this->config->item( 'cookie_path' ),
 					'prefix' => $this->config->item( 'cookie_prefix' ) 
@@ -86,6 +87,7 @@ class Choose_role extends CI_Controller
 				$cookie = array (
 						'name' => 'role',
 						'value' => $cookieStr,
+						'expire' => 0,
 						'domain' => $this->config->item( 'cookie_domain' ),
 						'path' => $this->config->item( 'cookie_path' ),
 						'prefix' => $this->config->item( 'cookie_prefix' ) 
