@@ -32,12 +32,23 @@ class Create_role extends CI_Controller
 			$result = $this->mongo_db->where($parameter)->get('race');
 			$result = $result[0];
 			
+			$baseResult = $this->mongo_db->get('base');
+			$baseResult = $baseResult[0];
+
+			$parameter = array(
+					'level'	=>	1
+			);
+			$expResult = $this->mongo_db->where($parameter)->get('exp');
+			$expResult = $expResult[0];
+			
 			$this->load->model('role');
 			$time = time();
 			$parameter = array(
 					'account_id'		=>	$this->user->id,
 					'role_name'			=>	$roleName,
 					'role_level'		=>	1,
+					'role_exp'			=>	0,
+					'role_nextexp'		=>	$expResult['nextexp'],
 					'role_race'			=>	$roleRace,
 					'role_job'			=>	0,
 					'role_health_max'	=>	$result['health'],
@@ -49,7 +60,8 @@ class Create_role extends CI_Controller
 					'role_flee'			=>	$result['flee'],
 					'role_skill_config'	=>	$result['skill'],
 					'role_createtime'	=>	$time,
-					'role_lasttime'		=>	$time
+					'role_lasttime'		=>	$time,
+					'map_id'			=>	$baseResult['init_map_id']
 			);
 			if($this->role->create($parameter))
 			{

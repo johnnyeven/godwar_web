@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   `account_id` BIGINT NOT NULL,
   `role_name` CHAR(32) NOT NULL,
   `role_level` INT NOT NULL DEFAULT 1,
+  `role_exp` INT NOT NULL DEFAULT 0,
+  `role_nextexp` INT NOT NULL DEFAULT 0,
   `role_race` ENUM('01001','01002','01003','01004','01005','01006') NOT NULL DEFAULT '01001' COMMENT '01001=人类\n01002=天使\n01003=恶魔\n01004=精灵\n01005=亡灵\n01006=泰坦',
   `role_job` INT NOT NULL DEFAULT 0 COMMENT '0 = 初心者\n一转\n1 = 战士\n2 = 法师\n3 = 使者\n二转\n4 = 佣兵\n5 = 抵抗者\n6 = 咒术师\n7 = 贤者\n8 = 牧师\n9 = 守护者',
   `role_health_max` INT NOT NULL DEFAULT 0,
@@ -47,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   `role_skill_config` TEXT NOT NULL,
   `role_createtime` INT NOT NULL DEFAULT 0 COMMENT '创建时间',
   `role_lasttime` INT NOT NULL DEFAULT 0 COMMENT '上次登录时间',
+  `map_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`role_name` ASC))

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo $meta_data; ?>
-<title>无标题文档</title>
+<title>信息</title>
 </head>
 
 <body>

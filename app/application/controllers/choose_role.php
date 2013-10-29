@@ -49,17 +49,21 @@ class Choose_role extends CI_Controller
 			$this->input->set_cookie( $cookie );
 			
 			redirect( 'role/info' );
-			return;
 		}
-		
-		$this->load->view( $this->pageName, $role );
+		else
+		{
+			$parameter = array(
+					'roles'		=>	$role
+			);
+			$this->load->view( $this->pageName, $parameter );
+		}
 	}
 
 	public function submit()
 	{
 		$this->load->model( 'role' );
 		
-		$roleId = $this->input->get( 'id' );
+		$roleId = $this->input->post( 'id' );
 		$parameter = array (
 				'id' => $roleId 
 		);
