@@ -21,52 +21,16 @@ class Render extends CI_Model
 	{
 		$header = $this->load->view('std_header', $data, true);
 		$top = $this->load->view('std_top', $data, true);
-		$content = $this->load->view("{$pageName}_view", $data, true);
-		$footer = $this->load->view('std_footer', $data, true);
+		$content = $this->load->view($pageName, $data, true);
+		$footer = $this->load->view('std_bottom', $data, true);
 		
 		$value = array(
 			'std_header'	=>	$header,
 			'std_top'		=>	$top,
-			'content'		=>	$content,
-			'std_footer'	=>	$footer
+			'std_main'		=>	$content,
+			'std_bottom'	=>	$footer
 		);
 		$this->load->view('std_frame', $value);
-	}
-	
-	public function renderUserCenter($pageName = null, $data = null)
-	{
-		$header = $this->load->view('user/std_header', $data, true);
-		$top = $this->load->view('user/std_top', $data, true);
-		$left = $this->load->view('user/std_left', $data, true);
-		$content = $this->load->view("user/{$pageName}_view", $data, true);
-		$footer = $this->load->view('user/std_footer', $data, true);
-		
-		$value = array(
-			'std_header'	=>	$header,
-			'std_top'		=>	$top,
-			'std_left'			=>	$left,
-			'content'		=>	$content,
-			'std_footer'	=>	$footer
-		);
-		$this->load->view('user/std_frame', $value);
-	}
-	
-	public function renderServiceCenter($pageName = null, $data = null)
-	{
-		$header = $this->load->view('service/std_header', $data, true);
-		$top = $this->load->view('service/std_top', $data, true);
-		$left = $this->load->view('service/std_left', $data, true);
-		$content = $this->load->view("service/{$pageName}_view", $data, true);
-		$footer = $this->load->view('service/std_footer', $data, true);
-		
-		$value = array(
-			'std_header'	=>	$header,
-			'std_top'		=>	$top,
-			'std_left'			=>	$left,
-			'content'		=>	$content,
-			'std_footer'	=>	$footer
-		);
-		$this->load->view('service/std_frame', $value);
 	}
 }
 ?>
