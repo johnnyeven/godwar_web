@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   `role_createtime` INT NOT NULL DEFAULT 0 COMMENT '创建时间',
   `role_lasttime` INT NOT NULL DEFAULT 0 COMMENT '上次登录时间',
   `map_id` INT NOT NULL,
+  `next_battletime` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`role_name` ASC))
