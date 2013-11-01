@@ -136,6 +136,88 @@ class Import extends CI_Controller
 			}
 		}
 	}
+	
+	public function monster_config_submit()
+	{
+		$this->load->library('Excel_MonsterConfig_Adapter');
+		
+		$uploadDir = $this->config->item('upload_dir');
+		$error = "";
+		$msg = "";
+		$fileElementName = 'monsterConfig';
+		$el = $this->input->get('el', TRUE);
+		if($el) {
+			$fileElementName = $el;
+		}
+		
+		$config['upload_path'] = $uploadDir;
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['encrypt_name'] = TRUE;
+		
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($fileElementName)) {
+			$error = $this->upload->display_errors('<stronng>', '</stronng>');
+		} else {
+			$data = $this->upload->data();
+			$fileName = $uploadDir . '/' . $data['file_name'];
+		}
+		
+		if(!empty($fileName))
+		{
+			$result = $this->excel_monsterconfig_adapter->ParseExcel($fileName);
+			$result = $this->excel_monsterconfig_adapter->RemoveNull($result);
+			
+			if(!empty($result))
+			{
+				$this->load->library('Mongo_db');
+				$this->mongo_db->drop_collection('godwar', 'monster');
+				$this->mongo_db->batch_insert('monster', $result);
+		
+				var_dump($this->mongo_db->get('monster'));
+			}
+		}
+	}
+	
+	public function map_config_submit()
+	{
+		$this->load->library('Excel_MapConfig_Adapter');
+		
+		$uploadDir = $this->config->item('upload_dir');
+		$error = "";
+		$msg = "";
+		$fileElementName = 'mapConfig';
+		$el = $this->input->get('el', TRUE);
+		if($el) {
+			$fileElementName = $el;
+		}
+		
+		$config['upload_path'] = $uploadDir;
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['encrypt_name'] = TRUE;
+		
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($fileElementName)) {
+			$error = $this->upload->display_errors('<stronng>', '</stronng>');
+		} else {
+			$data = $this->upload->data();
+			$fileName = $uploadDir . '/' . $data['file_name'];
+		}
+		
+		if(!empty($fileName))
+		{
+			$result = $this->excel_mapconfig_adapter->ParseExcel($fileName);
+			$result = $this->excel_mapconfig_adapter->RemoveNull($result);
+			
+			if(!empty($result))
+			{
+				$this->load->library('Mongo_db');
+				$this->mongo_db->drop_collection('godwar', 'map');
+				$this->mongo_db->batch_insert('map', $result);
+		
+				var_dump($this->mongo_db->get('map'));
+			}
+		}
+	}
 }
 
 ?>

@@ -45,5 +45,31 @@
     </tr>
   </table>
 </form>
+<form action="<?php echo site_url("import/monster_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table width="500" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="50%" align="right">monster_config</td>
+      <td width="50%"><label for="monsterConfig"></label>
+      <input type="file" name="monsterConfig" id="monsterConfig" /></td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="提交" /></td>
+    </tr>
+  </table>
+</form>
+<form action="<?php echo site_url("import/map_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table width="500" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="50%" align="right">map_config</td>
+      <td width="50%"><label for="mapConfig"></label>
+      <input type="file" name="mapConfig" id="mapConfig" /></td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="提交" /></td>
+    </tr>
+  </table>
+</form>
 </body>
 </html>
