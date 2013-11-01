@@ -32,8 +32,8 @@ class Choose_role extends CI_Controller
 			$this->load->helper( 'security' );
 			$role = $role[ 0 ];
 			$cookie = array (
-					'id' => $role->id,
-					'name' => $role->role_name 
+					'id' => $role['id'],
+					'name' => $role['role_name'] 
 			);
 			$cookieStr = json_encode( $cookie );
 			$cookieStr = _authcode( $cookieStr, 'ENCODE' );
@@ -77,8 +77,8 @@ class Choose_role extends CI_Controller
 				$this->load->helper( 'cookie' );
 				$this->load->helper( 'security' );
 				$cookie = array (
-						'id' => $role->id,
-						'name' => $role->role_name 
+						'id' => $role['id'],
+						'name' => $role['role_name'] 
 				);
 				$cookieStr = json_encode( $cookie );
 				$cookieStr = _authcode( $cookieStr, 'ENCODE' );

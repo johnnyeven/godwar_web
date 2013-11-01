@@ -44,24 +44,25 @@ class Create_role extends CI_Controller
 			$this->load->model('role');
 			$time = time();
 			$parameter = array(
-					'account_id'		=>	$this->user->id,
-					'role_name'			=>	$roleName,
-					'role_level'		=>	1,
-					'role_exp'			=>	0,
-					'role_nextexp'		=>	$expResult['nextexp'],
-					'role_race'			=>	$roleRace,
-					'role_job'			=>	0,
-					'role_health_max'	=>	$result['health'],
-					'role_health'		=>	$result['health'],
-					'role_atk'			=>	$result['atk'],
-					'role_def'			=>	$result['def'],
-					'role_mdef'			=>	$result['mdef'],
-					'role_hit'			=>	$result['hit'],
-					'role_flee'			=>	$result['flee'],
-					'role_skill_config'	=>	$result['skill'],
-					'role_createtime'	=>	$time,
-					'role_lasttime'		=>	$time,
-					'map_id'			=>	$baseResult['init_map_id']
+					'account_id'	=>	$this->user->id,
+					'name'			=>	$roleName,
+					'level'			=>	1,
+					'exp'			=>	0,
+					'nextexp'		=>	$expResult['nextexp'],
+					'race'			=>	$roleRace,
+					'job'			=>	0,
+					'health_max'	=>	$result['health'],
+					'health'		=>	$result['health'],
+					'atk'			=>	$result['atk'],
+					'def'			=>	$result['def'],
+					'mdef'			=>	$result['mdef'],
+					'hit'			=>	$result['hit'],
+					'flee'			=>	$result['flee'],
+					'skill_trigger'	=>	0.3,
+					'skill'			=>	json_encode($result['skill']),
+					'createtime'	=>	$time,
+					'lasttime'		=>	$time,
+					'map_id'		=>	$baseResult['init_map_id']
 			);
 			if($this->role->create($parameter))
 			{

@@ -32,7 +32,8 @@ class Excel_MonsterConfig_Adapter {
 					'flee'				=>	intval($objPHPExcel->getActiveSheet()->getCell("I$j")->getValue()),
 					'health'			=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
 					'skill_trigger'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
-					'skill'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue())
+					'skill'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
+					'exp'				=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue())
 				);
 				array_push($result, $row);
 			}

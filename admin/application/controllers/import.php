@@ -131,6 +131,7 @@ class Import extends CI_Controller
 				$this->load->library('Mongo_db');
 				$this->mongo_db->drop_collection('godwar', 'exp');
 				$this->mongo_db->batch_insert('exp', $result);
+				$this->mongo_db->add_index('exp', array('level' => 'asc'), array('unique' => TRUE));
 		
 				var_dump($this->mongo_db->get('exp'));
 			}
@@ -172,7 +173,8 @@ class Import extends CI_Controller
 				$this->load->library('Mongo_db');
 				$this->mongo_db->drop_collection('godwar', 'monster');
 				$this->mongo_db->batch_insert('monster', $result);
-		
+				$this->mongo_db->add_index('monster', array('id' => 'asc'), array('unique' => TRUE));
+				$this->mongo_db->add_index('monster', array('level' => 'desc'));
 				var_dump($this->mongo_db->get('monster'));
 			}
 		}
@@ -213,6 +215,7 @@ class Import extends CI_Controller
 				$this->load->library('Mongo_db');
 				$this->mongo_db->drop_collection('godwar', 'map');
 				$this->mongo_db->batch_insert('map', $result);
+				$this->mongo_db->add_index('map', array('id' => 'asc'), array('unique' => TRUE));
 		
 				var_dump($this->mongo_db->get('map'));
 			}
