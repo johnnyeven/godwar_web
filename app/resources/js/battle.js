@@ -22,6 +22,8 @@ $(function() {
 			var html = '<div class="post"><div class="entry">战斗刚结束，正在休息恢复中，并搜寻敌人...<em id="findTimer">(' + remains + ')</em></div></div>';
         	$('#content').prepend(html);
         	timerId = self.setInterval(checkTimer, 1000);
+		} else {
+			
 		}
 	}
 	
