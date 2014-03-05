@@ -9,6 +9,7 @@ class Excel_BaseConfig_Adapter {
 		require_once 'PHPExcel/IOFactory.php';
 		require_once 'PHPExcel/Reader\Excel5.php';
 
+		exit('123123');
 		$result = array();
 		if(!empty($file)) //如果上传文件成功，就执行导入excel操作
 		{
