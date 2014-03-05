@@ -5,7 +5,7 @@ class Excel_BaseConfig_Adapter {
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . BASEPATH . 'libraries/excel');
 		echo '123123';
-		require_once 'PHPExcel.php';
+		require_once 'PHPExcel123.php';
 		require_once 'PHPExcel/IOFactory.php';
 		require_once 'PHPExcel/Reader\Excel5.php';
 		echo '456456';
