@@ -4,12 +4,11 @@ class Excel_BaseConfig_Adapter {
 	public function ParseExcel($file)
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . BASEPATH . 'libraries/excel');
-		echo '111111';
-		include_once 'PHPExcel123.php';
-// 		require_once 'PHPExcel/IOFactory.php';
-// 		require_once 'PHPExcel/Reader\Excel5.php';
-		echo '456456';
-		exit();
+		
+		include_once 'PHPExcel.php';
+		include_once 'PHPExcel/IOFactory.php';
+		include_once 'PHPExcel/Reader\Excel5.php';
+		
 		$result = array();
 		if(!empty($file)) //如果上传文件成功，就执行导入excel操作
 		{
