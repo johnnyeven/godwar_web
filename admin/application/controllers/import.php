@@ -40,7 +40,6 @@ class Import extends CI_Controller
 		}
 		if(!empty($fileName))
 		{
-			echo $fileName;
 			$result = $this->excel_baseconfig_adapter->ParseExcel($fileName);
 			$result = $this->excel_baseconfig_adapter->RemoveNull($result);
 			var_dump($result);
