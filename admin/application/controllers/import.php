@@ -34,15 +34,13 @@ class Import extends CI_Controller
 		$this->load->library('upload', $config);
 		if (!$this->upload->do_upload($fileElementName)) {
 			$error = $this->upload->display_errors('<stronng>', '</stronng>');
-			echo $error;
 		} else {
 			$data = $this->upload->data();
-			var_dump($data);
 			$fileName = $uploadDir . '/' . $data['file_name'];
 		}
-		echo $fileElementName;
 		if(!empty($fileName))
 		{
+			echo $fileName;
 			$result = $this->excel_baseconfig_adapter->ParseExcel($fileName);
 			$result = $this->excel_baseconfig_adapter->RemoveNull($result);
 			var_dump($result);
