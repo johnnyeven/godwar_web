@@ -52,7 +52,7 @@ class Battle extends CI_Controller {
 			$monster = $this->getMonsterByNearestLevel ();
 			$monster ['health_max'] = $monster ['health'];
 			$role = $this->currentRole;
-			$role ['health'] = $role ['health_max'];
+			// $role ['health'] = $role ['health_max'];
 			$dex = 10;
 			$k = 1.13;
 			$m = 100;
