@@ -138,8 +138,10 @@ class Battle extends CI_Controller {
 					}
 					
 					if ($win) {
-						if ($role ['health'] <= $role ['health_max'] * .7) {
-							$restTime = ceil ( ($role ['health_max'] - $role ['health']) / $recover_health );
+						$restHealthPercentage = .7;
+						$judgmentHealth = $role ['health_max'] * $restHealthPercentage;
+						if ($role ['health'] <= $judgmentHealth) {
+							$restTime = ceil ( ($judgmentHealth - $role ['health']) / $recover_health );
 						}
 						$role ['exp'] += $monster ['exp'];
 						if ($role ['exp'] > $role ['nextexp']) {
