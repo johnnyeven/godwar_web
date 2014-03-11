@@ -20,10 +20,21 @@ $(function() {
 	
 	function showBattle(data) {
 		if(data.err) {
-			remains = data.next_battletime - data.timestamp;
-			var html = '<div class="post"><div class="entry">战斗刚结束，正在休息恢复中，并搜寻敌人...<em id="findTimer">(' + remains + ')</em></div></div>';
-        	$('#content').prepend(html);
-        	timerId = self.setInterval(checkTimer, 1000);
+			var err = parseInt(data.err);
+			var html；
+
+			switch(err) {
+				case 1:
+					remains = data.next_battletime - data.timestamp;
+					html = '<div class="post"><div class="entry">战斗刚结束，正在休息恢复中，并搜寻敌人...<em id="findTimer">(' + remains + ')</em></div></div>';
+		        	$('#content').prepend(html);
+		        	timerId = self.setInterval(checkTimer, 1000);
+					break;
+				case 1042:
+					clearInfo();
+					html = '<div class="post"><div class="entry">您已阵亡，请前往圣灵祭坛复活</div></div>';
+					$('#content').prepend(html);
+			}
 		} else {
 			clearInfo();
 			currentData = data;

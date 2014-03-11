@@ -39,5 +39,11 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('MESSAGE_TYPE_SUCCESS', 1);
 define('MESSAGE_TYPE_ERROR', 0);
 
+/*
+| Error definition
+*/
+define('ERROR_BATTLE_TIME_NOT_TO', 1);
+define('ERROR_ROLE_DEAD', 1042);
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
