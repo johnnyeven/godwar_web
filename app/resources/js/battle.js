@@ -43,6 +43,7 @@ $(function() {
 					clearInfo();
 					html = '<div class="post"><div class="entry">您已阵亡，请前往圣灵祭坛复活</div></div>';
 					$('#content').prepend(html);
+					break;
 			}
 		} else {
 			clearInfo();
