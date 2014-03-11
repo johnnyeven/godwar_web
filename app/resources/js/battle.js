@@ -11,6 +11,15 @@ $(function() {
 			startBattle();
 		}
 	});
+
+	$("#btnStopBattle").click(function() {
+		if(run) {
+			run = false;
+		}
+		if(timerId) {
+			self.clearInterval(timerId);
+		}
+	});
 	
 	function startBattle() {
 		if(run) {
