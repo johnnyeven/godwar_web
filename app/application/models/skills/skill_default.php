@@ -25,6 +25,7 @@ class Skill_default extends CI_Model implements ISkill
 		);
 		var_dump($attacker);
 		var_dump($defender);
+		var_dump($parameter);
 		exit();
 		return $parameter;
 	}
