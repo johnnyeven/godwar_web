@@ -41,13 +41,13 @@ class Battle extends CI_Controller {
 			$battle_rest_time = $this->config->item('base_battle_rest_time');
 
 			$time = time ();
+			$pass = $time - $this->currentRole ['battletime'];
+			$recover = $pass * $recover_health;
+			$this->currentRole ['health'] += $recover;
+			if ($this->currentRole ['health'] > $this->currentRole ['health_max']) {
+				$this->currentRole ['health'] = $this->currentRole ['health_max'];
+			}
 			if ($this->currentRole ['next_battletime'] > $time) {
-				$pass = $time - $this->currentRole ['battletime'];
-				$recover = $pass * $recover_health;
-				$this->currentRole ['health'] += $recover;
-				if ($this->currentRole ['health'] > $this->currentRole ['health_max']) {
-					$this->currentRole ['health'] = $this->currentRole ['health_max'];
-				}
 				$battleResult = array (
 						'err' => ERROR_BATTLE_TIME_NOT_TO,
 						'attacker' => $this->currentRole,
