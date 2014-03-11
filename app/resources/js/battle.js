@@ -30,7 +30,7 @@ $(function() {
 	function showBattle(data) {
 		if(data.err) {
 			var err = parseInt(data.err);
-			var html；
+			var html;
 
 			switch(err) {
 				case 1:
