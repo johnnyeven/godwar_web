@@ -56,7 +56,6 @@ class Battle extends CI_Controller {
 			$dex = 10;
 			$k = 1.13;
 			$m = 100;
-			$levelFix = 1.3;
 			
 			if ($monster != null) {
 				unset ( $role ['account_id'] );
