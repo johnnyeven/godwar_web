@@ -85,21 +85,19 @@ class Battle extends CI_Controller {
 				);
 				$round = 1;
 				
+				$this->load->model('skills/skill_default');
 				while ( $attacker ['health'] > 0 && $defender ['health'] > 0 ) {
 					$item = array ();
 					$skillTrigger = floatval ( $attacker ['skill_trigger'] );
 					$rand = rand ( 0, 100000 ) / 100000;
 					if ($rand <= $skillTrigger) {
-						$this->load->model ( 'skills/skill_170001' );
-						$damage = $this->skill_170001->execute ( $attacker, $defender );
+						$skillId = 'skill_170001';
+						$this->load->model ( "skills/{$skillId}" );
 					} else {
-						$rand = rand ( 0, 100000 ) / 100000;
-						$damageResult = intval ( (($attacker ['atk'] - $attacker ['atk_min']) * $rand + $attacker ['atk_min']) * $levelFix * (1 - $defender ['def_percent']) );
-						$damage = array (
-								'skill' => '',
-								'damage' => $damageResult 
-						);
+						$skillId = 'skill_default';
 					}
+					$damage = $this->$skillId->execute ( $attacker, $defender );
+
 					$defender ['health'] -= $damage ['damage'];
 					$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
 					$item ['round'] = $round;
