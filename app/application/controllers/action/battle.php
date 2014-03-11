@@ -21,7 +21,11 @@ class Battle extends CI_Controller {
 	public function request_battle() {
 		header('Content-type:text/json');
 		
-		$recover_health = 8;
+		$this->load->config('base.config');
+
+		$recover_health = $this->config->item('base_recover_health_rate');
+		$battle_rest_time = $this->config->item('base_battle_rest_time');
+
 		$time = time ();
 		if ($this->currentRole ['next_battletime'] > $time) {
 			$pass = $time - $this->currentRole ['battletime'];
@@ -76,7 +80,9 @@ class Battle extends CI_Controller {
 				$defender = $monster;
 				$win = false;
 				
-				$battleResult = array ();
+				$battleResult = array (
+					'rounds'	=>	array()
+				);
 				$round = 1;
 				
 				while ( $attacker ['health'] > 0 && $defender ['health'] > 0 ) {
@@ -100,7 +106,7 @@ class Battle extends CI_Controller {
 					$item ['damage'] = $damage;
 					$item ['attacker'] = $attacker;
 					$item ['defender'] = $defender;
-					array_push ( $battleResult, $item );
+					array_push ( $battleResult['rounds'], $item );
 					
 					if ($defender ['health'] <= 0) {
 						if ($defender ['name'] == $role ['name']) {
@@ -167,7 +173,7 @@ class Battle extends CI_Controller {
 				
 				$parameter ['health'] = $role ['health'];
 				$parameter ['battletime'] = $time;
-				$parameter ['next_battletime'] = $time + 20 + $restTime;
+				$parameter ['next_battletime'] = $time + $battle_rest_time + $restTime;
 				
 				$battleResult ['timestamp'] = $time;
 				$battleResult ['next_battletime'] = $parameter ['next_battletime'];
@@ -178,7 +184,9 @@ class Battle extends CI_Controller {
 		
 		echo json_encode ( $battleResult );
 	}
-	private function getMonsterByNearestLevel() {
+
+	private function getMonsterByNearestLevel()
+	{
 		$mapId = intval ( $this->currentRole ['map_id'] );
 		$level = intval ( $this->currentRole ['role_level'] );
 		
