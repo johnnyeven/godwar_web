@@ -23,6 +23,9 @@ class Skill_default extends CI_Model implements ISkill
 				'skill'		=>	$this->skill_name,
 				'damage'	=>	$damageResult 
 		);
+		var_dump($attacker);
+		var_dump($defender);
+		exit();
 		return $parameter;
 	}
 }
