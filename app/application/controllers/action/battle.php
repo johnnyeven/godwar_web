@@ -184,7 +184,11 @@ class Battle extends CI_Controller {
 					
 					$parameter ['health'] = $role ['health'];
 					$parameter ['battletime'] = $time;
-					$parameter ['next_battletime'] = $time + $battle_rest_time + $restTime;
+					if($restTime < $battle_rest_time)
+					{
+						$restTime = $battle_rest_time;
+					}
+					$parameter ['next_battletime'] = $time + $restTime;
 					
 					$battleResult ['timestamp'] = $time;
 					$battleResult ['next_battletime'] = $parameter ['next_battletime'];
