@@ -255,7 +255,6 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_idconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_idconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
