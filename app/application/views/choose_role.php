@@ -10,7 +10,7 @@
 <?php foreach($roles as $role): ?>
   <p>
     <input type="radio" name="id" id="id_<?php echo $role['id']; ?>" value="<?php echo $role['id']; ?>" />
-    <label for="id_<?php echo $role['id']; ?>"><?php echo $role['role_name']; ?></label>
+    <label for="id_<?php echo $role['id']; ?>"><?php echo $role['name']; ?></label>
   </p>
 <?php endforeach; ?>
   <p>
