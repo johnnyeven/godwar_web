@@ -71,12 +71,12 @@
     </tr>
   </table>
 </form>
-<form action="<?php echo site_url("import/id_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="<?php echo site_url("import/const_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <table width="500" border="0" cellspacing="0" cellpadding="5">
     <tr>
-      <td width="50%" align="right">id_config</td>
-      <td width="50%"><label for="idConfig"></label>
-      <input type="file" name="idConfig" id="idConfig" /></td>
+      <td width="50%" align="right">const_config</td>
+      <td width="50%"><label for="constConfig"></label>
+      <input type="file" name="constConfig" id="constConfig" /></td>
     </tr>
     <tr>
       <td align="right">&nbsp;</td>

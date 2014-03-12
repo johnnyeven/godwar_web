@@ -17,9 +17,15 @@ class Info extends CI_Controller
 
 	public function index()
 	{
+		$this->load->config('const.config');
+		$raceConfig = $this->config->item('const_race');
+		$jobConfig = $this->config->item('const_job');
 		$parameter = array (
 				'role' => $this->currentRole 
 		);
+		$parameter['role']['race_name'] = $raceConfig['race_' . $parameter['role']['race']];
+		$parameter['role']['job_name'] = $jobConfig['job_' . $parameter['role']['job']];
+
 		$this->load->model( 'utils/render' );
 		$this->render->render( $this->pageName, $parameter );
 	}

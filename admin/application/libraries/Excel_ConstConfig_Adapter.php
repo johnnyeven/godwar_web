@@ -1,6 +1,6 @@
 <?php
 
-class Excel_IdConfig_Adapter {
+class Excel_ConstConfig_Adapter {
 	public function ParseExcel($file)
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . BASEPATH . 'libraries/excel');
@@ -22,22 +22,19 @@ class Excel_IdConfig_Adapter {
 			
 			for($j=1; $j<=$highestRow; $j++)
 			{
-				$row = array(
-					'key'			=>	$objPHPExcel->getActiveSheet()->getCell("A$j")->getValue(),
-					'value'			=>	$objPHPExcel->getActiveSheet()->getCell("B$j")->getValue(),
-				);
+				$key = $objPHPExcel->getActiveSheet()->getCell("A$j")->getValue();
 				if(!$isJob)
 				{
-					if(empty($row['key']))
+					if(empty($key))
 					{
 						$isJob = true;
 						continue;
 					}
-					array_push($resultRace, $row);
+					$resultRace['race_' . $key] = $objPHPExcel->getActiveSheet()->getCell("B$j")->getValue();
 				}
 				else
 				{
-					array_push($resultJob, $row);
+					$resultJob['job_' . $key] = $objPHPExcel->getActiveSheet()->getCell("B$j")->getValue();
 				}
 			}
 			unlink($file);

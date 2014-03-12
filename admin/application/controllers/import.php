@@ -226,14 +226,14 @@ class Import extends CI_Controller
 		}
 	}
 
-	public function id_config_submit()
+	public function const_config_submit()
 	{
-		$this->load->library('Excel_IdConfig_Adapter');
+		$this->load->library('Excel_ConstConfig_Adapter');
 		
 		$uploadDir = $this->config->item('upload_dir');
 		$error = "";
 		$msg = "";
-		$fileElementName = 'idConfig';
+		$fileElementName = 'constConfig';
 		$el = $this->input->get('el', TRUE);
 		if($el) {
 			$fileElementName = $el;
@@ -254,11 +254,34 @@ class Import extends CI_Controller
 		
 		if(!empty($fileName))
 		{
-			$result = $this->excel_idconfig_adapter->ParseExcel($fileName);
+			$result = $this->excel_constconfig_adapter->ParseExcel($fileName);
 			
 			if(!empty($result))
 			{
-				var_dump($result);
+				//创建../app/application/config/const.config.php
+				$file = fopen('../app/application/config/const.config.php', 'w');
+				if($file)
+				{
+					$const_race = var_export($result['race'], TRUE);
+					$const_job = var_export($result['job'], TRUE);
+					
+					$config = "<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+\$config['const_race'] = {$const_race};
+\$config['const_job'] = {$const_job};
+
+?>";
+					
+					if(!fwrite($file, $config))
+					{
+						echo '写入必要文件失败/app/application/config/const.config.php，请检查是否具备读写权限';
+					}
+					fclose($file);
+				}
+				else
+				{
+					exit('创建必要文件失败/app/application/config/const.config.php，请检查是否具备读写权限');
+				}
 			}
 		}
 	}
