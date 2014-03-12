@@ -71,5 +71,18 @@
     </tr>
   </table>
 </form>
+<form action="<?php echo site_url("import/id_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table width="500" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="50%" align="right">id_config</td>
+      <td width="50%"><label for="idConfig"></label>
+      <input type="file" name="idConfig" id="idConfig" /></td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="提交" /></td>
+    </tr>
+  </table>
+</form>
 </body>
 </html>
