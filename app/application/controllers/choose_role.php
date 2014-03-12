@@ -53,8 +53,6 @@ class Choose_role extends CI_Controller
 		}
 		else
 		{
-			var_dump($role);
-			exit();
 			$parameter = array(
 					'roles'		=>	$role
 			);
