@@ -23,8 +23,8 @@ class Excel_IdConfig_Adapter {
 			for($j=1; $j<=$highestRow; $j++)
 			{
 				$row = array(
-					'key'			=>	intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue()),
-					'value'			=>	intval($objPHPExcel->getActiveSheet()->getCell("B$j")->getValue()),
+					'key'			=>	$objPHPExcel->getActiveSheet()->getCell("A$j")->getValue(),
+					'value'			=>	$objPHPExcel->getActiveSheet()->getCell("B$j")->getValue(),
 				);
 				if(!$isJob)
 				{
@@ -42,7 +42,10 @@ class Excel_IdConfig_Adapter {
 			}
 			unlink($file);
 		}
-		return $result;
+		return array(
+			'race'		=>	$resultRace,
+			'job'		=>	$resultJob
+		);
 	}
 }
 
