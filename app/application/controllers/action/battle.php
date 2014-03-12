@@ -79,6 +79,7 @@ class Battle extends CI_Controller {
 					unset ( $role ['lasttime'] );
 					unset ( $role ['map_id'] );
 					unset ( $role ['next_battletime'] );
+					$role ['skill'] = json_decode($role['skill'], TRUE);
 					
 					unset ( $monster ['level'] );
 					unset ( $monster ['comment'] );
@@ -99,12 +100,14 @@ class Battle extends CI_Controller {
 					$round = 1;
 					
 					$this->load->model('skills/skill_default');
+					$this->load->helper('array');
 					while ( $attacker ['health'] > 0 && $defender ['health'] > 0 ) {
 						$item = array ();
 						$skillTrigger = floatval ( $attacker ['skill_trigger'] );
+						$skills = $attacker['skill'];
 						$rand = rand ( 0, 100000 ) / 100000;
 						if ($rand <= $skillTrigger) {
-							$skillId = 'skill_170001';
+							$skillId = 'skill_' . rate_random_element($skills);
 							$this->load->model ( "skills/{$skillId}" );
 						} else {
 							$skillId = 'skill_default';
