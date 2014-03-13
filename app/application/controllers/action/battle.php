@@ -162,18 +162,35 @@ class Battle extends CI_Controller {
 							$expResult = $this->mongo_db->where ( $param )->get ( 'exp' );
 							$expResult = $expResult [0];
 							if (! empty ( $raceResult ) && ! empty ( $expResult )) {
-								$role ['health_max'] = $role ['health_max'] + $raceResult ['health_inc'];
+								$role ['health_base'] += $raceResult ['health_inc'];
+								$role ['health_max'] = $role ['health_base'];
 								$role ['health'] = $role ['health_max'];
+								$role ['atk_base'] += $raceResult ['atk_inc'];
+								$role ['atk'] = $role ['atk_base'];
+								$role ['def_base'] += $raceResult ['def_inc'];
+								$role ['def'] = $role ['def_base'];
+								$role ['mdef_base'] += $raceResult ['mdef_inc'];
+								$role ['mdef'] = $role ['atk_base'];
+								$role ['hit_base'] += $raceResult ['hit_inc'];
+								$role ['hit'] = $role ['hit_base'];
+								$role ['flee_base'] += $raceResult ['flee_inc'];
+								$role ['flee'] = $role ['flee_base'];
 								$parameter = array (
 										'level' => $role ['level'],
 										'exp' => 0,
 										'nextexp' => $expResult ['nextexp'],
+										'health_base' => $role['health_base'],
 										'health_max' => $role ['health_max'],
-										'atk' => $role ['atk'] + $raceResult ['atk_inc'],
-										'def' => $role ['def'] + $raceResult ['def_inc'],
-										'mdef' => $role ['mdef'] + $raceResult ['mdef_inc'],
-										'hit' => $role ['hit'] + $raceResult ['hit_inc'],
-										'flee' => $role ['flee'] + $raceResult ['flee_inc'] 
+										'atk_base' => $role['atk_base'],
+										'atk' => $role ['atk'],
+										'def_base' => $role['def_base'],
+										'def' => $role ['def'],
+										'mdef_base' => $role['mdef_base'],
+										'mdef' => $role ['mdef'],
+										'hit_base' => $role['hit_base'],
+										'hit' => $role ['hit'],
+										'flee_base' => $role['flee_base'],
+										'flee' => $role ['flee']
 								);
 							} else {
 								$battleResult ['err'] = 2;
