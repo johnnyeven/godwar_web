@@ -106,7 +106,7 @@ class Battle extends CI_Controller {
 						$skillTrigger = floatval ( $attacker ['skill_trigger'] );
 						$skills = $attacker['skill'];
 						$rand = rand ( 0, 100000 ) / 100000;
-						if ($rand <= $skillTrigger) {
+						if (!empty($skills) && $rand <= $skillTrigger) {
 							if(!empty($attacker['main_skill']))
 							{
 								$rand = rand ( 0, 100 );
