@@ -107,7 +107,22 @@ class Battle extends CI_Controller {
 						$skills = $attacker['skill'];
 						$rand = rand ( 0, 100000 ) / 100000;
 						if ($rand <= $skillTrigger) {
-							$skillId = 'skill_' . rate_random_element($skills);
+							if(!empty($attacker['main_skill']))
+							{
+								$rand = rand ( 0, 100 );
+								if($rand <= 50)
+								{
+									$skillId = 'skill_' . $attacker['main_skill'];
+								}
+								else
+								{
+									$skillId = 'skill_' . random_element($skills);
+								}
+							}
+							else
+							{
+								$skillId = 'skill_' . random_element($skills);
+							}
 							$this->load->model ( "skills/{$skillId}" );
 						} else {
 							$skillId = 'skill_default';

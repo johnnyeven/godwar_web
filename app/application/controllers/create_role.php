@@ -65,7 +65,9 @@ class Create_role extends CI_Controller
 					'flee_base'		=>	$result['flee'],
 					'flee'			=>	$result['flee'],
 					'skill_trigger'	=>	0.3,
-					'skill'			=>	json_encode($result['skill']),
+					'skill'			=>	'',
+					'main_skill'	=>	'',
+					'gift'			=>	json_encode($result['gift']),
 					'createtime'	=>	$time,
 					'lasttime'		=>	$time,
 					'map_id'		=>	$baseResult['init_map_id']

@@ -36,7 +36,7 @@ class Excel_RaceConfig_Adapter {
 					'mdef_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
 					'hit_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
 					'flee_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
-					'skill'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue())
+					'gift'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue())
 				);
 				array_push($result, $row);
 			}
