@@ -6,10 +6,11 @@ require_once ('IGift.php');
  * 爪击
  * 对目标造成120%伤害
  */
-class Gift_110001 implements IGift
+class Gift_140002 implements IGift
 {
-	private $gift_name = '奸商';
-	private $actions = array( 'after_billing_buy', 'after_billing_sell' );
+	private $gift_name = '效率提升';
+	//在打造、升级、附魔装备前
+	private $actions = array( 'before_make_equipment', 'before_upgrade_equipment', 'before_enchant_equipment' );
 
 	public function __construct()
 	{

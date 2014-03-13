@@ -6,10 +6,10 @@ require_once ('IGift.php');
  * 爪击
  * 对目标造成120%伤害
  */
-class Gift_110001 implements IGift
+class Gift_110002 implements IGift
 {
-	private $gift_name = '奸商';
-	private $actions = array( 'after_billing_buy', 'after_billing_sell' );
+	private $gift_name = '过人天赋';
+	private $actions = array( 'after_level_up' );
 
 	public function __construct()
 	{
@@ -27,10 +27,12 @@ class Gift_110001 implements IGift
 
 	public function execute( &$parameter )
 	{
-		if(isset($parameter['gold']))
+		$attributes = array('atk', 'def', 'mdef', 'hit', 'flee');
+		$attribute = array_rand($attributes);
+
+		if(isset($parameter[$attribute]))
 		{
-			$parameter['gold'] *= .9;
-			$parameter['gold'] = intval($parameter['gold']);
+			$parameter[$attribute] += 1;
 		}
 	}
 }
