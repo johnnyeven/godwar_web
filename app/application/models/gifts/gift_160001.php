@@ -9,7 +9,8 @@ require_once ('IGift.php');
 class Gift_160001 implements IGift
 {
 	private $gift_name = '泰坦之墙';
-	private $actions = array( 'before_battle' );
+	//升级后计算属性值以后
+	private $actions = array( 'after_level_up' );
 
 	public function __construct()
 	{
@@ -25,7 +26,7 @@ class Gift_160001 implements IGift
 		return true;
 	}
 
-	public function execute( &$parameter )
+	public function execute( & $parameter )
 	{
 		if(isset($parameter['def']))
 		{

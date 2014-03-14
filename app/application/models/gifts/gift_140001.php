@@ -9,8 +9,8 @@ require_once ('IGift.php');
 class Gift_140001 implements IGift
 {
 	private $gift_name = '致命打击';
-	//在战斗前
-	private $actions = array( 'before_battle' );
+	//升级后计算属性值以后
+	private $actions = array( 'after_level_up' );
 
 	public function __construct()
 	{

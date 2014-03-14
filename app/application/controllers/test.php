@@ -10,18 +10,18 @@ class Test extends CI_Controller
 
 	public function index()
 	{
-		$attacker = array(
-			'gold'		=>	1600
-		);
+		$attacker = array();
 		var_dump($attacker);
 		$this->load->library('Gift');
 		$hook = array(
 			'action'		=>	'after_billing_buy',
-			'gift_id'		=>	'110001',
-			'parameter'		=>	&$attacker
+			'gift_id'		=>	'110001'
 		);
 		$this->gift->hook($hook);
-		$this->gift->call_hook('after_billing_buy');
+
+		$attacker['gold'] = 1600;
+		var_dump($attacker);
+		$this->gift->call_hook('after_billing_buy', $attacker);
 
 		var_dump($attacker);
 	}

@@ -28,15 +28,16 @@ class Excel_RaceConfig_Adapter {
 					'atk'				=>	intval($objPHPExcel->getActiveSheet()->getCell("E$j")->getValue()),
 					'def'				=>	intval($objPHPExcel->getActiveSheet()->getCell("F$j")->getValue()),
 					'mdef'				=>	intval($objPHPExcel->getActiveSheet()->getCell("G$j")->getValue()),
-					'hit'				=>	intval($objPHPExcel->getActiveSheet()->getCell("H$j")->getValue()),
-					'flee'				=>	intval($objPHPExcel->getActiveSheet()->getCell("I$j")->getValue()),
-					'health_inc'		=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
-					'atk_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
-					'def_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
-					'mdef_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
-					'hit_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
-					'flee_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
-					'gift'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue())
+					'crit'				=>	intval($objPHPExcel->getActiveSheet()->getCell("H$j")->getValue()),
+					'hit'				=>	intval($objPHPExcel->getActiveSheet()->getCell("I$j")->getValue()),
+					'flee'				=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
+					'health_inc'		=>	intval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
+					'atk_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
+					'def_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
+					'mdef_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
+					'hit_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
+					'flee_inc'			=>	intval($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue()),
+					'gift'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("Q$j")->getValue())
 				);
 				array_push($result, $row);
 			}

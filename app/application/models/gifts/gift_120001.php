@@ -9,7 +9,8 @@ require_once ('IGift.php');
 class Gift_120001 implements IGift
 {
 	private $gift_name = '身手敏捷';
-	private $actions = array( 'before_battle' );
+	//升级后计算属性值以后
+	private $actions = array( 'after_level_up' );
 
 	public function __construct()
 	{

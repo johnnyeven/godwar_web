@@ -9,7 +9,8 @@ require_once ('IGift.php');
 class Gift_110002 implements IGift
 {
 	private $gift_name = '过人天赋';
-	private $actions = array( 'after_level_up' );
+	//升级后计算属性值以前
+	private $actions = array( 'before_level_up' );
 
 	public function __construct()
 	{
@@ -27,7 +28,7 @@ class Gift_110002 implements IGift
 
 	public function execute( &$parameter )
 	{
-		$attributes = array('atk', 'def', 'mdef', 'hit', 'flee');
+		$attributes = array('atk_base', 'def_base', 'mdef_base', 'hit_base', 'flee_base');
 		$attribute = array_rand($attributes);
 
 		if(isset($parameter[$attribute]))
