@@ -60,11 +60,18 @@ $(function() {
 		} else {
 			var data = currentData.rounds[currentIndex];
 			var html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 <span class="defender">' + data.defender.name + '</span>';
+			
 			var skill = '';
-			if(data.damage.skill != '') {
+			if(data.damage[0].skill != '') {
 				skill = ' 使用 <span class="skill">' + data.damage.skill + '</span>';
 			}
-			html += skill + ' 造成 <span class="damage">' + data.damage.damage + '</span> 点伤害</div></div>';
+			html += skill + ' 造成 <span class="damage">' + data.damage.damage + '</span> 点伤害';
+        	
+			for(var i = 1; i<data.damage.length; i++) {
+				html += '，由于 <span class="status">' + data.damage[i].skill + '</span> 造成 <span class="damage">' + data.damage[i].damage + '</span> 点伤害';
+			}
+			html += '</div></div>';
+
         	$('#content').prepend(html);
         	currentIndex++;
 		}

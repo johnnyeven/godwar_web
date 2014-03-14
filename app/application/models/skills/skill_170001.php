@@ -23,10 +23,8 @@ class Skill_170001 extends CI_Model implements ISkill
 		$damage = intval($damage * 1.2);
 		
 		$parameter = array(
-			array(
-				'skill'			=>	$this->skill_name,
-				'damage'		=>	$damage
-			)
+			'skill'			=>	$this->skill_name,
+			'damage'		=>	$damage
 		);
 		return $parameter;
 	}
