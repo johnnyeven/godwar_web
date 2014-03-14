@@ -15,15 +15,15 @@ class Skill_default extends CI_Model implements ISkill
 		parent::__construct();
 	}
 
-	public function execute( &$attacker, &$defender )
+	public function execute( & $attacker, & $defender )
 	{
 		$levelFix = 1.3;
 		$rand = rand ( 0, 100000 ) / 100000;
 		$damageResult = intval ( (($attacker ['atk'] - $attacker ['atk_min']) * $rand + $attacker ['atk_min']) * $levelFix * (1 - $defender ['def_percent']) );
 		
 		$parameter = array(
-				'skill'		=>	$this->skill_name,
-				'damage'	=>	$damageResult 
+			'skill'		=>	$this->skill_name,
+			'damage'	=>	$damageResult 
 		);
 		return $parameter;
 	}

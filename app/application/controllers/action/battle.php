@@ -136,11 +136,42 @@ class Battle extends CI_Controller {
 							$skillId = 'skill_default';
 						}
 						$damage = $this->$skillId->execute ( $attacker, $defender );
+						$item ['damage'] = array();
 
-						$defender ['health'] -= $damage ['damage'];
-						$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
-						$item ['round'] = $round;
-						$item ['damage'] = array( $damage );
+						if(!empty($damage))
+						{
+							$defender ['health'] -= $damage ['damage'];
+							$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
+							$item ['round'] = $round;
+							array_push($item['damage'], $damage);
+						}
+
+						if(isset($defender['status']) && is_array($defender['status']))
+						{
+							foreach($defender['status'] as $key => $value)
+							{
+								$m = 'status_' . $key;
+								$this->load->model('skills/' . $m);
+								$d = $this->$m->execute($defender, $value[1]);
+
+								if(!empty($d))
+								{
+									array_push($item ['damage'], $d);
+								}
+
+								$defender['status'][$key][0]--;
+								if($defender['status'][$key][0] <= 0)
+								{
+									$this->$m->destroy($defender);
+									unset($defender['status'][$key]);
+								}
+							}
+							if(count($defender['status']) == 0)
+							{
+								unset($defender['status']);
+							}
+						}
+
 						$item ['attacker'] = $attacker;
 						$item ['defender'] = $defender;
 						array_push ( $battleResult['rounds'], $item );
