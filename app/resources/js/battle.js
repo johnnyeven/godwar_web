@@ -63,9 +63,9 @@ $(function() {
 			
 			var skill = '';
 			if(data.damage[0].skill != '') {
-				skill = ' 使用 <span class="skill">' + data.damage.skill + '</span>';
+				skill = ' 使用 <span class="skill">' + data.damage[0].skill + '</span>';
 			}
-			html += skill + ' 造成 <span class="damage">' + data.damage.damage + '</span> 点伤害';
+			html += skill + ' 造成 <span class="damage">' + data.damage[0].damage + '</span> 点伤害';
         	
 			for(var i = 1; i<data.damage.length; i++) {
 				html += '，由于 <span class="status">' + data.damage[i].skill + '</span> 造成 <span class="damage">' + data.damage[i].damage + '</span> 点伤害';
