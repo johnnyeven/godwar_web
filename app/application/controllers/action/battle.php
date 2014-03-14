@@ -137,10 +137,14 @@ class Battle extends CI_Controller {
 						}
 						$damage = $this->$skillId->execute ( $attacker, $defender );
 
-						$defender ['health'] -= $damage ['damage'];
-						$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
+						$item ['damage'] = array();
+						foreach($damage as $d)
+						{
+							$defender ['health'] -= $d ['damage'];
+							$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
+							array_push($item ['damage'], $d);
+						}
 						$item ['round'] = $round;
-						$item ['damage'] = $damage;
 						$item ['attacker'] = $attacker;
 						$item ['defender'] = $defender;
 						array_push ( $battleResult['rounds'], $item );
