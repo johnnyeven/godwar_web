@@ -21,9 +21,11 @@ class Skill_default extends CI_Model implements ISkill
 		$rand = rand ( 0, 100000 ) / 100000;
 		$damageResult = intval ( (($attacker ['atk'] - $attacker ['atk_min']) * $rand + $attacker ['atk_min']) * $levelFix * (1 - $defender ['def_percent']) );
 		
-		$parameter = array (
+		$parameter = array(
+			array(
 				'skill'		=>	$this->skill_name,
 				'damage'	=>	$damageResult 
+			)
 		);
 		return $parameter;
 	}
