@@ -132,7 +132,7 @@ class Battle extends CI_Controller {
 								$skillId = 'skill_' . random_element($skills);
 							}
 							//TODO 还没有写技能系统
-							$skillId = 'skill_default';
+							// $skillId = 'skill_default';
 							$this->load->model ( "skills/{$skillId}" );
 						} else {
 							$skillId = 'skill_default';
