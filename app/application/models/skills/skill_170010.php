@@ -20,7 +20,7 @@ class Skill_170010 extends CI_Model implements ISkill
 		$levelFix = 1.3;
 		$rand = rand(0, 100000) / 100000;
 		$damage = intval((($attacker['atk'] - $attacker['atk_min']) * $rand + $attacker['atk_min']) * $levelFix * (1 - $defender['def_percent']));
-		$damage = intval($damage * 1.5);
+		$damage = intval($damage * 1.2);
 
 		$rand = rand(0, 30);
 		if($rand <= 30)
@@ -29,7 +29,7 @@ class Skill_170010 extends CI_Model implements ISkill
 			{
 				$defender['status'] = array();
 			}
-			$defender['status']['300008'] = array( 2, null );
+			$defender['status']['300008'] = array( 2, $damage );
 		}
 
 		$parameter = array(
