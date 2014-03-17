@@ -17,10 +17,11 @@ class Skill_170004 extends CI_Model implements ISkill
 
 	public function execute( & $attacker, & $defender )
 	{
-		if(isset($attacker['status']) && is_array($attacker['status']))
+		if(!isset($attacker['status']) || !is_array($attacker['status']))
 		{
-			$attacker['status']['300003'] = array( 1, null );
+			$attacker['status'] = array();
 		}
+		$attacker['status']['300003'] = array( 1, null );
 		return null;
 	}
 }

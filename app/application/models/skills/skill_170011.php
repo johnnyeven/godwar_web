@@ -6,9 +6,9 @@ require_once ('ISkill.php');
  * 爪击
  * 对目标造成120%伤害
  */
-class Skill_170007 extends CI_Model implements ISkill
+class Skill_170011 extends CI_Model implements ISkill
 {
-	private $skill_name = '祝福';
+	private $skill_name = '咆哮';
 
 	public function __construct()
 	{
@@ -21,7 +21,7 @@ class Skill_170007 extends CI_Model implements ISkill
 		{
 			$attacker['status'] = array();
 		}
-		$attacker['status']['300005'] = array( 2, null );
+		$attacker['status']['300009'] = array( 2, null );
 		return null;
 	}
 }

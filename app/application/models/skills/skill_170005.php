@@ -21,10 +21,11 @@ class Skill_170005 extends CI_Model implements ISkill
 		$rand = rand(0, 100000) / 100000;
 		$damage = intval((($attacker['atk'] - $attacker['atk_min']) * $rand + $attacker['atk_min']) * $levelFix * (1 - $defender['def_percent']));
 
-		if(isset($defender['status']) && is_array($defender['status']))
+		if(!isset($defender['status']) || !is_array($defender['status']))
 		{
-			$defender['status']['300004'] = array( 3, $damage );
+			$defender['status'] = array();
 		}
+		$defender['status']['300004'] = array( 3, $damage );
 
 		$parameter = array(
 			'skill'			=>	$this->skill_name,

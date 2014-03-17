@@ -6,9 +6,9 @@ require_once ('ISkill.php');
  * 爪击
  * 对目标造成120%伤害
  */
-class Skill_170002 extends CI_Model implements ISkill
+class Skill_170010 extends CI_Model implements ISkill
 {
-	private $skill_name = '撕咬';
+	private $skill_name = '爆发';
 
 	public function __construct()
 	{
@@ -20,12 +20,17 @@ class Skill_170002 extends CI_Model implements ISkill
 		$levelFix = 1.3;
 		$rand = rand(0, 100000) / 100000;
 		$damage = intval((($attacker['atk'] - $attacker['atk_min']) * $rand + $attacker['atk_min']) * $levelFix * (1 - $defender['def_percent']));
-		
-		if(!isset($defender['status']) || !is_array($defender['status']))
+		$damage = intval($damage * 1.5);
+
+		$rand = rand(0, 30);
+		if($rand <= 30)
 		{
-			$defender['status'] = array();
+			if(!isset($defender['status']) || !is_array($defender['status']))
+			{
+				$defender['status'] = array();
+			}
+			$defender['status']['300008'] = array( 2, null );
 		}
-		$defender['status']['300001'] = array( 3, $damage );
 
 		$parameter = array(
 			'skill'			=>	$this->skill_name,
