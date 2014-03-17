@@ -6,9 +6,9 @@ require_once ('IStatus.php');
  * 爪击
  * 对目标造成120%伤害
  */
-class Status_300008 extends CI_Model implements IStatus
+class Status_300012 extends CI_Model implements IStatus
 {
-	private $name = '爆发';
+	private $name = '瘟疫';
 
 	public function __construct()
 	{
@@ -17,7 +17,11 @@ class Status_300008 extends CI_Model implements IStatus
 
 	public function execute( & $target, & $parameter )
 	{
-		$damage = intval($parameter * .5);
+		$damage = intval($target['health_max'] * .03);
+		if($target['health'] < $target['health_max'] * .5)
+		{
+			$damage *= 2;
+		}
 		$target['health'] -= $damage;
 		$target ['health'] = $target ['health'] < 0 ? 0 : $target ['health'];
 
