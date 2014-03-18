@@ -26,6 +26,7 @@ class Status_300014 extends CI_Model implements IStatus
 
 		$r = array(
 			'skill'			=>	$this->name,
+			'target'		=>	$target['name'],
 			'atk_offset'	=>	$target['atk'] - $target['atk_origin']
 		);
 		return $r;

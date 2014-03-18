@@ -34,6 +34,7 @@ class Skill_170006 extends CI_Model implements ISkill
 
 		$parameter = array(
 			'skill'			=>	$this->skill_name,
+			'target'		=>	$defender['name'],
 			'damage'		=>	$damage
 		);
 		return $parameter;

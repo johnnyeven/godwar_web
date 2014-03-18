@@ -27,6 +27,7 @@ class Status_300012 extends CI_Model implements IStatus
 
 		$r = array(
 			'skill'		=>	$this->name,
+			'target'	=>	$target['name'],
 			'damage'	=>	$damage
 		);
 		return $r;

@@ -48,7 +48,7 @@ $(function() {
 		} else {
 			clearInfo();
 			currentData = data;
-			timerId = self.setInterval(showBattleRound, 1000);
+			timerId = self.setInterval(showBattleRound, 1500);
 		}
 	}
 
@@ -59,7 +59,13 @@ $(function() {
 			startBattle();
 		} else {
 			var data = currentData.rounds[currentIndex];
-			var html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 <span class="defender">' + data.defender.name + '</span>';
+			var html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
+
+			if(data.damage[0].target == data.attacker.name) {
+				html += '<span class="defender_self">自己</span>';
+			} else {
+				html += '<span class="defender">' + data.damage[0].target + '</span>';
+			}
 			
 			var skill = '';
 			if(data.damage[0].skill != '') {
@@ -75,12 +81,14 @@ $(function() {
 				html += skill + ' 造成魔抗变化 <span class="damage">' + data.damage[0].mdef_offset + '</span> 点';
 			} else if(data.damage[0].crit_offset) {
 				html += skill + ' 造成爆击变化 <span class="damage">' + data.damage[0].crit_offset + '</span> 点';
+			} else if(data.damage[0].health_offset) {
+				html += skill + ' 造成生命变化 <span class="damage">' + data.damage[0].health_offset + '</span> 点';
 			} else {
 				html += skill;
 			}
         	
 			for(var i = 1; i<data.damage.length; i++) {
-				html += '，由于 <span class="status">' + data.damage[i].skill + '</span>';
+				html += '，由于 <span class="status">' + data.damage[i].skill + '</span> 对 <span class="defender">' + data.damage[i].target + '</span>';
 
 				if(data.damage[i].damage) {
 					html += ' 造成 <span class="damage">' + data.damage[i].damage + '</span> 点伤害';
@@ -92,6 +100,8 @@ $(function() {
 					html += ' 造成魔抗变化 <span class="damage">' + data.damage[i].mdef_offset + '</span> 点';
 				} else if(data.damage[i].crit_offset) {
 					html += ' 造成爆击变化 <span class="damage">' + data.damage[i].crit_offset + '</span> 点';
+				} else if(data.damage[i].health_offset) {
+					html += ' 造成生命变化 <span class="damage">' + data.damage[i].health_offset + '</span> 点';
 				}
 			}
 			html += '</div></div>';
