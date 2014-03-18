@@ -65,10 +65,34 @@ $(function() {
 			if(data.damage[0].skill != '') {
 				skill = ' 使用 <span class="skill">' + data.damage[0].skill + '</span>';
 			}
-			html += skill + ' 造成 <span class="damage">' + data.damage[0].damage + '</span> 点伤害';
+			if(data.damage[0].damage) {
+				html += skill + ' 造成 <span class="damage">' + data.damage[0].damage + '</span> 点伤害';
+			} else if(data.damage[0].atk_offset) {
+				html += skill + ' 造成攻击变化 <span class="damage">' + data.damage[0].atk_offset + '</span> 点';
+			} else if(data.damage[0].def_offset) {
+				html += skill + ' 造成防御变化 <span class="damage">' + data.damage[0].def_offset + '</span> 点';
+			} else if(data.damage[0].mdef_offset) {
+				html += skill + ' 造成魔抗变化 <span class="damage">' + data.damage[0].mdef_offset + '</span> 点';
+			} else if(data.damage[0].crit_offset) {
+				html += skill + ' 造成爆击变化 <span class="damage">' + data.damage[0].crit_offset + '</span> 点';
+			} else {
+				html += skill;
+			}
         	
 			for(var i = 1; i<data.damage.length; i++) {
-				html += '，由于 <span class="status">' + data.damage[i].skill + '</span> 造成 <span class="damage">' + data.damage[i].damage + '</span> 点伤害';
+				html += '，由于 <span class="status">' + data.damage[i].skill + '</span>';
+
+				if(data.damage[i].damage) {
+					html += ' 造成 <span class="damage">' + data.damage[i].damage + '</span> 点伤害';
+				} else if(data.damage[i].atk_offset) {
+					html += ' 造成攻击变化 <span class="damage">' + data.damage[i].atk_offset + '</span> 点';
+				} else if(data.damage[i].def_offset) {
+					html += ' 造成防御变化 <span class="damage">' + data.damage[i].def_offset + '</span> 点';
+				} else if(data.damage[i].mdef_offset) {
+					html += ' 造成魔抗变化 <span class="damage">' + data.damage[i].mdef_offset + '</span> 点';
+				} else if(data.damage[i].crit_offset) {
+					html += ' 造成爆击变化 <span class="damage">' + data.damage[i].crit_offset + '</span> 点';
+				}
 			}
 			html += '</div></div>';
 

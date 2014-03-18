@@ -24,10 +24,10 @@ class Status_300003 extends CI_Model implements IStatus
 		$target['def'] = $target['def_origin'] * 1.2;
 		$target['def'] = ceil($target['def']);
 
-		// $r = array(
-		// 	'skill'		=>	$this->name,
-		// 	'damage'	=>	$damage
-		// );
+		$r = array(
+			'skill'			=>	$this->name,
+			'def_offset'	=>	$target['def'] - $target['def_origin']
+		);
 		return null;
 	}
 

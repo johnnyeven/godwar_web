@@ -17,7 +17,7 @@ class Skill_170012 extends CI_Model implements ISkill
 
 	public function execute( &$attacker, &$defender )
 	{
-		$damage = ceil(intval($attacker['health']) * .04);
+		$damage = ceil(intval($attacker['health_max']) * .04);
 		$attacker['health'] += $damage;
 		if($attacker['health'] > $attacker['health_max'])
 		{

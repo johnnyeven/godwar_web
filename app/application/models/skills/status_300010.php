@@ -17,7 +17,7 @@ class Status_300010 extends CI_Model implements IStatus
 
 	public function execute( & $target, & $parameter )
 	{
-		$damage = intval($parameter * .5);
+		$damage = intval($target['health_max'] * .03);
 		$target['health'] -= $damage;
 		$target ['health'] = $target ['health'] < 0 ? 0 : $target ['health'];
 

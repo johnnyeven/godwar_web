@@ -31,11 +31,12 @@ class Status_300006 extends CI_Model implements IStatus
 		$target['mdef'] = $target['mdef_origin'] * 1.1;
 		$target['mdef'] = ceil($target['mdef']);
 
-		// $r = array(
-		// 	'skill'		=>	$this->name,
-		// 	'damage'	=>	$damage
-		// );
-		return null;
+		$r = array(
+			'skill'			=>	$this->name,
+			'def_offset'	=>	$target['def'] - $target['def_origin'],
+			'mdef_offset'	=>	$target['mdef'] - $target['mdef_origin']
+		);
+		return $r;
 	}
 
 	public function destroy(& $target)

@@ -17,12 +17,16 @@ class Skill_170033 extends CI_Model implements ISkill
 
 	public function execute( & $attacker, & $defender )
 	{
-		if(!isset($defender['status']) || !is_array($defender['status']))
+		if(!isset($attacker['status']) || !is_array($attacker['status']))
 		{
-			$defender['status'] = array();
+			$attacker['status'] = array();
 		}
-		$defender['status']['300014'] = array( 3, null );
-		return null;
+		$attacker['status']['300014'] = array( 3, null );
+		
+		$parameter = array(
+			'skill'			=>	$this->skill_name
+		);
+		return $parameter;
 	}
 }
 

@@ -24,11 +24,11 @@ class Status_300011 extends CI_Model implements IStatus
 		$target['atk'] = $target['atk_origin'] * .7;
 		$target['atk'] = ceil($target['atk']);
 
-		// $r = array(
-		// 	'skill'		=>	$this->name,
-		// 	'damage'	=>	$damage
-		// );
-		return null;
+		$r = array(
+			'skill'			=>	$this->name,
+			'atk_offset'	=>	$target['atk'] - $target['atk_origin']
+		);
+		return $r;
 	}
 
 	public function destroy(& $target)

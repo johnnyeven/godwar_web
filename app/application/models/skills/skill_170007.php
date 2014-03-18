@@ -22,7 +22,11 @@ class Skill_170007 extends CI_Model implements ISkill
 			$attacker['status'] = array();
 		}
 		$attacker['status']['300005'] = array( 2, null );
-		return null;
+		
+		$parameter = array(
+			'skill'			=>	$this->skill_name
+		);
+		return $parameter;
 	}
 }
 
