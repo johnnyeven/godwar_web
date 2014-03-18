@@ -26,10 +26,10 @@ class Status_300003 extends CI_Model implements IStatus
 
 		$r = array(
 			'skill'			=>	$this->name,
-			'target'	=>	$target['name'],
+			'target'		=>	$target['name'],
 			'def_offset'	=>	$target['def'] - $target['def_origin']
 		);
-		return null;
+		return $r;
 	}
 
 	public function destroy(& $target)
