@@ -21,7 +21,7 @@ class Status_300013 extends CI_Model implements IStatus
 		{
 			$target['def_origin'] = $target['def'];
 		}
-		$target['def'] = $target['def_origin'] * .7;
+		$target['def'] = $target['def_origin'] * 1.3;
 		$target['def'] = ceil($target['def']);
 
 		$r = array(
