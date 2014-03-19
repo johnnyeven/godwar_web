@@ -24,7 +24,6 @@ class Battle extends CI_Controller {
 	}
 
 	public function request_battle() {
-		error_reporting(E_ALL);
 		header('Content-type:text/json');
 
 		if($this->currentRole ['health'] == '0')
@@ -155,11 +154,11 @@ class Battle extends CI_Controller {
 							{
 								$m = 'status_' . $key;
 								$this->load->model('skills/' . $m);
-								$d = $this->$m->execute($defender, $value[1]);
+								$statu = $this->$m->execute($defender, $value[1]);
 
-								if(!empty($d))
+								if(!empty($statu))
 								{
-									array_push($item ['damage'], $d);
+									array_push($item ['damage'], $statu);
 								}
 
 								$defender['status'][$key][0]--;
