@@ -396,6 +396,20 @@ class Battle extends CI_Controller {
 			'gold'		=>	$monster['gold'],
 			'drop'		=>	array()
 		);
+
+		$rand = rand(0, 100000) / 100000;
+		if($rand <= $monster['equipment_drop'])
+		{
+
+		}
+
+		$rand = rand(0, 100000) / 100000;
+		if($rand <= $monster['item_drop'])
+		{
+
+		}
+
+		return $parameter;
 	}
 }
 
