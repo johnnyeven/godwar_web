@@ -73,6 +73,7 @@ class Battle extends CI_Controller {
 				$dex = 10;
 				$k = 1.13;
 				$m = 100;
+				$d = 2.3 * $dex / (10 + 2.3 * $dex);
 				
 				if ($monster != null) {
 					unset ( $role ['account_id'] );
@@ -86,17 +87,16 @@ class Battle extends CI_Controller {
 					
 					unset ( $monster ['level'] );
 					unset ( $monster ['comment'] );
-					
-					$d = 2.3 * $dex / (10 + 2.3 * $dex);
+
+					//Gift hook: 战斗前的hook
+					$this->gift->call_hook('before_battle', $role);
+
 					$role ['atk_min'] = $role ['atk'] * $d;
 					$role ['def_percent'] = $k * $role ['def'] / ($m + $k * $role ['def']);
 					$role ['mdef_percent'] = $k * $role ['mdef'] / ($m + $k * $role ['mdef']);
 					$monster ['atk_min'] = $monster ['atk'] * $d;
 					$monster ['def_percent'] = $k * $monster ['def'] / ($m + $k * $monster ['def']);
 					$monster ['mdef_percent'] = $k * $monster ['mdef'] / ($m + $k * $monster ['mdef']);
-
-					//Gift hook: 战斗前的hook
-					$this->gift->call_hook('before_battle', $role);
 					
 					$attacker = $role;
 					$defender = $monster;
@@ -173,6 +173,9 @@ class Battle extends CI_Controller {
 								unset($defender['status']);
 							}
 						}
+						$defender ['atk_min'] = $defender ['atk'] * $d;
+						$defender ['def_percent'] = $k * $defender ['def'] / ($m + $k * $defender ['def']);
+						$defender ['mdef_percent'] = $k * $defender ['mdef'] / ($m + $k * $defender ['mdef']);
 
 						$item ['attacker'] = $attacker;
 						$item ['defender'] = $defender;
