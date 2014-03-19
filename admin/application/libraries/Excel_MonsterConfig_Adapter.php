@@ -33,7 +33,10 @@ class Excel_MonsterConfig_Adapter {
 					'health'			=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
 					'skill_trigger'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
 					'skill'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
-					'exp'				=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue())
+					'exp'				=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
+					'gold'				=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
+					'drop'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
+					'items'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue())
 				);
 				array_push($result, $row);
 			}

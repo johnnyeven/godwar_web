@@ -142,8 +142,11 @@ class Battle extends CI_Controller {
 
 						if(!empty($damage))
 						{
-							$defender ['health'] -= $damage ['damage'];
-							$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
+							if(isset($damage ['damage']))
+							{
+								$defender ['health'] -= $damage ['damage'];
+								$defender ['health'] = $defender ['health'] < 0 ? 0 : $defender ['health'];
+							}
 							$item ['round'] = $round;
 							array_push($item['damage'], $damage);
 						}
@@ -152,9 +155,9 @@ class Battle extends CI_Controller {
 						{
 							foreach($defender['status'] as $key => $value)
 							{
-								$m = 'status_' . $key;
-								$this->load->model('skills/' . $m);
-								$statu = $this->$m->execute($defender, $value[1]);
+								$status_model = 'status_' . $key;
+								$this->load->model('skills/' . $status_model);
+								$statu = $this->$status_model->execute($defender, $value[1]);
 
 								if(!empty($statu))
 								{
@@ -164,7 +167,7 @@ class Battle extends CI_Controller {
 								$defender['status'][$key][0]--;
 								if($defender['status'][$key][0] <= 0)
 								{
-									$this->$m->destroy($defender);
+									$this->$status_model->destroy($defender);
 									unset($defender['status'][$key]);
 								}
 							}

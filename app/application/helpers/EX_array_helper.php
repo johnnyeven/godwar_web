@@ -15,7 +15,7 @@ if ( ! function_exists('rate_random_element'))
 			return $array[0]['id'];
 		}
 
-		$max_rate = 1000;
+		$max_rate = 100;
 
 		foreach($array as $row)
 		{
@@ -28,7 +28,7 @@ if ( ! function_exists('rate_random_element'))
 			// 	$max_rate += $row['rate'];
 			// }
 			$rand = rand(0, $max_rate);
-			$rate = $row['rate'] * 1000;
+			$rate = intval($row['rate']);
 
 			if($rand > $rate)
 			{
