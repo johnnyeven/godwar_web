@@ -391,7 +391,7 @@ class Battle extends CI_Controller {
 
 	private function _settle_battle($monster, $role)
 	{
-		$parameter = array(
+		$settle = array(
 			'exp'		=>	$monster['exp'],
 			'gold'		=>	$monster['gold'],
 			'drop'		=>	array()
@@ -400,7 +400,42 @@ class Battle extends CI_Controller {
 		$rand = rand(0, 100000) / 100000;
 		if($rand <= $monster['equipment_drop'])
 		{
+			if(!empty($monster['equipments']) && is_array($monster['equipments']))
+			{
+				$id = rate_random_element($monster['equipments']);
+				if(!empty($id))
+				{
+					$parameter = array(
+						'id'	=>	intval($id)
+					);
+					$result = $this->mongo_db->where($parameter)->get('equipment');
+					if(!empty($result))
+					{
+						$result = $result[0];
 
+						$rand = rand(0, 100000) / 100000;
+						if($rand <= $monster['gold_drop'])
+						{
+
+						}
+						else if($rand <= $monster['purple_drop'])
+						{
+
+						}
+						else if($rand <= $monster['green_drop'])
+						{
+
+						}
+						else if($rand <= $monster['blue_drop'])
+						{
+
+						}
+
+						$result['type'] = 1;
+						array_push($settle['drop'], $result);
+					}
+				}
+			}
 		}
 
 		$rand = rand(0, 100000) / 100000;

@@ -28,9 +28,10 @@ class Gift_130001 implements IGift
 
 	public function execute( &$parameter )
 	{
-		if(isset($parameter['flee']))
+		if(isset($parameter['exp']))
 		{
-			
+			$parameter['exp'] *= 1.1;
+			$parameter['exp'] = ceil($parameter['exp']);
 		}
 	}
 }
