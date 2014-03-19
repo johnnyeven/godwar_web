@@ -36,7 +36,13 @@ class Excel_MonsterConfig_Adapter {
 					'exp'				=>	intval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
 					'gold'				=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
 					'drop'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
-					'items'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue())
+					'blue_drop'			=>	floatval($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue()),
+					'green_drop'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("Q$j")->getValue()),
+					'purple_drop'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("R$j")->getValue()),
+					'gold_drop'			=>	floatval($objPHPExcel->getActiveSheet()->getCell("S$j")->getValue()),
+					'equipments'		=>	json_decode($objPHPExcel->getActiveSheet()->getCell("T$j")->getValue()),
+					'items'				=>	json_decode($objPHPExcel->getActiveSheet()->getCell("U$j")->getValue()),
+					'unique'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("V$j")->getValue())
 				);
 				array_push($result, $row);
 			}

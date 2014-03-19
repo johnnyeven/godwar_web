@@ -85,7 +85,6 @@ class Battle extends CI_Controller {
 					unset ( $role ['next_battletime'] );
 					$role ['skill'] = json_decode($role['skill'], TRUE);
 					
-					unset ( $monster ['level'] );
 					unset ( $monster ['comment'] );
 
 					//Gift hook: 战斗前的hook
@@ -203,6 +202,12 @@ class Battle extends CI_Controller {
 					}
 					
 					if ($win) {
+						//Gift hook: 战斗结算前
+						$this->gift->call_hook('before_settle_battle', $monster);
+						$settle = $this->_settle_battle($monster, $role);
+						//Gift hook: 战斗结算后
+						$this->gift->call_hook('after_settle_battle', $settle);
+
 						$restHealthPercentage = .7;
 						$judgmentHealth = $role ['health_max'] * $restHealthPercentage;
 						if ($role ['health'] <= $judgmentHealth) {
@@ -382,6 +387,15 @@ class Battle extends CI_Controller {
 		$role ['hit'] = $role ['hit_base'];
 		$role ['flee_base'] += $raceResult ['flee_inc'];
 		$role ['flee'] = $role ['flee_base'];
+	}
+
+	private function _settle_battle($monster, $role)
+	{
+		$parameter = array(
+			'exp'		=>	$monster['exp'],
+			'gold'		=>	$monster['gold'],
+			'drop'		=>	array()
+		);
 	}
 }
 
