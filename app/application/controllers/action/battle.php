@@ -397,8 +397,8 @@ class Battle extends CI_Controller {
 			'drop'		=>	array()
 		);
 
-		// $rand = rand(0, 100000) / 100000;
-		$rand = 0;
+		$rand = rand(0, 100000) / 100000;
+		// $rand = 0;
 		if($rand <= $monster['equipment_drop'])
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
@@ -415,8 +415,8 @@ class Battle extends CI_Controller {
 						$result = $result[0];
 						$result['grade'] = 0;
 
-						// $rand = rand(0, 100000) / 100000;
-						$rand = 0.0001;
+						$rand = rand(0, 100000) / 100000;
+						// $rand = 0.0001;
 						if($rand <= $monster['gold_drop'])
 						{
 							$result['grade'] = 4;
@@ -448,7 +448,10 @@ class Battle extends CI_Controller {
 
 		}
 
-		return $parameter;
+		var_dump($settle);
+		exit();
+
+		return $settle;
 	}
 
 	private function _generate_magic_word($monster, $role, $item)
@@ -516,9 +519,6 @@ class Battle extends CI_Controller {
 		{
 			$item['magic_word'] = $magic_word;
 		}
-
-		var_dump($item);
-		exit();
 
 		return $item;
 	}
