@@ -489,11 +489,18 @@ class Battle extends CI_Controller {
 			}
 		}
 
-		var_dump($magic_word);
+		if(!empty($magic_word))
+		{
+			$item['magic_word'] = $magic_word;
+		}
+
+		var_dump($item);
 		exit();
 
 		return $item;
 	}
+
+	private function 
 }
 
 ?>
