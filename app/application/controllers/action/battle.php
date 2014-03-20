@@ -458,6 +458,8 @@ class Battle extends CI_Controller {
 
 		$magic_word = array();
 		$type = rand(1, 2);
+		$pre_words = '';
+		$next_words = '';
 		for($i = 0; $i<$item['grade']; $i++)
 		{
 			if($type == 1)
@@ -485,6 +487,15 @@ class Battle extends CI_Controller {
 					unset($word['property'][$key]);
 				}
 			}
+
+			if($type == 1)
+			{
+				$pre_words .= $word['name'];
+			}
+			else
+			{
+				$next_words .= $word['name'];
+			}
 			array_push($magic_word, $word);
 
 			if($type > 1)
@@ -496,6 +507,8 @@ class Battle extends CI_Controller {
 				$type++;
 			}
 		}
+
+		$item['name'] = $pre_words . '的' . $next_words . '之' . $item['name'];
 
 		if(!empty($magic_word))
 		{
