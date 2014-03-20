@@ -397,7 +397,8 @@ class Battle extends CI_Controller {
 			'drop'		=>	array()
 		);
 
-		$rand = rand(0, 100000) / 100000;
+		// $rand = rand(0, 100000) / 100000;
+		$rand = 0;
 		if($rand <= $monster['equipment_drop'])
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
@@ -412,25 +413,28 @@ class Battle extends CI_Controller {
 					if(!empty($result))
 					{
 						$result = $result[0];
+						$result['grade'] = 0;
 
-						$rand = rand(0, 100000) / 100000;
+						// $rand = rand(0, 100000) / 100000;
+						$rand = 0.001;
 						if($rand <= $monster['gold_drop'])
 						{
-
+							$result['grade'] = 4;
 						}
-						else if($rand <= $monster['purple_drop'])
+						else if($rand <= $monster['purple_drop']) //两个魔法前缀和一个魔法后缀、一个魔法前缀和两个魔法后缀
 						{
-
+							$result['grade'] = 3;
 						}
-						else if($rand <= $monster['green_drop'])
+						else if($rand <= $monster['green_drop']) //一个魔法前缀和一个魔法后缀
 						{
-
+							$result['grade'] = 2;
 						}
-						else if($rand <= $monster['blue_drop'])
+						else if($rand <= $monster['blue_drop']) //一个魔法前缀或一个魔法后缀
 						{
-
+							$result['grade'] = 1;
 						}
 
+						$result = $this->_generate_magic_word($monster, $role, $result);
 						$result['type'] = 1;
 						array_push($settle['drop'], $result);
 					}
@@ -445,6 +449,59 @@ class Battle extends CI_Controller {
 		}
 
 		return $parameter;
+	}
+
+	private function _generate_magic_word($monster, $role, $item)
+	{
+		$pre_words_groups = array(1,2,3,4,5,6,7);
+		$next_words_groups = array(1,2,3,4,5);
+
+		$magic_word = array();
+		$pre_words_count = 0;
+		$next_words_count = 0;
+		for($i = 0; $i<$item['grade']; $i++)
+		{
+			if($i == 0)
+			{
+				$type = rand(1, 2);
+			}
+			else
+			{
+				if($pre_words_count > $next_words_count)
+				{
+					$type = 2;
+				}
+				else
+				{
+					$type = 1;
+				}
+			}
+			if($type == 1)
+			{
+				$group = random_element($pre_words_groups);
+				$pre_words_count++;
+			}
+			else
+			{
+				$group = random_element($next_words_groups);
+				$next_words_count++;
+			}
+			$parameter = array(
+				'type'	=>	$type,
+				'group'	=>	$group
+			);
+			$word = $this->mongo_db->where($parameter)->where_lt('level', $monster['level'] + 2)->order_by("level", "desc")->limit(1)->get('magic_word');
+			if(empty($word))
+			{
+				$word = $this->mongo_db->where($parameter)->order_by("level", "desc")->limit(1)->get('magic_word');
+			}
+			array_push($magic_word, $word);
+		}
+
+		var_dump($magic_word);
+		exit();
+
+		return $item;
 	}
 }
 
