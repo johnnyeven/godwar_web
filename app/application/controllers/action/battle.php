@@ -515,7 +515,15 @@ class Battle extends CI_Controller {
 			}
 		}
 
-		$item['name'] = $pre_words . '的' . $next_words . '之' . $item['name'];
+		if(!empty($pre_words))
+		{
+			$pre_words .= '的';
+		}
+		if(!empty($next_words))
+		{
+			$next_words .= '之';
+		}
+		$item['name'] = $pre_words . $next_words . $item['name'];
 
 		if(!empty($magic_word))
 		{
