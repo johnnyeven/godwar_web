@@ -482,7 +482,7 @@ class Battle extends CI_Controller {
 			{
 				if(empty($value))
 				{
-					unset($word[$key]);
+					unset($word['property'][$key]);
 				}
 			}
 			array_push($magic_word, $word);
