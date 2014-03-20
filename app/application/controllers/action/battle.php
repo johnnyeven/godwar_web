@@ -478,7 +478,7 @@ class Battle extends CI_Controller {
 				$word = $this->mongo_db->where($parameter)->order_by("level", "desc")->limit(1)->get('magic_word');
 			}
 			$word = $word[0];
-			foreach($word as $key => $value)
+			foreach($word['property'] as $key => $value)
 			{
 				if(empty($value))
 				{
