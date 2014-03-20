@@ -499,8 +499,6 @@ class Battle extends CI_Controller {
 
 		return $item;
 	}
-
-	private function 
 }
 
 ?>
