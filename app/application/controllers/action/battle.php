@@ -399,9 +399,6 @@ class Battle extends CI_Controller {
 
 		$rand = rand(0, 100000) / 100000;
 		// $rand = 0;
-		echo $monster['equipment_drop'];
-		echo '<br>' . $rand;
-		exit();
 		if($rand <= $monster['equipment_drop'])
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
@@ -423,21 +420,23 @@ class Battle extends CI_Controller {
 						if($rand <= $monster['gold_drop'])
 						{
 							$result['grade'] = 4;
+							$result = $this->_generate_magic_word($monster, $role, $result);
 						}
 						else if($rand <= $monster['purple_drop']) //两个魔法前缀和一个魔法后缀、一个魔法前缀和两个魔法后缀
 						{
 							$result['grade'] = 3;
+							$result = $this->_generate_magic_word($monster, $role, $result);
 						}
 						else if($rand <= $monster['green_drop']) //一个魔法前缀和一个魔法后缀
 						{
 							$result['grade'] = 2;
+							$result = $this->_generate_magic_word($monster, $role, $result);
 						}
 						else if($rand <= $monster['blue_drop']) //一个魔法前缀或一个魔法后缀
 						{
 							$result['grade'] = 1;
+							$result = $this->_generate_magic_word($monster, $role, $result);
 						}
-
-						$result = $this->_generate_magic_word($monster, $role, $result);
 						$result['type'] = 1;
 						array_push($settle['drop'], $result);
 					}
