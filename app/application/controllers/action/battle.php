@@ -457,34 +457,16 @@ class Battle extends CI_Controller {
 		$next_words_groups = array(1,2,3,4,5);
 
 		$magic_word = array();
-		$pre_words_count = 0;
-		$next_words_count = 0;
+		$type = rand(1, 2);
 		for($i = 0; $i<$item['grade']; $i++)
 		{
-			if($i == 0)
-			{
-				$type = rand(1, 2);
-			}
-			else
-			{
-				if($pre_words_count > $next_words_count)
-				{
-					$type = 2;
-				}
-				else
-				{
-					$type = 1;
-				}
-			}
 			if($type == 1)
 			{
 				$group = random_element($pre_words_groups);
-				$pre_words_count++;
 			}
 			else
 			{
 				$group = random_element($next_words_groups);
-				$next_words_count++;
 			}
 			$parameter = array(
 				'type'	=>	$type,
@@ -496,6 +478,15 @@ class Battle extends CI_Controller {
 				$word = $this->mongo_db->where($parameter)->order_by("level", "desc")->limit(1)->get('magic_word');
 			}
 			array_push($magic_word, $word);
+
+			if($type > 1)
+			{
+				$type = 1;
+			}
+			else
+			{
+				$type++;
+			}
 		}
 
 		var_dump($magic_word);
