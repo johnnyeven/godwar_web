@@ -460,6 +460,7 @@ class Battle extends CI_Controller {
 		$type = rand(1, 2);
 		$pre_words = '';
 		$next_words = '';
+		$not_in_id = array();
 		for($i = 0; $i<$item['grade']; $i++)
 		{
 			if($type == 1)
@@ -474,10 +475,10 @@ class Battle extends CI_Controller {
 				'type'	=>	$type,
 				'group'	=>	$group
 			);
-			$word = $this->mongo_db->where($parameter)->where_lt('level', $monster['level'] + 2)->order_by("level", "desc")->limit(1)->get('magic_word');
+			$word = $this->mongo_db->where($parameter)->where_lt('level', $monster['level'] + 2)->where_not_in('id', $not_in_id)->order_by("level", "desc")->limit(1)->get('magic_word');
 			if(empty($word))
 			{
-				$word = $this->mongo_db->where($parameter)->order_by("level", "desc")->limit(1)->get('magic_word');
+				$word = $this->mongo_db->where($parameter)->where_not_in('id', $not_in_id)->order_by("level", "desc")->limit(1)->get('magic_word');
 			}
 			$word = $word[0];
 			foreach($word['property'] as $key => $value)
@@ -496,6 +497,7 @@ class Battle extends CI_Controller {
 			{
 				$next_words .= $word['name'];
 			}
+			array_push($not_in_id, $word['id']);
 			array_push($magic_word, $word);
 
 			if($type > 1)
