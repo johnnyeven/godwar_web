@@ -398,7 +398,10 @@ class Battle extends CI_Controller {
 		);
 
 		$rand = rand(0, 100000) / 100000;
-		$rand = 0;
+		// $rand = 0;
+		echo $monster['equipment_drop'];
+		echo '<br>' . $rand;
+		exit();
 		if($rand <= $monster['equipment_drop'])
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
