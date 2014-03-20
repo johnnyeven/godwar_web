@@ -450,9 +450,6 @@ class Battle extends CI_Controller {
 
 		}
 
-		var_dump($settle);
-		exit();
-
 		return $settle;
 	}
 
