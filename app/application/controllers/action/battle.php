@@ -416,7 +416,7 @@ class Battle extends CI_Controller {
 						$result['grade'] = 0;
 
 						// $rand = rand(0, 100000) / 100000;
-						$rand = 0.001;
+						$rand = 0.0001;
 						if($rand <= $monster['gold_drop'])
 						{
 							$result['grade'] = 4;
