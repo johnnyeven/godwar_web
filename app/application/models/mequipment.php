@@ -2,7 +2,7 @@
 if ( !defined( 'BASEPATH' ) )
 	exit( 'No direct script access allowed' );
 require_once ('ICrud.php');
-class Equipment extends CI_Model implements ICrud
+class Mequipment extends CI_Model implements ICrud
 {
 	private $table = 'equipments';
 	private $gamedb = null;
