@@ -216,7 +216,8 @@ class Battle extends CI_Controller {
 						if ($role ['health'] <= $judgmentHealth) {
 							$restTime = ceil ( ($judgmentHealth - $role ['health']) / $recover_health );
 						}
-						$role ['exp'] += $monster ['exp'];
+						$role ['exp'] += $settle ['exp'];
+						$role ['gold'] += $settle ['gold'];
 						if ($role ['exp'] > $role ['nextexp']) {
 							// TODO 升级
 							++ $role ['level'];
@@ -252,13 +253,14 @@ class Battle extends CI_Controller {
 						$this->gift->call_hook('after_battle_win', $role);
 					} else {
 						$battleResult['result'] = 0;
-						
+
 						//Gift hook: 战斗失败后的hook
 						$this->gift->call_hook('after_battle_fail', $role);
 					}
 
 					$parameter = array (
 							'level' => $role ['level'],
+							'gold' => $role ['gold'],
 							'exp' => $role['exp'],
 							'nextexp' => $role ['nextexp'],
 							'health_base' => $role['health_base'],
@@ -402,8 +404,8 @@ class Battle extends CI_Controller {
 			'drop'		=>	array()
 		);
 
-		$rand = rand(0, 100000) / 100000;
-		// $rand = 0;
+		// $rand = rand(0, 100000) / 100000;
+		$rand = 0;
 		if($rand <= $monster['equipment_drop'])
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
@@ -421,7 +423,7 @@ class Battle extends CI_Controller {
 						$result['grade'] = 0;
 
 						$rand = rand(0, 100000) / 100000;
-						// $rand = 0.0001;
+						// $rand = 0.01;
 						if($rand <= $monster['gold_drop'])
 						{
 							$result['grade'] = 4;
@@ -443,6 +445,25 @@ class Battle extends CI_Controller {
 							$result = $this->_generate_magic_word($monster, $role, $result);
 						}
 						$result['type'] = 1;
+
+						$this->load->model('equipment');
+						$parameter = array(
+							'role_id'			=>	intval($role['id']),
+							'original_id'		=>	intval($result['id']),
+							'name'				=>	$result['name'],
+							'position'			=>	intval($result['position']),
+							'level'				=>	intval($result['level']),
+							'grade'				=>	intval($result['grade']),
+							'job'				=>	json_encode($result['job']),
+							'atk_base'			=>	intval($result['atk']),
+							'def_base'			=>	intval($result['def']),
+							'mdef_base'			=>	intval($result['mdef']),
+							'health_base'		=>	intval($result['health']),
+							'hit_base'			=>	intval($result['hit']),
+							'flee_base'			=>	intval($result['flee']),
+							'magic_words'		=>	empty($result['magic_word']) ? '' : json_encode($result['magic_word'])
+						);
+						$this->equipment->create($parameter);
 						array_push($settle['drop'], $result);
 					}
 				}
@@ -468,6 +489,7 @@ class Battle extends CI_Controller {
 		$pre_words = '';
 		$next_words = '';
 		$not_in_id = array();
+
 		for($i = 0; $i<$item['grade']; $i++)
 		{
 			if($type == 1)

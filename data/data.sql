@@ -35,8 +35,9 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   `account_id` BIGINT NOT NULL,
   `name` CHAR(32) NOT NULL,
   `level` INT NOT NULL DEFAULT 1,
-  `exp` INT NOT NULL DEFAULT 0,
-  `nextexp` INT NOT NULL DEFAULT 0,
+  `gold` BIGINT NOT NULL DEFAULT 0,
+  `exp` BIGINT NOT NULL DEFAULT 0,
+  `nextexp` BIGINT NOT NULL DEFAULT 0,
   `race` ENUM('01001','01002','01003','01004','01005','01006') NOT NULL DEFAULT '01001' COMMENT '01001=人类\n01002=天使\n01003=恶魔\n01004=精灵\n01005=亡灵\n01006=泰坦',
   `job` INT NOT NULL DEFAULT 0 COMMENT '0 = 初心者\n一转\n1 = 战士\n2 = 法师\n3 = 使者\n二转\n4 = 佣兵\n5 = 抵抗者\n6 = 咒术师\n7 = 贤者\n8 = 牧师\n9 = 守护者',
   `health_base` INT NOT NULL DEFAULT 0,
@@ -68,6 +69,43 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`name` ASC))
 AUTO_INCREMENT = 1005100001;
+
+
+-- -----------------------------------------------------
+-- Table `godwar_gamedb`.`equipments`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `godwar_gamedb`.`equipments` ;
+
+CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`equipments` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `role_id` BIGINT NOT NULL,
+  `original_id` INT NOT NULL DEFAULT 0,
+  `name` CHAR(40) NOT NULL DEFAULT '',
+  `position` TINYINT NOT NULL DEFAULT 0 COMMENT '1=武器\n2=头盔\n3=护手\n4=盔甲\n5=腰带\n6=鞋子\n7=戒指\n8=项链',
+  `level` INT NOT NULL DEFAULT 0,
+  `grade` TINYINT NOT NULL DEFAULT 0 COMMENT '0=普通\n1=蓝装\n2=绿装\n3=紫装\n4=金装',
+  `job` CHAR(20) NOT NULL DEFAULT '[]',
+  `atk_base` INT NOT NULL DEFAULT 0,
+  `def_base` INT NOT NULL DEFAULT 0,
+  `mdef_base` INT NOT NULL DEFAULT 0,
+  `health_base` INT NOT NULL DEFAULT 0,
+  `hit_base` INT NOT NULL DEFAULT 0,
+  `flee_base` INT NOT NULL DEFAULT 0,
+  `atk_min_inc` INT NOT NULL DEFAULT 0,
+  `atk_max_inc` INT NOT NULL DEFAULT 0,
+  `atk_inc` INT NOT NULL DEFAULT 0,
+  `def_inc` INT NOT NULL DEFAULT 0,
+  `mdef_inc` INT NOT NULL DEFAULT 0,
+  `health_inc` INT NOT NULL DEFAULT 0,
+  `hit_inc` INT NOT NULL DEFAULT 0,
+  `flee_inc` INT NOT NULL DEFAULT 0,
+  `magic_words` TEXT NOT NULL,
+  `is_equipped` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `role_id` (`role_id` ASC),
+  INDEX `is_equipped` (`role_id` ASC, `is_equipped` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1006000001;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
