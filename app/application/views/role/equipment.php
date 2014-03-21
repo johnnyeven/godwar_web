@@ -34,7 +34,7 @@
             {
                 echo '<span style="color:#FF9900">' . $equipment['name'] . '</span>';
             }
-            echo '<span class="control" style="display:none;">';
+            echo '<span class="control" style="display:none;margin-left:10px;">';
             if($equipment['is_equipped'] == '1')
             {
                 echo '<a href="' . site_url('role/equipment/unequip/' . $equipment['id']) . '">卸下</a>';
