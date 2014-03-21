@@ -208,6 +208,8 @@ class Battle extends CI_Controller {
 						//Gift hook: 战斗结算后
 						$this->gift->call_hook('after_settle_battle', $settle);
 
+						$battleResult['settle'] = $settle;
+
 						$restHealthPercentage = .7;
 						$judgmentHealth = $role ['health_max'] * $restHealthPercentage;
 						if ($role ['health'] <= $judgmentHealth) {
