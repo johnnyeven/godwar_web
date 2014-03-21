@@ -10,7 +10,7 @@
     </div>
     <div class="right">
     	<?php foreach($equipments as $equipment): ?>
-        <div class="equipment" style="padding:5px 10px;float:left;"><?php echo $equipment['name']; ?></div>
+        <div class="equipment" style="padding:5px 20px;float:left;min-width:120px;"><?php echo $equipment['name']; ?></div>
         <?php endforeach; ?>
         <div style="clear:both;"></div>
     </div>
