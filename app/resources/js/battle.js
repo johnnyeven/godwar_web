@@ -53,13 +53,33 @@ $(function() {
 	}
 
 	function showBattleRound() {
+		var data;
+		var html;
 		if(currentIndex >= currentData.rounds.length) {
-			currentIndex = 0;
 			self.clearInterval(timerId);
+
+			data = currentData.rounds[currentIndex-1];
+			html = '<div class="post"><div class="entry">';
+			if(currentData.result == 1) {
+				html += '战斗胜利，获得经验 <span class="exp">' + currentData.settle.exp + '</span>，金币 <span class="gold">' + currentData.settle.gold + '</span>';
+				if(currentData.settle.drop.length > 0)
+				{
+					html += '，获得道具';
+					for(var i = 0; i<currentData.settle.drop.length; i++) {
+						html += ' <span class="equipment">' + currentData.settle.drop[i].name + '</span>';
+					}
+				}
+			} else {
+				html += '战斗失败';
+			}
+			html += '</div></div>';
+        	$('#content').prepend(html);
+
+			currentIndex = 0;
 			startBattle();
 		} else {
-			var data = currentData.rounds[currentIndex];
-			var html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
+			data = currentData.rounds[currentIndex];
+			html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
 
 			if(data.damage[0].target == data.attacker.name) {
 				html += '<span class="defender_self">自己</span>';
