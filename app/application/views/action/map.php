@@ -1,4 +1,3 @@
-	<script src="<?php echo base_url('resources/js/battle.js'); ?>" type="text/javascript"></script>
     <div class="left">
     
     </div>
