@@ -10,14 +10,14 @@ class Battle extends CI_Controller {
 		parent::__construct ();
 		$this->load->model ( 'utils/check_user', 'check' );
 		$this->user = $this->check->validate ();
-		$this->currentRole->role = $this->check->check_role ();
+		$this->currentRole = $this->check->check_role ();
 
 		$this->load->library('Gift');
 	}
 
 	public function index() {
 		$parameter = array (
-				'role' => $this->currentRole->role 
+				'role' => $this->currentRole
 		);
 		$this->load->model ( 'utils/render' );
 		$this->render->render ( $this->pageName, $parameter );
