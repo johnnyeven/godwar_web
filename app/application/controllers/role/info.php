@@ -13,6 +13,9 @@ class Info extends CI_Controller
 		$this->load->model( 'utils/check_user', 'check' );
 		$this->user = $this->check->validate();
 		$this->currentRole = $this->check->check_role();
+
+		var_dump($this->currentRole);
+		exit();
 	}
 
 	public function index()
