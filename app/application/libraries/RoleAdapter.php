@@ -67,6 +67,8 @@ class RoleAdapter
 			if(!empty($role))
 			{
 				$role  = $role[0];
+				var_dump($role);
+				exit();
 
 				$this->id = intval($role['id']);
 				$this->account_id = intval($role['account_id']);
@@ -75,7 +77,7 @@ class RoleAdapter
 				$this->gold = intval($role['gold']);
 				$this->exp = intval($role['exp']);
 				$this->nextexp = intval($role['nextexp']);
-				$this->race = intval($role['race']);
+				$this->race = $role['race'];
 				$this->job = $role['job'];
 				$this->health_base = intval($role['health_base']);
 				$this->health_max = intval($role['health_max']);
