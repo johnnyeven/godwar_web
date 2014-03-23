@@ -67,6 +67,7 @@ class RoleAdapter
 			if(!empty($role))
 			{
 				$role  = $role[0];
+				var_dump($role);
 
 				$this->id = intval($role->id);
 				$this->account_id = intval($role->account_id);
