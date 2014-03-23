@@ -109,7 +109,7 @@ class RoleAdapter
 				$this->race_name = $raceConfig['race_' . $this->race];
 				$this->job_name = $jobConfig['job_' . $this->job];
 
-				$is_init = true;
+				$this->is_init = true;
 			}
 			else
 			{
