@@ -353,9 +353,9 @@ class Battle extends CI_Controller {
 
 	private function _hook_gifts($role)
 	{
-		if(isset($role['gift']))
+		if(isset($role->gift))
 		{
-			$gifts = json_decode($role['gift']);
+			$gifts = json_decode($role->gift);
 			if(is_array($gifts))
 			{
 				$this->load->config('gifts.config');
