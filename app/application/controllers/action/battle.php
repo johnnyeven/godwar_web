@@ -26,13 +26,13 @@ class Battle extends CI_Controller {
 	public function request_battle() {
 		header('Content-type:text/json');
 
-		if($this->currentRole ['health'] == '0')
+		if($this->currentRole->health == '0')
 		{
 			$battleResult = array (
 					'err' => ERROR_ROLE_DEAD,
 					'attacker' => $this->currentRole,
 					'timestamp' => $time,
-					'next_battletime' => $this->currentRole ['next_battletime'] 
+					'next_battletime' => $this->currentRole->next_battletime
 			);
 		}
 		else
@@ -43,26 +43,26 @@ class Battle extends CI_Controller {
 			$battle_rest_time = $this->config->item('base_battle_rest_time');
 
 			$time = time ();
-			$pass = $time - $this->currentRole ['battletime'];
+			$pass = $time - $this->currentRole->battletime;
 			$recover = $pass * $recover_health;
-			$this->currentRole ['health'] += $recover;
-			if ($this->currentRole ['health'] > $this->currentRole ['health_max']) {
-				$this->currentRole ['health'] = $this->currentRole ['health_max'];
+			$this->currentRole->health += $recover;
+			if ($this->currentRole->health > $this->currentRole->health_max) {
+				$this->currentRole->health = $this->currentRole->health_max;
 			}
-			if ($this->currentRole ['next_battletime'] > $time) {
+			if ($this->currentRole->next_battletime > $time) {
 				$battleResult = array (
 						'err' => ERROR_BATTLE_TIME_NOT_TO,
 						'attacker' => $this->currentRole,
 						'timestamp' => $time,
-						'next_battletime' => $this->currentRole ['next_battletime'] 
+						'next_battletime' => $this->currentRole->next_battletime
 				);
-				if ($this->currentRole ['health'] != $this->currentRole ['health_max']) {
+				if ($this->currentRole->health != $this->currentRole->health_max) {
 					$this->load->model ( 'role' );
 					$parameter = array (
-							'health' => $this->currentRole ['health'],
+							'health' => $this->currentRole->health,
 							'battletime' => $time 
 					);
-					$this->role->update ( $this->currentRole ['id'], $parameter );
+					$this->role->update ( $this->currentRole->id, $parameter );
 				}
 			} else {
 				$monster = $this->getMonsterByNearestLevel ();
@@ -222,7 +222,7 @@ class Battle extends CI_Controller {
 							// TODO 升级
 							++ $role ['level'];
 							$param = array (
-									'id' => $this->currentRole ['race'] 
+									'id' => $this->currentRole->race
 							);
 							$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
 							$raceResult = $raceResult [0];
@@ -289,7 +289,7 @@ class Battle extends CI_Controller {
 					$battleResult ['next_battletime'] = $parameter ['next_battletime'];
 
 					$this->load->model ( 'role' );
-					$this->role->update ( $this->currentRole ['id'], $parameter );
+					$this->role->update ( $this->currentRole->id, $parameter );
 				}
 			}
 		}
@@ -299,8 +299,8 @@ class Battle extends CI_Controller {
 
 	private function getMonsterByNearestLevel()
 	{
-		$mapId = intval ( $this->currentRole ['map_id'] );
-		$level = intval ( $this->currentRole ['role_level'] );
+		$mapId = intval ( $this->currentRole->map_id );
+		$level = intval ( $this->currentRole->role_level );
 		
 		$this->load->library ( 'Mongo_db' );
 		$parameter = array (
