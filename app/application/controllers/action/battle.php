@@ -10,14 +10,14 @@ class Battle extends CI_Controller {
 		parent::__construct ();
 		$this->load->model ( 'utils/check_user', 'check' );
 		$this->user = $this->check->validate ();
-		$this->currentRole = $this->check->check_role ();
+		$this->currentRole->role = $this->check->check_role ();
 
 		$this->load->library('Gift');
 	}
 
 	public function index() {
 		$parameter = array (
-				'role' => $this->currentRole 
+				'role' => $this->currentRole->role 
 		);
 		$this->load->model ( 'utils/render' );
 		$this->render->render ( $this->pageName, $parameter );
@@ -26,13 +26,13 @@ class Battle extends CI_Controller {
 	public function request_battle() {
 		header('Content-type:text/json');
 
-		if($this->currentRole->health == '0')
+		if($this->currentRole->role ['health'] == '0')
 		{
 			$battleResult = array (
 					'err' => ERROR_ROLE_DEAD,
-					'attacker' => $this->currentRole,
+					'attacker' => $this->currentRole->role,
 					'timestamp' => $time,
-					'next_battletime' => $this->currentRole->next_battletime
+					'next_battletime' => $this->currentRole->role ['next_battletime'] 
 			);
 		}
 		else
@@ -43,31 +43,31 @@ class Battle extends CI_Controller {
 			$battle_rest_time = $this->config->item('base_battle_rest_time');
 
 			$time = time ();
-			$pass = $time - $this->currentRole->battletime;
+			$pass = $time - $this->currentRole->role ['battletime'];
 			$recover = $pass * $recover_health;
-			$this->currentRole->health += $recover;
-			if ($this->currentRole->health > $this->currentRole->health_max) {
-				$this->currentRole->health = $this->currentRole->health_max;
+			$this->currentRole->role ['health'] += $recover;
+			if ($this->currentRole->role ['health'] > $this->currentRole->role ['health_max']) {
+				$this->currentRole->role ['health'] = $this->currentRole->role ['health_max'];
 			}
-			if ($this->currentRole->next_battletime > $time) {
+			if ($this->currentRole->role ['next_battletime'] > $time) {
 				$battleResult = array (
 						'err' => ERROR_BATTLE_TIME_NOT_TO,
-						'attacker' => $this->currentRole,
+						'attacker' => $this->currentRole->role,
 						'timestamp' => $time,
-						'next_battletime' => $this->currentRole->next_battletime
+						'next_battletime' => $this->currentRole->role ['next_battletime'] 
 				);
-				if ($this->currentRole->health != $this->currentRole->health_max) {
+				if ($this->currentRole->role ['health'] != $this->currentRole->role ['health_max']) {
 					$this->load->model ( 'role' );
 					$parameter = array (
-							'health' => $this->currentRole->health,
+							'health' => $this->currentRole->role ['health'],
 							'battletime' => $time 
 					);
-					$this->role->update ( $this->currentRole->id, $parameter );
+					$this->role->update ( $this->currentRole->role ['id'], $parameter );
 				}
 			} else {
 				$monster = $this->getMonsterByNearestLevel ();
 				$monster ['health_max'] = $monster ['health'];
-				$role = $this->currentRole;
+				$role = $this->currentRole->role;
 				$this->_hook_gifts($role);
 
 				$dex = 10;
@@ -222,7 +222,7 @@ class Battle extends CI_Controller {
 							// TODO 升级
 							++ $role ['level'];
 							$param = array (
-									'id' => $this->currentRole->race
+									'id' => $this->currentRole->role ['race'] 
 							);
 							$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
 							$raceResult = $raceResult [0];
@@ -289,7 +289,7 @@ class Battle extends CI_Controller {
 					$battleResult ['next_battletime'] = $parameter ['next_battletime'];
 
 					$this->load->model ( 'role' );
-					$this->role->update ( $this->currentRole->id, $parameter );
+					$this->role->update ( $this->currentRole->role ['id'], $parameter );
 				}
 			}
 		}
@@ -299,8 +299,8 @@ class Battle extends CI_Controller {
 
 	private function getMonsterByNearestLevel()
 	{
-		$mapId = intval ( $this->currentRole->map_id );
-		$level = intval ( $this->currentRole->role_level );
+		$mapId = intval ( $this->currentRole->role ['map_id'] );
+		$level = intval ( $this->currentRole->role ['role_level'] );
 		
 		$this->load->library ( 'Mongo_db' );
 		$parameter = array (
@@ -353,9 +353,9 @@ class Battle extends CI_Controller {
 
 	private function _hook_gifts($role)
 	{
-		if(isset($role->gift))
+		if(isset($role['gift']))
 		{
-			$gifts = json_decode($role->gift);
+			$gifts = json_decode($role['gift']);
 			if(is_array($gifts))
 			{
 				$this->load->config('gifts.config');
