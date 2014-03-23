@@ -55,6 +55,7 @@ class Check_user extends CI_Model
 	
 	public function check_role( $redirect = true )
 	{
+		error_reporting(E_ALL);
 		$this->load->model('role');
 		
 		$this->load->helper( 'security' );
