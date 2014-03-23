@@ -103,9 +103,9 @@ class RoleAdapter
 				$this->battletime = intval($role->battletime);
 				$this->next_battletime = intval($role->next_battletime);
 
-				$this->load->config('const.config');
-				$raceConfig = $this->config->item('const_race');
-				$jobConfig = $this->config->item('const_job');
+				$this->CI->load->config('const.config');
+				$raceConfig = $this->CI->config->item('const_race');
+				$jobConfig = $this->CI->config->item('const_job');
 				$this->race_name = $raceConfig['race_' . $this->race];
 				$this->job_name = $jobConfig['job_' . $this->job];
 
