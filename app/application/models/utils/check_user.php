@@ -81,9 +81,9 @@ class Check_user extends CI_Model
 			$role_adapter = new RoleAdapter($id);
 			var_dump($role_adapter);
 			exit();
-			if($this->roleadapter->is_init)
+			if($role_adapter->is_init)
 			{
-				return $this->roleadapter;
+				return $role_adapter;
 			}
 			else
 			{
