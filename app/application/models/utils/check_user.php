@@ -76,10 +76,12 @@ class Check_user extends CI_Model
 			$cookie = _authcode( $cookie );
 			$json = json_decode( $cookie );
 			$id = $json->id;
-			
+
 			$this->load->library('RoleAdapter', array(
 				'id'	=>	$id
 			));
+			var_dump($this->roleadapter);
+			exit();
 			if($this->roleadapter->is_init)
 			{
 				return $this->roleadapter;
