@@ -42,12 +42,12 @@ class RoleAdapter
 	public $battletime;
 	public $next_battletime;
 
-	function __construct($parameter)
+	function __construct($id)
 	{
-		if(!empty($parameter) && isset($parameter['id']))
+		if(!empty($id))
 		{
 			$this->CI =& get_instance();
-			$this->initialization($parameter['id']);
+			$this->initialization($id);
 		}
 		else
 		{
