@@ -76,8 +76,6 @@ class RoleAdapter
 				$this->exp = intval($role['exp']);
 				$this->nextexp = intval($role['nextexp']);
 				$this->race = $role['race'];
-				echo 'race_' . $this->race;
-				exit();
 				$this->job = $role['job'];
 				$this->health_base = intval($role['health_base']);
 				$this->health_max = intval($role['health_max']);
