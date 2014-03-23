@@ -78,7 +78,7 @@ class Check_user extends CI_Model
 			$json = json_decode( $cookie );
 			$id = $json->id;
 			
-			require_once BASEPATH . 'libraries/RoleAdapter.php';
+			require_once APPPATH . 'libraries/RoleAdapter.php';
 			$role_adapter = new RoleAdapter($id);
 			var_dump($role_adapter);
 			exit();
