@@ -79,7 +79,8 @@ class Check_user extends CI_Model
 			
 			include_once APPPATH . 'libraries/RoleAdapter.php';
 			$role_adapter = new RoleAdapter($id);
-			
+			var_dump($role_adapter);
+			exit();
 			if($this->roleadapter->is_init)
 			{
 				return $this->roleadapter;
