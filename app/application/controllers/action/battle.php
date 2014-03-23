@@ -446,7 +446,7 @@ class Battle extends CI_Controller {
 						}
 						$result['type'] = 1;
 
-						$this->load->model('equipment');
+						$this->load->model('mequipment');
 						$parameter = array(
 							'role_id'			=>	intval($role['id']),
 							'original_id'		=>	intval($result['id']),
@@ -463,7 +463,7 @@ class Battle extends CI_Controller {
 							'flee_base'			=>	intval($result['flee']),
 							'magic_words'		=>	empty($result['magic_word']) ? '' : json_encode($result['magic_word'])
 						);
-						$this->equipment->create($parameter);
+						$this->mequipment->create($parameter);
 						array_push($settle['drop'], $result);
 					}
 				}
