@@ -1,12 +1,12 @@
 	<script src="<?php echo base_url('resources/js/equipment.js'); ?>" type="text/javascript"></script>
     <div class="left">
-        <p>头盔：<?php echo $equipped['2']->name; ?></p>
-        <p>盔甲：<?php echo $equipped['4']->name; ?></p>
-        <p>武器：<?php echo $equipped['1']->name; ?></p>
-        <p>护手：<?php echo $equipped['3']->name; ?></p>
-        <p>鞋子：<?php echo $equipped['6']->name; ?></p>
-        <p>戒指：<?php echo $equipped['7']->name; ?></p>
-        <p>项链：<?php echo $equipped['8']->name; ?></p>
+        <p>头盔：<?php echo $equipped[2]->name; ?></p>
+        <p>盔甲：<?php echo $equipped[4]->name; ?></p>
+        <p>武器：<?php echo $equipped[1]->name; ?></p>
+        <p>护手：<?php echo $equipped[3]->name; ?></p>
+        <p>鞋子：<?php echo $equipped[6]->name; ?></p>
+        <p>戒指：<?php echo $equipped[7]->name; ?></p>
+        <p>项链：<?php echo $equipped[8]->name; ?></p>
     </div>
     <div class="right">
         <div id="content">
