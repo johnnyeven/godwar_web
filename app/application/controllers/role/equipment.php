@@ -23,7 +23,19 @@ class Equipment extends CI_Controller
 		);
 		$result = $this->mequipment->read($parameter);
 
+		$parameter = array(
+			'role_id'		=>	$this->currentRole->role['id'],
+			'is_equipped'	=>	1
+		);
+		$e = $this->mequipment->read($parameter);
+		$equipped = array();
+		foreach($e as $item)
+		{
+			$equipped[$item['position']] = $item;
+		}
+
 		$data = array(
+			'equipped'		=>	$equipped,
 			'equipments'	=>	$result
 		);
 
