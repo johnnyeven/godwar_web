@@ -42,7 +42,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_baseconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_baseconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_baseconfig_adapter->RemoveNull($result);
 			var_dump($result);
 			if(!empty($result))
 			{
@@ -84,7 +84,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_raceconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_raceconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_raceconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
@@ -126,7 +126,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_expconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_expconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_expconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
@@ -169,7 +169,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_monsterconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_monsterconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_monsterconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
@@ -212,7 +212,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_mapconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_mapconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_mapconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
@@ -222,6 +222,49 @@ class Import extends CI_Controller
 				$this->mongo_db->add_index('map', array('id' => 'asc'), array('unique' => TRUE));
 		
 				var_dump($this->mongo_db->get('map'));
+			}
+		}
+	}
+	
+	public function job_config_submit()
+	{
+		$this->load->library('Excel_JobConfig_Adapter');
+		
+		$uploadDir = $this->config->item('upload_dir');
+		$error = "";
+		$msg = "";
+		$fileElementName = 'jobConfig';
+		$el = $this->input->get('el', TRUE);
+		if($el) {
+			$fileElementName = $el;
+		}
+		
+		$config['upload_path'] = $uploadDir;
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['encrypt_name'] = TRUE;
+		
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($fileElementName)) {
+			$error = $this->upload->display_errors('<stronng>', '</stronng>');
+			echo $error;
+		} else {
+			$data = $this->upload->data();
+			$fileName = $uploadDir . '/' . $data['file_name'];
+		}
+		
+		if(!empty($fileName))
+		{
+			$result = $this->excel_jobconfig_adapter->ParseExcel($fileName);
+			// $result = $this->excel_jobconfig_adapter->RemoveNull($result);
+			
+			if(!empty($result))
+			{
+				$this->load->library('Mongo_db');
+				$this->mongo_db->drop_collection('godwar', 'job');
+				$this->mongo_db->batch_insert('job', $result);
+				$this->mongo_db->add_index('job', array('id' => 'asc'), array('unique' => TRUE));
+		
+				var_dump($this->mongo_db->get('job'));
 			}
 		}
 	}
@@ -255,7 +298,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_equipmentconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_equipmentconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_equipmentconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{
@@ -298,7 +341,7 @@ class Import extends CI_Controller
 		if(!empty($fileName))
 		{
 			$result = $this->excel_magicwordconfig_adapter->ParseExcel($fileName);
-			$result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
+			// $result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
 			
 			if(!empty($result))
 			{

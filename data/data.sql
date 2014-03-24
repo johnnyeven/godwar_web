@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   `skill_trigger` DOUBLE(5,4) NOT NULL DEFAULT 0,
   `skill` TEXT NOT NULL,
   `main_skill` CHAR(8) NOT NULL DEFAULT '',
+  `passive_skill` TEXT NOT NULL,
   `createtime` INT NOT NULL DEFAULT 0 COMMENT '创建时间',
   `lasttime` INT NOT NULL DEFAULT 0 COMMENT '上次登录时间',
   `map_id` INT NOT NULL DEFAULT 0,
@@ -105,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`equipments` (
   INDEX `role_id` (`role_id` ASC),
   INDEX `is_equipped` (`role_id` ASC, `is_equipped` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 1006000001;
+AUTO_INCREMENT = 100000000001;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

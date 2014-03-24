@@ -19,7 +19,7 @@ class Map extends CI_Controller
 	{
 		if(empty($map_id))
 		{
-			$map_id = $this->currentRole ['map_id'] ;
+			$map_id = $this->currentRole->role ['map_id'] ;
 		}
 		$map_id = intval($map_id);
 		
@@ -39,7 +39,7 @@ class Map extends CI_Controller
 		$maps = $this->mongo_db->get('map');
 
 		$parameter = array (
-				'role' 					=>	$this->currentRole,
+				'role' 					=>	$this->currentRole->role,
 				'maps'					=>	$maps,
 				'monsters'				=>	$resultMonster,
 				'current_selected_map'	=>	$map [0]
@@ -67,7 +67,7 @@ class Map extends CI_Controller
 				);
 
 				$this->load->model ( 'role' );
-				$this->role->update ( $this->currentRole ['id'], $parameter );
+				$this->role->update ( $this->currentRole->role ['id'], $parameter );
 
 				redirect('action/map/info');
 			}

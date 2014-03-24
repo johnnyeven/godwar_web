@@ -67,8 +67,7 @@ class Battle extends CI_Controller {
 			} else {
 				$monster = $this->getMonsterByNearestLevel ();
 				$monster ['health_max'] = $monster ['health'];
-				$role = $this->currentRole->role;
-				$this->_hook_gifts($role);
+				$this->_hook_gifts($this->currentRole->role);
 
 				$dex = 10;
 				$k = 1.13;
@@ -76,28 +75,27 @@ class Battle extends CI_Controller {
 				$d = 2.3 * $dex / (10 + 2.3 * $dex);
 				
 				if ($monster != null) {
-					unset ( $role ['account_id'] );
-					unset ( $role ['race'] );
-					unset ( $role ['job'] );
-					unset ( $role ['createtime'] );
-					unset ( $role ['lasttime'] );
-					unset ( $role ['map_id'] );
-					unset ( $role ['next_battletime'] );
-					$role ['skill'] = json_decode($role['skill'], TRUE);
+					// unset ( $role ['account_id'] );
+					// unset ( $role ['race'] );
+					// unset ( $role ['job'] );
+					// unset ( $role ['createtime'] );
+					// unset ( $role ['lasttime'] );
+					// unset ( $role ['map_id'] );
+					// unset ( $role ['next_battletime'] );
 					
 					unset ( $monster ['comment'] );
 
 					//Gift hook: 战斗前的hook
-					$this->gift->call_hook('before_battle', $role);
+					$this->gift->call_hook('before_battle', $this->currentRole->role);
 
-					$role ['atk_min'] = $role ['atk'] * $d;
-					$role ['def_percent'] = $k * $role ['def'] / ($m + $k * $role ['def']);
-					$role ['mdef_percent'] = $k * $role ['mdef'] / ($m + $k * $role ['mdef']);
+					$this->currentRole->role ['atk_min'] = $this->currentRole->role ['atk'] * $d;
+					$this->currentRole->role ['def_percent'] = $k * $this->currentRole->role ['def'] / ($m + $k * $this->currentRole->role ['def']);
+					$this->currentRole->role ['mdef_percent'] = $k * $this->currentRole->role ['mdef'] / ($m + $k * $this->currentRole->role ['mdef']);
 					$monster ['atk_min'] = $monster ['atk'] * $d;
 					$monster ['def_percent'] = $k * $monster ['def'] / ($m + $k * $monster ['def']);
 					$monster ['mdef_percent'] = $k * $monster ['mdef'] / ($m + $k * $monster ['mdef']);
 					
-					$attacker = $role;
+					$attacker = $this->currentRole->role;
 					$defender = $monster;
 					$win = false;
 					
@@ -184,13 +182,13 @@ class Battle extends CI_Controller {
 						array_push ( $battleResult['rounds'], $item );
 						
 						if ($defender ['health'] <= 0) {
-							if ($defender ['name'] == $role ['name']) {
+							if ($defender ['name'] == $this->currentRole->role ['name']) {
 								$monster = $attacker;
-								$role = $defender;
+								$this->currentRole->role = $defender;
 							} else {
 								$win = true;
 								$monster = $defender;
-								$role = $attacker;
+								$this->currentRole->role = $attacker;
 							}
 							break;
 						}
@@ -204,7 +202,7 @@ class Battle extends CI_Controller {
 					if ($win) {
 						//Gift hook: 战斗结算前
 						$this->gift->call_hook('before_settle_battle', $monster);
-						$settle = $this->_settle_battle($monster, $role);
+						$settle = $this->_settle_battle($monster, $this->currentRole->role);
 						//Gift hook: 战斗结算后
 						$this->gift->call_hook('after_settle_battle', $settle);
 
@@ -212,72 +210,52 @@ class Battle extends CI_Controller {
 						$battleResult['settle'] = $settle;
 
 						$restHealthPercentage = .7;
-						$judgmentHealth = $role ['health_max'] * $restHealthPercentage;
-						if ($role ['health'] <= $judgmentHealth) {
-							$restTime = ceil ( ($judgmentHealth - $role ['health']) / $recover_health );
+						$judgmentHealth = $this->currentRole->role ['health_max'] * $restHealthPercentage;
+						if ($this->currentRole->role ['health'] <= $judgmentHealth) {
+							$restTime = ceil ( ($judgmentHealth - $this->currentRole->role ['health']) / $recover_health );
 						}
-						$role ['exp'] += $settle ['exp'];
-						$role ['gold'] += $settle ['gold'];
-						if ($role ['exp'] > $role ['nextexp']) {
-							// TODO 升级
-							++ $role ['level'];
-							$param = array (
-									'id' => $this->currentRole->role ['race'] 
-							);
-							$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
-							$raceResult = $raceResult [0];
-							
-							$param = array (
-									'level' => intval ( $role ['level'] ) 
-							);
-							$expResult = $this->mongo_db->where ( $param )->get ( 'exp' );
-							$expResult = $expResult [0];
-							if (! empty ( $raceResult ) && ! empty ( $expResult ))
-							{
-								//Gift hook: 升级前
-								$this->gift->call_hook('before_level_up', $role);
+						$this->currentRole->role ['exp'] += $settle ['exp'];
+						$this->currentRole->role ['gold'] += $settle ['gold'];
+						if ($this->currentRole->role ['exp'] >= $this->currentRole->role ['nextexp']) {
+							// 升级
+							//Gift hook: 升级前
+							$this->gift->call_hook('before_level_up', $this->currentRole->role);
 
-								$this->_role_level_up($role, $raceResult, $expResult);
+							$this->currentRole->role_level_up();
 
-								//Gift hook: 升级后
-								$this->gift->call_hook('after_level_up', $role);
-
-								$role['exp'] = 0;
-								$role['nextexp'] = $expResult ['nextexp'];
-							} else {
-								$battleResult ['err'] = 2;
-							}
+							//Gift hook: 升级后
+							$this->gift->call_hook('after_level_up', $this->currentRole->role);
 						}
 
 						//Gift hook: 战斗胜利后的hook
-						$this->gift->call_hook('after_battle_win', $role);
+						$this->gift->call_hook('after_battle_win', $this->currentRole->role);
 					} else {
 						$battleResult['result'] = 0;
 
 						//Gift hook: 战斗失败后的hook
-						$this->gift->call_hook('after_battle_fail', $role);
+						$this->gift->call_hook('after_battle_fail', $this->currentRole->role);
 					}
 
 					$parameter = array (
-							'level' => $role ['level'],
-							'gold' => $role ['gold'],
-							'exp' => $role['exp'],
-							'nextexp' => $role ['nextexp'],
-							'health_base' => $role['health_base'],
-							'health_max' => $role ['health_max'],
-							'atk_base' => $role['atk_base'],
-							'atk' => $role ['atk'],
-							'def_base' => $role['def_base'],
-							'def' => $role ['def'],
-							'mdef_base' => $role['mdef_base'],
-							'mdef' => $role ['mdef'],
-							'hit_base' => $role['hit_base'],
-							'hit' => $role ['hit'],
-							'flee_base' => $role['flee_base'],
-							'flee' => $role ['flee']
+							'level' => $this->currentRole->role ['level'],
+							'gold' => $this->currentRole->role ['gold'],
+							'exp' => $this->currentRole->role['exp'],
+							'nextexp' => $this->currentRole->role ['nextexp'],
+							'health_base' => $this->currentRole->role['health_base'],
+							'health_max' => $this->currentRole->role ['health_max'],
+							'atk_base' => $this->currentRole->role['atk_base'],
+							'atk' => $this->currentRole->role ['atk'],
+							'def_base' => $this->currentRole->role['def_base'],
+							'def' => $this->currentRole->role ['def'],
+							'mdef_base' => $this->currentRole->role['mdef_base'],
+							'mdef' => $this->currentRole->role ['mdef'],
+							'hit_base' => $this->currentRole->role['hit_base'],
+							'hit' => $this->currentRole->role ['hit'],
+							'flee_base' => $this->currentRole->role['flee_base'],
+							'flee' => $this->currentRole->role ['flee']
 					);
 					
-					$parameter ['health'] = $role ['health'];
+					$parameter ['health'] = $this->currentRole->role ['health'];
 					$parameter ['battletime'] = $time;
 					if($restTime < $battle_rest_time)
 					{
