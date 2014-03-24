@@ -68,17 +68,13 @@ class Equipment extends CI_Controller
 			if(!empty($result))
 			{
 				$result = $result[0];
-				$position = $result->position;
+				$position = $result['position'];
 				$parameter = array(
 					'role_id'		=>	$this->currentRole->role['id'],
 					'position'		=>	$position,
 					'is_equipped'	=>	1
 				);
-				var_dump($parameter);
-				exit();
 				$result = $this->mequipment->read($parameter);
-				var_dump($result);
-				exit();
 				if(!empty($result))
 				{
 					$result = $result[0];
