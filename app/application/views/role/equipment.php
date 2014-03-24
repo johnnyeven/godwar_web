@@ -3,10 +3,10 @@
         <?php
         foreach($equipment_title as $key => $title)
         {
-            echo '<p>';
+            echo '<p>' . $title . ': ';
             if($equipped[$key]['grade'] == 0)
             {
-
+                echo '<span style="color:#000000">' . $equipped[$key]['name'] . '</span>';
             }
             elseif($equipped[$key]['grade'] == 1)
             {
