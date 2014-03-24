@@ -129,5 +129,22 @@ class RoleAdapter
 				$damage = $this->$skillId->execute ( $this->role, null );
 			}
 		}
+
+		if(!isset($this->CI->mequipment))
+		{
+			$this->CI->load->model('mequipment');
+		}
+
+		$parameter = array(
+			'role_id'		=>	$this->role['id'],
+			'is_equipped'	=>	1
+		);
+		$result = $this->CI->mequipment->read($parameter);
+		var_dump($result);
+		exit();
+		foreach($result as $value)
+		{
+
+		}
 	}
 }

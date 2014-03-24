@@ -30,6 +30,53 @@ class Equipment extends CI_Controller
 		$this->load->model( 'utils/render' );
 		$this->render->render( $this->pageName, $data );
 	}
+
+	public function equip($id)
+	{
+		if(!empty($id))
+		{
+			$this->load->model('mequipment');
+			$parameter = array(
+				'id'		=>	$id,
+				'role_id'	=>	$this->currentRole->role['id']
+			);
+			$result = $this->mequipment->read($parameter);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				$position = $result->position;
+				$parameter = array(
+					'role_id'		=>	$this->currentRole->role['id'],
+					'position'		=>	$position,
+					'is_equipped'	=>	1
+				);
+				$result = $this->mequipment->read($parameter);
+				if(!empty($result))
+				{
+					$result = $result[0];
+					$parameter = array(
+						'is_equipped'	=>	0
+					);
+					$this->mequipment->update($result->id, $parameter);
+				}
+
+				$parameter = array(
+					'is_equipped'	=>	1
+				);
+				$this->mequipment->update($id, $parameter);
+
+				redirect('role/equipment');
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
 }
 
 ?>
