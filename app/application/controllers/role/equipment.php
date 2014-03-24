@@ -81,7 +81,7 @@ class Equipment extends CI_Controller
 					$parameter = array(
 						'is_equipped'	=>	0
 					);
-					$this->mequipment->update($result->id, $parameter);
+					$this->mequipment->update($result['id'], $parameter);
 				}
 
 				$parameter = array(
