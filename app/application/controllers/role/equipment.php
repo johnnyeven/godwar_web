@@ -17,6 +17,17 @@ class Equipment extends CI_Controller
 
 	public function index()
 	{
+		//1=武器2=头盔3=护手4=盔甲5=腰带6=鞋子7=戒指8=项链
+		$equipment_title = array(
+			1	=>	'武器',
+			2	=>	'头盔',
+			3	=>	'护手',
+			4	=>	'盔甲',
+			5	=>	'腰带',
+			6	=>	'鞋子',
+			7	=>	'戒指',
+			8	=>	'项链'
+		);
 		$this->load->model('mequipment');
 		$parameter = array(
 			'role_id'	=>	$this->currentRole->role['id']
@@ -33,10 +44,11 @@ class Equipment extends CI_Controller
 		{
 			$equipped[$item['position']] = $item;
 		}
-		
+
 		$data = array(
-			'equipped'		=>	$equipped,
-			'equipments'	=>	$result
+			'equipment_title'	=>	$equipment_title,
+			'equipped'			=>	$equipped,
+			'equipments'		=>	$result
 		);
 
 		$this->load->model( 'utils/render' );
@@ -63,6 +75,8 @@ class Equipment extends CI_Controller
 					'is_equipped'	=>	1
 				);
 				$result = $this->mequipment->read($parameter);
+				var_dump($result);
+				exit();
 				if(!empty($result))
 				{
 					$result = $result[0];
