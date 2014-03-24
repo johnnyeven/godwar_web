@@ -33,8 +33,7 @@ class Equipment extends CI_Controller
 		{
 			$equipped[$item['position']] = $item;
 		}
-		var_dump($equipped);
-		exit();
+		
 		$data = array(
 			'equipped'		=>	$equipped,
 			'equipments'	=>	$result
