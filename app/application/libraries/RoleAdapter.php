@@ -93,30 +93,41 @@ class RoleAdapter
 
 	public function calculate_property($raceResult, $jobResult)
 	{
-		// $this->role ['passive_skill'];
-		$this->role ['health_base'] += $raceResult ['health_inc'];
-		$this->role ['health_max'] = $this->role ['health_base']; //种族加成
-		$this->role ['health_max'] += ($jobResult['health_add'] + $this->role ['health_base'] * $jobResult['health_inc']); //职业加成
+		$tmp_base = $this->role ['health_base'] + $this->role['level'] * $raceResult['health_inc'];
+		$this->role ['health_max'] = $tmp_base; //种族加成
+		$this->role ['health_max'] += ($jobResult['health_add'] + $tmp_base * $jobResult['health_inc']); //职业加成
 		$this->role ['health'] = $this->role ['health_max'];
 
-		$this->role ['atk_base'] += $raceResult ['atk_inc'];
-		$this->role ['atk'] = $this->role ['atk_base']; // 种族加成
-		$this->role ['atk'] += ($jobResult['atk_add'] + $this->role ['atk_base'] * $jobResult['atk_inc']); // 职业加成
+		$tmp_base = $this->role ['atk_base'] + $this->role['level'] * $raceResult['atk_inc'];
+		$this->role ['atk'] = $tmp_base; // 种族加成
+		$this->role ['atk'] += ($jobResult['atk_add'] + $tmp_base * $jobResult['atk_inc']); // 职业加成
 
-		$this->role ['def_base'] += $raceResult ['def_inc'];
-		$this->role ['def'] = $this->role ['def_base']; // 种族加成
-		$this->role ['def'] += ($jobResult['def_add'] + $this->role ['def_base'] * $jobResult['def_inc']); // 职业加成
+		$tmp_base = $this->role ['def_base'] + $this->role['level'] * $raceResult['def_inc'];
+		$this->role ['def'] = $tmp_base; // 种族加成
+		$this->role ['def'] += ($jobResult['def_add'] + $tmp_base * $jobResult['def_inc']); // 职业加成
 
-		$this->role ['mdef_base'] += $raceResult ['mdef_inc'];
-		$this->role ['mdef'] = $this->role ['mdef_base']; // 种族加成
-		$this->role ['mdef'] += ($jobResult['mdef_add'] + $this->role ['mdef_base'] * $jobResult['mdef_inc']); // 职业加成
+		$tmp_base = $this->role ['mdef_base'] + $this->role['level'] * $raceResult['mdef_inc'];
+		$this->role ['mdef'] = $tmp_base; // 种族加成
+		$this->role ['mdef'] += ($jobResult['mdef_add'] + $tmp_base * $jobResult['mdef_inc']); // 职业加成
 
-		$this->role ['hit_base'] += $raceResult ['hit_inc'];
-		$this->role ['hit'] = $this->role ['hit_base']; // 种族加成
-		$this->role ['hit'] += ($jobResult['hit_add'] + $this->role ['hit_base'] * $jobResult['hit_inc']); // 职业加成
+		$tmp_base = $this->role ['hit_base'] + $this->role['level'] * $raceResult['hit_inc'];
+		$this->role ['hit'] = $tmp_base; // 种族加成
+		$this->role ['hit'] += ($jobResult['hit_add'] + $tmp_base * $jobResult['hit_inc']); // 职业加成
 
-		$this->role ['flee_base'] += $raceResult ['flee_inc'];
-		$this->role ['flee'] = $this->role ['flee_base']; // 种族加成
-		$this->role ['flee'] += ($jobResult['flee_add'] + $this->role ['flee_base'] * $jobResult['flee_inc']); // 职业加成
+		$tmp_base = $this->role ['flee_base'] + $this->role['level'] * $raceResult['flee_inc'];
+		$this->role ['flee'] = $tmp_base; // 种族加成
+		$this->role ['flee'] += ($jobResult['flee_add'] + $tmp_base * $jobResult['flee_inc']); // 职业加成
+
+		//技能加成
+		if(!empty($this->role ['passive_skill']))
+		{
+			$passive_skill = json_decode($this->role ['passive_skill']);
+			foreach($passive_skill as $passive)
+			{
+				$skillId = 'skill_' . $passive;
+				$this->load->model ( "skills/{$skillId}" );
+				$damage = $this->$skillId->execute ( $this->role, null );
+			}
+		}
 	}
 }
