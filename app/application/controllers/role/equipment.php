@@ -17,10 +17,9 @@ class Equipment extends CI_Controller
 
 	public function index()
 	{
-		error_reporting(E_ALL);
 		$this->load->model('mequipment');
 		$parameter = array(
-			'role_id'	=>	$this->currentRole['id']
+			'role_id'	=>	$this->currentRole->role['id']
 		);
 		$result = $this->mequipment->read($parameter);
 
