@@ -140,11 +140,13 @@ class RoleAdapter
 			'is_equipped'	=>	1
 		);
 		$result = $this->CI->mequipment->read($parameter);
-		var_dump($result);
-		exit();
+
 		foreach($result as $value)
 		{
-
+			if(!empty($value['magic_words']))
+			{
+				$magic_words = json_decode($value['magic_words']);
+			}
 		}
 	}
 }
