@@ -74,6 +74,8 @@ class Equipment extends CI_Controller
 					'position'		=>	$position,
 					'is_equipped'	=>	1
 				);
+				var_dump($parameter);
+				exit();
 				$result = $this->mequipment->read($parameter);
 				var_dump($result);
 				exit();
