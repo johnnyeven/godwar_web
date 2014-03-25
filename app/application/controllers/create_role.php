@@ -70,6 +70,7 @@ class Create_role extends CI_Controller
 					'skill_trigger'			=>	0.3,
 					'skill'					=>	'',
 					'main_skill'			=>	'',
+					'passive_skill'			=>	'',
 					'gift'					=>	json_encode($result['gift']),
 					'createtime'			=>	$time,
 					'lasttime'				=>	$time,

@@ -141,12 +141,49 @@ class RoleAdapter
 		);
 		$result = $this->CI->mequipment->read($parameter);
 
-		foreach($result as $value)
+		foreach($result as $equipment)
 		{
-			if(!empty($value['magic_words']))
-			{
-				$magic_words = json_decode($value['magic_words']);
-			}
+			$this->role ['atk'] += ($equipment['atk_base'] + $equipment['atk_inc']);
+			$this->role ['def'] += ($equipment['def_base'] + $equipment['def_inc']);
+			$this->role ['mdef'] += ($equipment['mdef_base'] + $equipment['mdef_inc']);
+			$this->role ['health_max'] += ($equipment['health_max_base'] + $equipment['health_max_inc']);
+			$this->role ['health'] += ($equipment['health_max_base'] + $equipment['health_max_inc']);
+			$this->role ['hit'] += ($equipment['hit_base'] + $equipment['hit_inc']);
+			$this->role ['flee'] += ($equipment['flee_base'] + $equipment['flee_inc']);
 		}
+	}
+
+	public function save()
+	{
+		$this->CI->load->model('role');
+		$parameter = array(
+			'level'					=>	$this->role['level'],
+			'exp'					=>	$this->role['exp'],
+			'nextexp'				=>	$this->role['nextexp'],
+			'job'					=>	$this->role['job'],
+			'health_base'			=>	$this->role['health_base'],
+			'health_max'			=>	$this->role['health_max'],
+			'health'				=>	$this->role['health'],
+			'atk_base'				=>	$this->role['atk_base'],
+			'atk'					=>	$this->role['atk'],
+			'def_base'				=>	$this->role['def_base'],
+			'def'					=>	$this->role['def'],
+			'mdef_base'				=>	$this->role['mdef_base'],
+			'mdef'					=>	$this->role['mdef'],
+			'hit_base'				=>	$this->role['hit_base'],
+			'hit'					=>	$this->role['hit'],
+			'crit_base'				=>	$this->role['crit_base'],
+			'crit'					=>	$this->role['crit'],
+			'flee_base'				=>	$this->role['flee_base'],
+			'flee'					=>	$this->role['flee'],
+			'skill_trigger_base'	=>	$this->role['skill_trigger_base'],
+			'skill_trigger'			=>	$this->role['skill_trigger'],
+			'skill'					=>	$this->role['skill'],
+			'main_skill'			=>	$this->role['main_skill'],
+			'passive_skill'			=>	$this->role['passive_skill'],
+			'gift'					=>	$this->role['gift'],
+			'map_id'				=>	$this->role['map_id']
+		);
+		$this->CI->role->update($this->role['id'], $parameter);
 	}
 }
