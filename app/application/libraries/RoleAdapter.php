@@ -159,6 +159,7 @@ class RoleAdapter
 		$this->CI->load->model('role');
 		$parameter = array(
 			'level'					=>	$this->role['level'],
+			'gold'					=>	$this->role['gold'],
 			'exp'					=>	$this->role['exp'],
 			'nextexp'				=>	$this->role['nextexp'],
 			'job'					=>	$this->role['job'],
