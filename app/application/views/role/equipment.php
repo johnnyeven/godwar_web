@@ -33,7 +33,7 @@
         <?php
         foreach($equipments as $equipment)
         {
-            echo '<div class="equipment" style="padding:5px 20px;float:left;min-width:200px;">';
+            echo '<div class="equipment" style="padding:5px 20px;float:left;min-width:250px;">';
             if($equipment['grade'] == 0)
             {
                 echo '<span style="color:#000000">' . $equipment['name'] . '</span>';
@@ -64,7 +64,15 @@
                 echo '<a href="' . site_url('role/equipment/equip/' . $equipment['id']) . '">装备</a>';
             }
             echo ' | <a href="' . site_url('role/equipment/sell/' . $equipment['id']) . '">出售</a>';
-            echo ' | <a href="">锁定</a>';
+            if($equipment['is_locked'] == '1')
+            {
+                echo ' | <a href="' . site_url('role/equipment/unlock/' . $equipment['id']) . '">解锁</a>';
+            }
+            else
+            {
+                echo ' | <a href="' . site_url('role/equipment/lock/' . $equipment['id']) . '">上锁</a>';
+            }
+            echo ' | <a href="' . site_url('role/equipment/destroy/' . $equipment['id']) . '">销毁</a>';
             echo '</span>';
             echo '</div>';
         }

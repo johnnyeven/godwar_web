@@ -439,7 +439,8 @@ class Battle extends CI_Controller {
 							'health_max_base'	=>	intval($result['health']),
 							'hit_base'			=>	intval($result['hit']),
 							'flee_base'			=>	intval($result['flee']),
-							'magic_words'		=>	empty($result['magic_word']) ? '' : json_encode($result['magic_word'])
+							'magic_words'		=>	empty($result['magic_word']) ? '' : json_encode($result['magic_word']),
+							'price'				=>	intval($result['price'])
 						);
 						$this->mequipment->create($parameter);
 						array_push($settle['drop'], $result);
@@ -506,6 +507,8 @@ class Battle extends CI_Controller {
 			}
 			array_push($not_in_id, $word['id']);
 			array_push($magic_word, $word);
+
+			$item['price'] += $word['level'] * 100;
 
 			if($type > 1)
 			{

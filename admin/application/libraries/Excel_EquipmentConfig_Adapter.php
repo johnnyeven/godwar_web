@@ -31,7 +31,8 @@ class Excel_EquipmentConfig_Adapter {
 					'mdef'			=>	intval($sheet->getCell("H$j")->getValue()),
 					'health'		=>	intval($sheet->getCell("I$j")->getValue()),
 					'hit'			=>	intval($sheet->getCell("J$j")->getValue()),
-					'flee'			=>	intval($sheet->getCell("K$j")->getValue())
+					'flee'			=>	intval($sheet->getCell("K$j")->getValue()),
+					'price'			=>	intval($sheet->getCell("L$j")->getValue())
 				);
 				array_push($result, $row);
 			}

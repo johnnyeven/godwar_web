@@ -30,7 +30,8 @@ class Equipment extends CI_Controller
 		);
 		$this->load->model('mequipment');
 		$parameter = array(
-			'role_id'	=>	$this->currentRole->role['id']
+			'role_id'		=>	$this->currentRole->role['id'],
+			'is_destroyed'	=>	0
 		);
 		$result = $this->mequipment->read($parameter);
 
@@ -122,7 +123,8 @@ class Equipment extends CI_Controller
 					'health_max_inc'=>	$current['health_max_inc'],
 					'hit_inc'		=>	$current['hit_inc'],
 					'flee_inc'		=>	$current['flee_inc'],
-					'is_equipped'	=>	1
+					'is_equipped'	=>	1,
+					'is_locked'		=>	1
 				);
 				$this->mequipment->update($id, $parameter);
 
@@ -174,7 +176,7 @@ class Equipment extends CI_Controller
 					'is_equipped'	=>	0
 				);
 				$this->mequipment->update($id, $parameter);
-				
+
 				$this->load->library('Mongo_db');
 				$param = array (
 						'id' => $this->currentRole->role ['race'] 
@@ -195,6 +197,210 @@ class Equipment extends CI_Controller
 				}
 
 				redirect('role/equipment');
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
+
+	public function sell($id)
+	{
+		if(!empty($id))
+		{
+			$this->load->model('mequipment');
+			$parameter = array(
+				'id'		=>	$id,
+				'role_id'	=>	$this->currentRole->role['id']
+			);
+			$result = $this->mequipment->read($parameter);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				if($result['is_locked'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_LOCKED', '', 'role/equipment', true, 5 );
+				}
+				else
+				{
+					$price = $result['price'];
+					if($price > 0)
+					{
+						$parameter = array(
+							'is_destroyed'	=>	1
+						);
+
+						if($result['is_equipped'] == '1')
+						{
+							$parameter['is_equipped'] = 0;
+							$this->mequipment->update($id, $parameter);
+
+							$this->load->library('Mongo_db');
+							$param = array (
+									'id' => $this->currentRole->role ['race'] 
+							);
+							$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
+							$raceResult = $raceResult [0];
+
+							$param = array(
+									'id'	=>	intval ( $this->currentRole->role ['job'] )
+							);
+							$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
+							$jobResult = $jobResult [0];
+							
+							if(!empty($raceResult) && !empty($jobResult))
+							{
+								$this->currentRole->calculate_property($raceResult, $jobResult);
+								$this->currentRole->save();
+							}
+						}
+						else
+						{
+							$this->mequipment->update($id, $parameter);
+						}
+
+						$this->currentRole->role['gold'] += $price;
+						$this->currentRole->save();
+
+						redirect('role/equipment');
+					}
+					else
+					{
+						showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_NO_SELL', '', 'role/equipment', true, 5 );
+					}
+				}
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
+
+	public function lock($id)
+	{
+		if(!empty($id))
+		{
+			$this->load->model('mequipment');
+			$parameter = array(
+				'id'		=>	$id,
+				'role_id'	=>	$this->currentRole->role['id']
+			);
+			$result = $this->mequipment->read($parameter);
+			if(!empty($result))
+			{
+				$parameter = array(
+					'is_locked'		=>	1
+				); 
+				$this->mequipment->update($id, $parameter);
+
+				redirect('role/equipment');
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
+
+	public function unlock($id)
+	{
+		if(!empty($id))
+		{
+			$this->load->model('mequipment');
+			$parameter = array(
+				'id'		=>	$id,
+				'role_id'	=>	$this->currentRole->role['id']
+			);
+			$result = $this->mequipment->read($parameter);
+			if(!empty($result))
+			{
+				$parameter = array(
+					'is_locked'		=>	0
+				); 
+				$this->mequipment->update($id, $parameter);
+
+				redirect('role/equipment');
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
+
+	public function destroy($id)
+	{
+		if(!empty($id))
+		{
+			$this->load->model('mequipment');
+			$parameter = array(
+				'id'		=>	$id,
+				'role_id'	=>	$this->currentRole->role['id']
+			);
+			$result = $this->mequipment->read($parameter);
+			if(!empty($result))
+			{
+
+				$result = $result[0];
+				if($result['is_locked'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_LOCKED', '', 'role/equipment', true, 5 );
+				}
+				else
+				{
+					$parameter = array(
+						'is_destroyed'	=>	1
+					);
+
+					if($result['is_equipped'] == '1')
+					{
+						$parameter['is_equipped'] = 0;
+						$this->mequipment->update($id, $parameter);
+
+						$this->load->library('Mongo_db');
+						$param = array (
+								'id' => $this->currentRole->role ['race'] 
+						);
+						$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
+						$raceResult = $raceResult [0];
+
+						$param = array(
+								'id'	=>	intval ( $this->currentRole->role ['job'] )
+						);
+						$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
+						$jobResult = $jobResult [0];
+						
+						if(!empty($raceResult) && !empty($jobResult))
+						{
+							$this->currentRole->calculate_property($raceResult, $jobResult);
+							$this->currentRole->save();
+						}
+					}
+					else
+					{
+						$this->mequipment->update($id, $parameter);
+					}
+
+					redirect('role/equipment');
+				}
 			}
 			else
 			{

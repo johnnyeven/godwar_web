@@ -69,7 +69,9 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`roles` (
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`name` ASC))
-AUTO_INCREMENT = 1005100001;
+ENGINE = InnoDB
+AUTO_INCREMENT = 1005100001
+PACK_KEYS = 1;
 
 
 -- -----------------------------------------------------
@@ -99,12 +101,33 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`equipments` (
   `hit_inc` INT NOT NULL DEFAULT 0,
   `flee_inc` INT NOT NULL DEFAULT 0,
   `magic_words` TEXT NOT NULL,
+  `price` INT NOT NULL DEFAULT 0,
   `is_equipped` TINYINT NOT NULL DEFAULT 0,
+  `is_locked` TINYINT NOT NULL DEFAULT 0,
+  `is_destroyed` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `role_id` (`role_id` ASC),
   INDEX `is_equipped` (`role_id` ASC, `is_equipped` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 100000000001;
+
+
+-- -----------------------------------------------------
+-- Table `godwar_gamedb`.`market`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `godwar_gamedb`.`market` ;
+
+CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`market` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `role_id` BIGINT NOT NULL DEFAULT 0,
+  `equipment_id` BIGINT NOT NULL DEFAULT 0,
+  `equipment_name` CHAR(40) NOT NULL DEFAULT '',
+  `price` BIGINT NOT NULL DEFAULT 0,
+  `type` TINYINT NOT NULL DEFAULT 2 COMMENT '1=买2=卖',
+  `starttime` INT NOT NULL DEFAULT 0,
+  `endtime` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

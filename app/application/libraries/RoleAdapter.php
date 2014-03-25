@@ -137,7 +137,8 @@ class RoleAdapter
 
 		$parameter = array(
 			'role_id'		=>	$this->role['id'],
-			'is_equipped'	=>	1
+			'is_equipped'	=>	1,
+			'is_destroyed'	=>	0
 		);
 		$result = $this->CI->mequipment->read($parameter);
 
