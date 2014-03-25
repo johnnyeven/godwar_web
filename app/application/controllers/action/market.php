@@ -33,6 +33,8 @@ class Market extends CI_Controller
 			if(!empty($result))
 			{
 				$this->pageName = 'action/market_sell';
+
+				$result = $result[0];
 				$data = array(
 					'equipment'	=>	$result
 				);
