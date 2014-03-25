@@ -64,6 +64,7 @@
                 echo '<a href="' . site_url('role/equipment/equip/' . $equipment['id']) . '">装备</a>';
             }
             echo ' | <a href="' . site_url('role/equipment/sell/' . $equipment['id']) . '">出售</a>';
+            echo ' | <a href="' . site_url('action/market/sell/' . $equipment['id']) . '">拍卖行</a>';
             if($equipment['is_locked'] == '1')
             {
                 echo ' | <a href="' . site_url('role/equipment/unlock/' . $equipment['id']) . '">解锁</a>';
