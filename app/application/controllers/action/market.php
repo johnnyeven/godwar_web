@@ -1,7 +1,7 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-class Map extends CI_Controller
+class Market extends CI_Controller
 {
 	private $pageName = 'action/market';
 	private $user = null;
