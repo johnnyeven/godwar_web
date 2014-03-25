@@ -88,7 +88,7 @@ class Battle extends CI_Controller {
 					//Gift hook: 战斗前的hook
 					$this->gift->call_hook('before_battle', $this->currentRole->role);
 
-					// $this->currentRole->role ['atk_min'] = $this->currentRole->role ['atk'] * $d;
+					$this->currentRole->role ['atk_min'] = $this->currentRole->role ['atk'] * $d;
 					$this->currentRole->role ['def_percent'] = $k * $this->currentRole->role ['def'] / ($m + $k * $this->currentRole->role ['def']);
 					$this->currentRole->role ['mdef_percent'] = $k * $this->currentRole->role ['mdef'] / ($m + $k * $this->currentRole->role ['mdef']);
 					$monster ['atk_min'] = $monster ['atk'] * $d;
