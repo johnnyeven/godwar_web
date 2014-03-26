@@ -10,11 +10,12 @@ $(function() {
 
 		if($("#job_" + pre_job).length > 0) {
 			$("#job_" + pre_job).find("div.sub_job").append(dup);
-			$(this).remove();
+			console.log("#job_" + pre_job + "添加");
 		}
 		else
 		{
 			$("#job").append(dup);
+			console.log("根添加");
 		}
 	});
 	$("#tmp").remove();
