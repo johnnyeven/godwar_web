@@ -2,9 +2,9 @@
 if ( !defined( 'BASEPATH' ) )
 	exit( 'No direct script access allowed' );
 require_once ('ICrud.php');
-class Mequipment extends CI_Model implements ICrud
+class Mmarket extends CI_Model implements ICrud
 {
-	private $table = 'equipments';
+	private $table = 'market';
 	private $gamedb = null;
 
 	public function __construct()
@@ -51,9 +51,9 @@ class Mequipment extends CI_Model implements ICrud
 		}
 		if ( !empty( $extension ) )
 		{
-			if(!empty($extension['select_sum']))
+			if(!empty($extension['order_by']))
 			{
-				$this->gamedb->select_sum($extension['select_sum']);
+				$this->gamedb->order_by($extension['order_by'][0], $extension['order_by'][1]);
 			}
 		}
 		if ( $limit == 0 && $offset == 0 )
@@ -78,17 +78,7 @@ class Mequipment extends CI_Model implements ICrud
 	{
 		if ( !empty( $id ) && !empty( $row ) )
 		{
-			if(is_array($id))
-			{
-				foreach ( $id as $key => $value )
-				{
-					$this->gamedb->where( $key, $value );
-				}
-			}
-			elseif(is_numeric($id))
-			{
-				$this->gamedb->where( 'id', $id );
-			}
+			$this->gamedb->where( 'id', $id );
 			return $this->gamedb->update( $this->table, $row );
 		}
 		else

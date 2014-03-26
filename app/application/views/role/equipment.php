@@ -29,6 +29,7 @@
         ?>
     </div>
     <div class="right">
+        <p><a href="<?php echo site_url('role/equipment/sell_all'); ?>">出售所有未上锁的装备</a></p>
         <div id="content">
         <?php
         foreach($equipments as $equipment)

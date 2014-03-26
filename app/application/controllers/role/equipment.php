@@ -31,6 +31,7 @@ class Equipment extends CI_Controller
 		$this->load->model('mequipment');
 		$parameter = array(
 			'role_id'		=>	$this->currentRole->role['id'],
+			'is_market'		=>	0,
 			'is_destroyed'	=>	0
 		);
 		$result = $this->mequipment->read($parameter);
@@ -69,92 +70,108 @@ class Equipment extends CI_Controller
 			if(!empty($current))
 			{
 				$current = $current[0];
-				$jobs = json_decode($current['job']);
-				if(in_array($this->currentRole->role[job], $jobs) || in_array(99, $jobs))
-				{
-					$position = $current['position'];
-					$parameter = array(
-						'role_id'		=>	$this->currentRole->role['id'],
-						'position'		=>	$position,
-						'is_equipped'	=>	1
-					);
-					$result = $this->mequipment->read($parameter);
-					if(!empty($result))
-					{
-						$result = $result[0];
-						$parameter = array(
-							'is_equipped'	=>	0
-						);
-						$this->mequipment->update($result['id'], $parameter);
-					}
 
-					if(!empty($current['magic_words']))
+				if($current['is_equipped'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
+				}
+				elseif($current['is_market'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
+				}
+				elseif($current['is_destroyed'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
+				}
+				else
+				{
+					$jobs = json_decode($current['job']);
+					if(in_array($this->currentRole->role[job], $jobs) || in_array(99, $jobs))
 					{
-						$word_list = array('atk', 'def', 'mdef', 'health_max', 'hit', 'flee');
-						$magic_words = json_decode($current['magic_words'], TRUE);
-						
-						foreach($magic_words as $magic)
+						$position = $current['position'];
+						$parameter = array(
+							'role_id'		=>	$this->currentRole->role['id'],
+							'position'		=>	$position,
+							'is_equipped'	=>	1
+						);
+						$result = $this->mequipment->read($parameter);
+						if(!empty($result))
 						{
-							foreach($magic['property'] as $property => $value)
+							$result = $result[0];
+							$parameter = array(
+								'is_equipped'	=>	0
+							);
+							$this->mequipment->update($result['id'], $parameter);
+						}
+
+						if(!empty($current['magic_words']))
+						{
+							$word_list = array('atk', 'def', 'mdef', 'health_max', 'hit', 'flee');
+							$magic_words = json_decode($current['magic_words'], TRUE);
+							
+							foreach($magic_words as $magic)
 							{
-								if(in_array($property, $word_list))
+								foreach($magic['property'] as $property => $value)
 								{
-									if($magic['property'][$property . '_unit'] == 1)
+									if(in_array($property, $word_list))
 									{
-										$current[$property . '_inc'] = intval($value);
-									}
-									elseif($magic['property'][$property . '_unit'] == 2)
-									{
-										if(!empty($current[$property . '_base']))
+										if($magic['property'][$property . '_unit'] == 1)
 										{
-											$current[$property . '_inc'] = intval($current[$property . '_base'] * $value);
+											$current[$property . '_inc'] = intval($value);
 										}
-										else
+										elseif($magic['property'][$property . '_unit'] == 2)
 										{
-											$current[$property . '_inc'] = intval($this->currentRole->role[$property] * $value);
+											if(!empty($current[$property . '_base']))
+											{
+												$current[$property . '_inc'] = intval($current[$property . '_base'] * $value);
+											}
+											else
+											{
+												$current[$property . '_inc'] = intval($this->currentRole->role[$property] * $value);
+											}
 										}
 									}
 								}
 							}
 						}
+
+						$parameter = array(
+							'atk_inc'		=>	$current['atk_inc'],
+							'def_inc'		=>	$current['def_inc'],
+							'mdef_inc'		=>	$current['mdef_inc'],
+							'health_max_inc'=>	$current['health_max_inc'],
+							'hit_inc'		=>	$current['hit_inc'],
+							'flee_inc'		=>	$current['flee_inc'],
+							'is_equipped'	=>	1,
+							'is_locked'		=>	1
+						);
+						$this->mequipment->update($id, $parameter);
+
+						$this->load->library('Mongo_db');
+						$param = array (
+								'id' => $this->currentRole->role ['race'] 
+						);
+						$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
+						$raceResult = $raceResult [0];
+
+						$param = array(
+								'id'	=>	intval ( $this->currentRole->role ['job'] )
+						);
+						$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
+						$jobResult = $jobResult [0];
+
+						if(!empty($raceResult) && !empty($jobResult))
+						{
+							$this->currentRole->calculate_property($raceResult, $jobResult);
+							$this->currentRole->save();
+						}
+
+						redirect('role/equipment');
 					}
-
-					$parameter = array(
-						'atk_inc'		=>	$current['atk_inc'],
-						'def_inc'		=>	$current['def_inc'],
-						'mdef_inc'		=>	$current['mdef_inc'],
-						'health_max_inc'=>	$current['health_max_inc'],
-						'hit_inc'		=>	$current['hit_inc'],
-						'flee_inc'		=>	$current['flee_inc'],
-						'is_equipped'	=>	1,
-						'is_locked'		=>	1
-					);
-					$this->mequipment->update($id, $parameter);
-
-					$this->load->library('Mongo_db');
-					$param = array (
-							'id' => $this->currentRole->role ['race'] 
-					);
-					$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
-					$raceResult = $raceResult [0];
-
-					$param = array(
-							'id'	=>	intval ( $this->currentRole->role ['job'] )
-					);
-					$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
-					$jobResult = $jobResult [0];
-
-					if(!empty($raceResult) && !empty($jobResult))
+					else
 					{
-						$this->currentRole->calculate_property($raceResult, $jobResult);
-						$this->currentRole->save();
+						showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_NOT_JOB', '', 'role/equipment', true, 5 );
 					}
-
-					redirect('role/equipment');
-				}
-				else
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_NOT_JOB', '', 'role/equipment', true, 5 );
 				}
 			}
 			else
@@ -180,31 +197,47 @@ class Equipment extends CI_Controller
 			$result = $this->mequipment->read($parameter);
 			if(!empty($result))
 			{
-				$parameter = array(
-					'is_equipped'	=>	0
-				);
-				$this->mequipment->update($id, $parameter);
-
-				$this->load->library('Mongo_db');
-				$param = array (
-						'id' => $this->currentRole->role ['race'] 
-				);
-				$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
-				$raceResult = $raceResult [0];
-
-				$param = array(
-						'id'	=>	intval ( $this->currentRole->role ['job'] )
-				);
-				$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
-				$jobResult = $jobResult [0];
-				
-				if(!empty($raceResult) && !empty($jobResult))
+				$result = $result[0];
+				if($result['is_equipped'] == '0')
 				{
-					$this->currentRole->calculate_property($raceResult, $jobResult);
-					$this->currentRole->save();
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_UNEQUIPPED', '', 'role/equipment', true, 5 );
 				}
+				elseif($result['is_market'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_destroyed'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
+				}
+				else
+				{
+					$parameter = array(
+						'is_equipped'	=>	0
+					);
+					$this->mequipment->update($id, $parameter);
 
-				redirect('role/equipment');
+					$this->load->library('Mongo_db');
+					$param = array (
+							'id' => $this->currentRole->role ['race'] 
+					);
+					$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
+					$raceResult = $raceResult [0];
+
+					$param = array(
+							'id'	=>	intval ( $this->currentRole->role ['job'] )
+					);
+					$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
+					$jobResult = $jobResult [0];
+					
+					if(!empty($raceResult) && !empty($jobResult))
+					{
+						$this->currentRole->calculate_property($raceResult, $jobResult);
+						$this->currentRole->save();
+					}
+
+					redirect('role/equipment');
+				}
 			}
 			else
 			{
@@ -294,6 +327,41 @@ class Equipment extends CI_Controller
 		}
 	}
 
+	public function sell_all()
+	{
+		$this->load->model('mequipment');
+		$parameter = array(
+			'role_id'		=>	$this->currentRole->role['id'],
+			'is_equipped'	=>	0,
+			'is_locked'		=>	0,
+			'is_market'		=>	0,
+			'is_destroyed'	=>	0
+		);
+		$extension = array(
+			'select_sum'	=>	'price'
+		);
+		$result = $this->mequipment->read($parameter, $extension);
+		$price = intval($result[0]['price']);
+
+		if($price > 0)
+		{
+			$id = $parameter;
+			$parameter = array(
+				'is_destroyed'	=>	1
+			);
+			$this->mequipment->update($id, $parameter);
+
+			$this->currentRole->role['gold'] += $price;
+			$this->currentRole->save();
+
+			redirect('role/equipment');
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_NO_SELL_ITEMS', '', 'role/equipment', true, 5 );
+		}
+	}
+
 	public function lock($id)
 	{
 		if(!empty($id))
@@ -368,44 +436,24 @@ class Equipment extends CI_Controller
 			{
 
 				$result = $result[0];
-				if($result['is_locked'] == '1')
+				if($result['is_equipped'] == '1')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_LOCKED', '', 'role/equipment', true, 5 );
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_locked'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_LOCKED', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_market'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
 				}
 				else
 				{
 					$parameter = array(
 						'is_destroyed'	=>	1
 					);
-
-					if($result['is_equipped'] == '1')
-					{
-						$parameter['is_equipped'] = 0;
-						$this->mequipment->update($id, $parameter);
-
-						$this->load->library('Mongo_db');
-						$param = array (
-								'id' => $this->currentRole->role ['race'] 
-						);
-						$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
-						$raceResult = $raceResult [0];
-
-						$param = array(
-								'id'	=>	intval ( $this->currentRole->role ['job'] )
-						);
-						$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
-						$jobResult = $jobResult [0];
-						
-						if(!empty($raceResult) && !empty($jobResult))
-						{
-							$this->currentRole->calculate_property($raceResult, $jobResult);
-							$this->currentRole->save();
-						}
-					}
-					else
-					{
-						$this->mequipment->update($id, $parameter);
-					}
+					$this->mequipment->update($id, $parameter);
 
 					redirect('role/equipment');
 				}
