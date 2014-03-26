@@ -15,7 +15,7 @@ class Skill extends CI_Controller {
 
 	public function index() {
 		$this->load->library('Mongo_db');
-		$result = $this->mongo_db->get('job');
+		$result = $this->mongo_db->order_by('pre_job', 'desc')->get('job');
 		$parameter = array (
 				'role'	=>	$this->currentRole->role,
 				'job'	=>	$result
