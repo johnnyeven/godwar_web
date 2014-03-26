@@ -5,7 +5,10 @@
     <div class="right">
         <div id="job">
             <?php foreach($job as $item): ?>
-            <div id="job_<?php echo $item['id']; ?>"><?php echo $item['name']; ?></div>
+            <div id="job_<?php echo $item['id']; ?>">
+                <h3><?php echo $item['name']; ?></h3>
+                <div class="sub_job"></div>
+            </div>
             <?php endforeach; ?>
         </div>
     </div>
