@@ -5,7 +5,9 @@
     <div class="right">
         <div id="job">
             <?php foreach($job as $item): ?>
-            <div id="job_<?php echo $item['id']; ?>">
+            <div id="job_<?php echo $item['id']; ?>" class="job_item">
+                <span class="id" style="display:none;"><?php echo $item['id']; ?></span>
+                <span class="pre_job" style="display:none;"><?php echo $item['pre_job']; ?></span>
                 <h3><?php echo $item['name']; ?></h3>
                 <div class="sub_job"></div>
             </div>
