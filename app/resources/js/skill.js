@@ -7,11 +7,12 @@ $(function() {
 		pre_job = $(this).find("span.pre_job").text();
 		dup = $(this).clone();
 		dup.attr("id", "job_" + id);
-		// $("#job").append(dup);
+		$("#job").append(dup);
 
 		if($("#job_" + pre_job).length > 0) {
 			$("#job_" + pre_job).find("div.sub_job").append(dup);
 			$(this).remove();
 		}
 	});
+	$("#tmp").remove();
 });
