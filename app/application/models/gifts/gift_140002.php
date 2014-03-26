@@ -28,10 +28,10 @@ class Gift_140002 implements IGift
 
 	public function execute( &$parameter )
 	{
-		if(isset($parameter['gold']))
+		if(isset($parameter['price']))
 		{
-			$parameter['gold'] *= .9;
-			$parameter['gold'] = intval($parameter['gold']);
+			$parameter['price'] *= .9;
+			$parameter['price'] = intval($parameter['price']);
 		}
 	}
 }

@@ -68,12 +68,12 @@ class Market extends CI_Controller
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_NOT_EXIST', '', 'action/market', true, 5 );
+				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_NO_PARAM', '', 'action/market', true, 5 );
+			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
 		}
 	}
 
@@ -120,12 +120,12 @@ class Market extends CI_Controller
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NOT_EXIST', '', 'role/equipment', true, 5 );
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NO_PARAM', '', 'role/equipment', true, 5 );
 		}
 	}
 
@@ -203,12 +203,12 @@ class Market extends CI_Controller
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NOT_EXIST', '', 'role/equipment', true, 5 );
+				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NOT_EXIST', '', 'role/equipment', true, 5 );
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NO_PARAM', '', 'role/equipment', true, 5 );
 		}
 	}
 
@@ -218,8 +218,7 @@ class Market extends CI_Controller
 		{
 			$this->load->model('mmarket');
 			$parameter = array(
-				'id'		=>	$id,
-				'role_id'	=>	$this->currentRole->role['id']
+				'id'		=>	$id
 			);
 			$result = $this->mmarket->read($parameter);
 			if(!empty($result))
@@ -227,11 +226,15 @@ class Market extends CI_Controller
 				$result = $result[0];
 				if($result['status'] == '2')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_ALREADY_COMPLETED', '', 'action/market', true, 5 );
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_ALREADY_COMPLETED', '', 'action/market', true, 5 );
 				}
 				elseif($result['status'] == '3')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_CANCELED', '', 'action/market', true, 5 );
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_CANCELED', '', 'action/market', true, 5 );
+				}
+				elseif($result['role_id'] == $this->currentRole->role['id'])
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_SELF_ORDER', '', 'action/market', true, 5 );
 				}
 				else
 				{
@@ -246,12 +249,79 @@ class Market extends CI_Controller
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_NOT_EXIST', '', 'action/market', true, 5 );
+				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ID_NO_PARAM', '', 'action/market', true, 5 );
+			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
+		}
+	}
+
+	public function buy_submit()
+	{
+		$id = $this->input->post('id');
+
+		if(!empty($id))
+		{
+			$this->load->model('mmarket');
+			$parameter = array(
+				'id'		=>	$id
+			);
+			$result = $this->mmarket->read($parameter);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				if($result['status'] == '2')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_ALREADY_COMPLETED', '', 'action/market', true, 5 );
+				}
+				elseif($result['status'] == '3')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_CANCELED', '', 'action/market', true, 5 );
+				}
+				elseif($result['role_id'] == $this->currentRole->role['id'])
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_SELF_ORDER', '', 'action/market', true, 5 );
+				}
+				elseif($result['price'] > $this->currentRole->role['gold'])
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_ENOUGH_GOLD', '', 'action/market', true, 5 );
+				}
+				else
+				{
+					$parameter = array(
+						'status'	=>	2
+					);
+					$this->mmarket->update($id, $parameter);
+
+					$this->load->model('mequipment');
+					$parameter = array(
+						'role_id'		=>	$this->currentRole->role['id'],
+						'is_market'		=>	0
+					);
+					$this->mequipment->update($result['equipment_id'], $parameter);
+
+					$this->load->model('role');
+					$db = $this->role->db();
+					$db->set('gold', 'gold + ' . $result['price'], FALSE);
+					$db->where('id', $result['role_id']);
+					$db->update('roles');
+
+					$this->currentRole->role['gold'] -= $result['price'];
+					$this->currentRole->save();
+
+					redirect('action/market');
+				}
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
 		}
 	}
 }

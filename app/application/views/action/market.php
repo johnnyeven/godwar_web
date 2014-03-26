@@ -27,6 +27,7 @@
             );
             foreach($orders as $item)
             {
+              echo '<tr>';
               echo '<td>';
               if($item['equipment_grade'] == 0)
               {
@@ -62,6 +63,7 @@
               echo '<td></td>';
               echo '<td>' . $item['price'] . '</td>';
               echo '<td>' . date('Y-m-d H:i:s', $item['endtime']) . '</td>';
+              echo '</tr>';
             }
             ?>
           </tbody>

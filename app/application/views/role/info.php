@@ -2,7 +2,7 @@
 <p>角色名：<?php echo $role->role['name']; ?></p>
 <p>等级：<?php echo $role->role['level']; ?></p>
 <p>经验：<?php echo number_format($role->role['exp']); ?>/<?php echo number_format($role->role['nextexp']); ?></p>
-<p>金币：<?php echo $role->role['gold']; ?></p>
+<p>金币：<?php echo number_format($role->role['gold']); ?></p>
 <p>种族：<?php echo $role->role['race_name']; ?></p>
 <p>职业：<?php echo $role->role['job_name']; ?></p>
 <p>生命值：<?php echo number_format($role->role['health']); ?>/<?php echo number_format($role->role['health_max']); ?></p>

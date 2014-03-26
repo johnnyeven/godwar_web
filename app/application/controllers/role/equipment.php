@@ -265,45 +265,38 @@ class Equipment extends CI_Controller
 				$result = $result[0];
 				if($result['is_locked'] == '1')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_LOCKED', '', 'role/equipment', true, 5 );
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_LOCKED', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_equipped'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_market'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
+				}
+				elseif($result['is_destroyed'] == '1')
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
 				}
 				else
 				{
 					$price = $result['price'];
 					if($price > 0)
 					{
+						$this->load->library('Gift');
+						$this->_hook_gifts($this->currentRole->role);
+						$parameter = array(
+							'action'	=>	'sell',
+							'price'		=>	$price
+						);
+						$this->gift->call_hook('after_billing_sell', $parameter);
+						$price = $parameter['price'];
+
 						$parameter = array(
 							'is_destroyed'	=>	1
 						);
-
-						if($result['is_equipped'] == '1')
-						{
-							$parameter['is_equipped'] = 0;
-							$this->mequipment->update($id, $parameter);
-
-							$this->load->library('Mongo_db');
-							$param = array (
-									'id' => $this->currentRole->role ['race'] 
-							);
-							$raceResult = $this->mongo_db->where ( $param )->get ( 'race' );
-							$raceResult = $raceResult [0];
-
-							$param = array(
-									'id'	=>	intval ( $this->currentRole->role ['job'] )
-							);
-							$jobResult = $this->mongo_db->where ( $param )->get ( 'job' );
-							$jobResult = $jobResult [0];
-							
-							if(!empty($raceResult) && !empty($jobResult))
-							{
-								$this->currentRole->calculate_property($raceResult, $jobResult);
-								$this->currentRole->save();
-							}
-						}
-						else
-						{
-							$this->mequipment->update($id, $parameter);
-						}
+						$this->mequipment->update($id, $parameter);
 
 						$this->currentRole->role['gold'] += $price;
 						$this->currentRole->save();
@@ -345,6 +338,15 @@ class Equipment extends CI_Controller
 
 		if($price > 0)
 		{
+			$this->load->library('Gift');
+			$this->_hook_gifts($this->currentRole->role);
+			$gift_param = array(
+				'action'	=>	'sell',
+				'price'		=>	$price
+			);
+			$this->gift->call_hook('after_billing_sell', $gift_param);
+			$price = $gift_param['price'];
+
 			$id = $parameter;
 			$parameter = array(
 				'is_destroyed'	=>	1
@@ -466,6 +468,34 @@ class Equipment extends CI_Controller
 		else
 		{
 			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ID_NO_PARAM', '', 'role/equipment', true, 5 );
+		}
+	}
+
+	private function _hook_gifts($role)
+	{
+		if(isset($role['gift']))
+		{
+			$gifts = json_decode($role['gift']);
+			if(is_array($gifts))
+			{
+				$this->load->config('gifts.config');
+				$giftConfig = $this->config->item('gifts_hook_action_name');
+				foreach($gifts as $gift)
+				{
+					if(is_array($giftConfig[$gift]))
+					{
+						foreach($giftConfig[$gift] as $action)
+						{
+							$parameter = array(
+								'action'	=>	$action,
+								'gift_id'	=>	$gift
+							);
+
+							$this->gift->hook($parameter);
+						}
+					}
+				}
+			}
 		}
 	}
 }
