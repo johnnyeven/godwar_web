@@ -5,7 +5,7 @@ $(function() {
 
 		if($("#job_" + pre_job).length > 0) {
 			$("#job_" + pre_job).find("div.sub_job").append($(this));
-			$(this).remove();
+			//$(this).remove();
 		}
 	});
 });
