@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `godwar_gamedb`.`market` (
   `price` BIGINT NOT NULL DEFAULT 0,
   `starttime` INT NOT NULL DEFAULT 0,
   `endtime` INT NOT NULL DEFAULT 0,
-  `status` TINYINT NOT NULL DEFAULT 0,
+  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '1=正在出售\n2=交易成功\n3=取消',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
