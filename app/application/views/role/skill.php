@@ -1,4 +1,4 @@
-    <script src="<?php echo base_url('resources/js/skill.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('resources/js/skill1.js'); ?>" type="text/javascript"></script>
     <div class="left">
     
     </div>
