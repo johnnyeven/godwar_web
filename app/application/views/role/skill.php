@@ -15,6 +15,7 @@
         </div>
     </div>
     <div class="right">
+        <p style="color:#FF0000;font-weight:bold;">转职后，以前职业的技能将不能再学习！</p>
         <div id="job_detail">
         <?php
         foreach($job as $item)

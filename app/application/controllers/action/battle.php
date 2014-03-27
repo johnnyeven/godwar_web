@@ -292,7 +292,7 @@ class Battle extends CI_Controller {
 	private function getMonsterByNearestLevel()
 	{
 		$mapId = intval ( $this->currentRole->role ['map_id'] );
-		$level = intval ( $this->currentRole->role ['role_level'] );
+		$level = intval ( $this->currentRole->role ['level'] );
 		
 		$this->load->library ( 'Mongo_db' );
 		$parameter = array (

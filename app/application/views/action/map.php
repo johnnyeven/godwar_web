@@ -12,7 +12,7 @@
         <div id="monsters">
         	<h5><?php echo $current_selected_map['name']; ?>包含的野怪</h5>
         	<?php foreach($monsters as $monster): ?>
-            <div style="float:left;width:100px;height:30px;line-height:30px;padding:0 10px;"><?php echo $monster['name']; ?></div>
+            <div style="float:left;width:100px;height:30px;line-height:30px;padding:0 10px;"><?php echo $monster['name']; ?>(<?php echo $monster['level']; ?>)</div>
             <?php endforeach; ?>
             <div style="clear:both"></div>
         </div>
