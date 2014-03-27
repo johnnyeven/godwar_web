@@ -25,7 +25,7 @@ class Battle extends CI_Controller {
 
 	public function request_battle() {
 		header('Content-type:text/json');
-
+		$mem_usage_pre = memory_get_usage();
 		if($this->currentRole->role ['health'] == '0')
 		{
 			$battleResult = array (
@@ -190,6 +190,17 @@ class Battle extends CI_Controller {
 								$monster = $defender;
 								$this->currentRole->role = $attacker;
 							}
+
+							if(isset($this->currentRole->role['status']) && is_array($this->currentRole->role['status']))
+							{
+								foreach($this->currentRole->role['status'] as $key => $value)
+								{
+									$status_model = 'status_' . $key;
+									$this->load->model('skills/' . $status_model);
+									$this->$status_model->destroy($this->currentRole->role);
+									unset($this->currentRole->role['status'][$key]);
+								}
+							}
 							break;
 						}
 						
@@ -272,6 +283,9 @@ class Battle extends CI_Controller {
 			}
 		}
 
+		$mem_usage_next = memory_get_usage();
+		$mem_usage = $mem_usage_next - $mem_usage_pre;
+		$battleResult ['mem'] = $mem_usage;
 		echo json_encode ( $battleResult );
 	}
 
