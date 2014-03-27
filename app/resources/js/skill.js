@@ -10,11 +10,27 @@ $(function() {
 
 		if($("#job_" + pre_job).length > 0) {
 			$("#job_" + pre_job + " > div.sub_job").append(dup);
+			if($("#job_" + pre_job).hasClass("job_root")) {
+				dup.addClass("job_1");
+			} else if($("#job_" + pre_job).hasClass("job_1")) {
+				dup.addClass("job_2");
+			} else if($("#job_" + pre_job).hasClass("job_2")) {
+				dup.addClass("job_3");
+			}
 		}
 		else
 		{
+			dup.addClass("job_root");
 			$("#job").append(dup);
 		}
 	});
 	$("#tmp").remove();
+
+	$("#job div.job_item").click(function(event) {
+		var id = $(this).attr("id");
+		$("#job_detail > div.detail").hide();
+		$("#" + id + "_skill").show();
+
+		event.stopPropagation();
+	});
 });

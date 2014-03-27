@@ -180,9 +180,9 @@ class RoleAdapter
 			'flee'					=>	$this->role['flee'],
 			'skill_trigger_base'	=>	$this->role['skill_trigger_base'],
 			'skill_trigger'			=>	$this->role['skill_trigger'],
-			'skill'					=>	$this->role['skill'],
+			'skill'					=>	json_encode($this->role['skill']),
 			'main_skill'			=>	$this->role['main_skill'],
-			'passive_skill'			=>	$this->role['passive_skill'],
+			'passive_skill'			=>	json_encode($this->role['passive_skill']),
 			'gift'					=>	$this->role['gift'],
 			'map_id'				=>	$this->role['map_id']
 		);

@@ -1,0 +1,5 @@
+.job_1, .job_2 {padding-left:20px;}
+.current_job .job_name {font-weight: bold;color: #FF0000;}
+.current_job .sub_job .job_name {font-weight: normal;color:#000;}
+
+.job_skill_detail {border-bottom: #000 1px solid;}
