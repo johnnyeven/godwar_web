@@ -29,8 +29,21 @@
                 echo '<div class="detail" id="job_' . $item['id'] . '_skill" style="display:none;">';
             }
             echo '<div class="job_comment">';
+            echo '<p>名称：' . $itemp['name'] . '</p>';
             echo '<p>职业简介</p>';
             echo '<p>' . $item['comment'] . '</p>';
+            if($role['job'] == $item['id'])
+            {
+                echo '<p>已成为 ' . $item['name'] . '</p>';
+            }
+            elseif($role['level'] >= $item['level'])
+            {
+                echo '<p><a href="' . site_url('role/skill/change_job/' . $item['id']) . '">现在就转职成为 ' . $item['name'] . '</a></p>';
+            }
+            else
+            {
+                echo '<p>转职条件：等级达到' . $item['level'] . '级</p>';
+            }
             echo '</div>';
             echo '<hr />';
             echo '<div class="job_skill">';

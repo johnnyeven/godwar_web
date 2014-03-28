@@ -17,11 +17,25 @@ class Info extends CI_Controller
 
 	public function index()
 	{
-		$this->load->config('const.config');
-		$raceConfig = $this->config->item('const_race');
-		$jobConfig = $this->config->item('const_job');
+		$this->load->config('weibo.config');
+		$this->load->config('tencent_weibo.config');
+		$weibo_callback_url = $this->config->item('weibo_auth_callback');
+		$tencent_callback_url = $this->config->item('tencent_weibo_auth_callback');
+
+		include_once APPPATH . 'libraries/Weibo.class.php';
+		$auth = new SaeTOAuthV2();
+		$sina_url = $auth->getAuthorizeURL( $weibo_callback_url );
+
+		include_once APPPATH . 'libraries/Tencent.class.php';
+		OAuth::init();
+		Tencent::$debug = false;
+		$tencent_url = OAuth::getAuthorizeURL( $tencent_callback_url );
+
 		$parameter = array (
-				'role' => $this->currentRole 
+			'user'				=>	$this->user,
+			'role'				=>	$this->currentRole->role,
+			'sina_weibo_url'	=>	$sina_url,
+			'tencent_weibo_url'	=>	$tencent_url
 		);
 
 		$this->load->model( 'utils/render' );

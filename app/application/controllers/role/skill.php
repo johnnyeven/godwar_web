@@ -113,4 +113,68 @@ class Skill extends CI_Controller
 			showMessage( MESSAGE_TYPE_ERROR, 'SKILL_SET_MAIN_ERROR_NO_PARAM', '', 'role/skill', true, 5 );
 		}
 	}
+
+	public function change_job($id)
+	{
+		if($id === '0' || !empty($id))
+		{
+			$this->load->library('Mongo_db');
+			$parameter = array(
+				'id'	=>	intval($this->currentRole->role['job'])
+			);
+			$result = $this->mongo_db->where($parameter)->get('job');
+			if(!empty($result))
+			{
+				$result = $result[0];
+				$current_job_level = $result['level'];
+				$current_job_id = $result['id'];
+
+				$parameter = array(
+					'id'	=>	intval($id)
+				);
+				$result = $this->mongo_db->where($parameter)->get('job');
+				if(!empty($result))
+				{
+					$result = $result[0];
+					if($current_job_level < $result['level'])
+					{
+						if($current_job_id == $result['pre_job'])
+						{
+							if($this->currentRole->role['level'] >= $result['level'])
+							{
+								$this->currentRole->role['job'] = $id;
+								$this->currentRole->save();
+
+								showMessage( MESSAGE_TYPE_SUCCESS, 'JOB_CHANGE_SUCCESS', '', 'role/skill', true, 5 );
+							}
+							else
+							{
+								showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_LEVEL', '', 'role/skill', true, 5 );
+							}
+						}
+						else
+						{
+							showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_NOT_PRE_JOB', '', 'role/skill', true, 5 );
+						}
+					}
+					else
+					{
+						showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_LEVEL_PASSED', '', 'role/skill', true, 5 );
+					}
+				}
+				else
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_NOT_EXIST', '', 'role/skill', true, 5 );
+				}
+			}
+			else
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_NOT_EXIST', '', 'role/skill', true, 5 );
+			}
+		}
+		else
+		{
+			showMessage( MESSAGE_TYPE_ERROR, 'JOB_CHANGE_ERROR_NO_PARAM', '', 'role/skill', true, 5 );
+		}
+	}
 }

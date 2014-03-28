@@ -18,7 +18,7 @@ class Choose_role extends CI_Controller
 		$this->load->model( 'role' );
 		
 		$parameter = array (
-				'account_id' => $this->user->id 
+				'account_id' => $this->user['id'] 
 		);
 		$role = $this->role->read( $parameter );
 		if ( empty( $role ) )
@@ -72,7 +72,7 @@ class Choose_role extends CI_Controller
 		if ( !empty( $role ) )
 		{
 			$role = $role[ 0 ];
-			if ( $role['account_id'] == $this->user->id )
+			if ( $role['account_id'] == $this->user['id'] )
 			{
 				$this->load->helper( 'cookie' );
 				$this->load->helper( 'security' );

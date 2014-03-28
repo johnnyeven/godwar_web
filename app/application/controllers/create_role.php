@@ -44,7 +44,7 @@ class Create_role extends CI_Controller
 			$this->load->model('role');
 			$time = time();
 			$parameter = array(
-					'account_id'			=>	$this->user->id,
+					'account_id'			=>	$this->user['id'],
 					'name'					=>	$roleName,
 					'level'					=>	1,
 					'exp'					=>	0,
@@ -78,6 +78,13 @@ class Create_role extends CI_Controller
 			);
 			if($this->role->create($parameter))
 			{
+				$db = $this->role->db();
+				$role_id = $db->insert_id();
+				$this->load->model('mthirdpart');
+				$parameter = array(
+					'role_id'	=>	$role_id
+				);
+				$this->mthirdpart->create($parameter);
 				showMessage( MESSAGE_TYPE_SUCCESS, 'ROLE_CREATE_SUCCESS', '', 'choose_role',
 				true, 5 );
 			}

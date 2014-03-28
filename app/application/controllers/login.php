@@ -60,7 +60,7 @@ class Login extends CI_Controller
 			{
 				$row = $result[ 0 ];
 				$cookie = array (
-						'id' => $row->id,
+						'id' => $row['id'],
 						'name' => $accountName 
 				);
 				$cookieStr = json_encode( $cookie );
@@ -82,7 +82,7 @@ class Login extends CI_Controller
 				}
 				$this->input->set_cookie( $cookie );
 				
-				$this->account->update( $row->id, array (
+				$this->account->update( $row['id'], array (
 						'lasttime' => time() 
 				) );
 				

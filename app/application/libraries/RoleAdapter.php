@@ -6,6 +6,7 @@ class RoleAdapter
 
 	public $is_init = false;
 	public $role;
+	public $thirdpart;
 
 	function __construct($id)
 	{
@@ -29,9 +30,16 @@ class RoleAdapter
 				'id'	=>	$id
 			);
 			$role = $this->CI->role->read($parameter);
-			if(!empty($role))
+
+			$this->CI->load->model('mthirdpart');
+			$parameter = array(
+				'role_id'	=>	$id
+			);
+			$thirdpart = $this->CI->mthirdpart->read($parameter);
+			if(!empty($role) && !empty($thirdpart))
 			{
 				$this->role  = $role[0];
+				$this->thirdpart  = $thirdpart[0];
 
 				$this->CI->load->config('const.config');
 				$raceConfig = $this->CI->config->item('const_race');
@@ -184,8 +192,25 @@ class RoleAdapter
 			'main_skill'			=>	$this->role['main_skill'],
 			'passive_skill'			=>	json_encode($this->role['passive_skill']),
 			'gift'					=>	$this->role['gift'],
-			'map_id'				=>	$this->role['map_id']
+			'map_id'				=>	$this->role['map_id'],
+			'battletime'			=>	$this->role['battletime'],
+			'next_battletime'		=>	$this->role['next_battletime']
 		);
 		$this->CI->role->update($this->role['id'], $parameter);
+
+		$this->CI->load->model('mthirdpart');
+		$parameter = array(
+			'sina_weibo_id'					=>	$this->thirdpart['sina_weibo_id'],
+			'sina_weibo_token'				=>	$this->thirdpart['sina_weibo_token'],
+			'sina_weibo_nickname'			=>	$this->thirdpart['sina_weibo_nickname'],
+			'tencent_weibo_nickname'		=>	$this->thirdpart['tencent_weibo_nickname'],
+			'tencent_weibo_code'			=>	$this->thirdpart['tencent_weibo_code'],
+			'tencent_weibo_expire_in'		=>	$this->thirdpart['tencent_weibo_expire_in'],
+			'tencent_weibo_refresh_token'	=>	$this->thirdpart['tencent_weibo_refresh_token'],
+			'tencent_weibo_token'			=>	$this->thirdpart['tencent_weibo_token'],
+			'tencent_weibo_key'				=>	$this->thirdpart['tencent_weibo_key'],
+			'tencent_weibo_id'				=>	$this->thirdpart['tencent_weibo_id']
+		);
+		$this->CI->mthirdpart->update($this->role['id'], $parameter);
 	}
 }

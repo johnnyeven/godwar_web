@@ -28,22 +28,18 @@ class Excel_MagicWordConfig_Adapter {
 					'level'				=>	intval($objPHPExcel->getActiveSheet()->getCell("E$j")->getValue()),
 					'equipment_position'=>	json_decode($objPHPExcel->getActiveSheet()->getCell("F$j")->getValue()),
 					'property'			=>	array(
-						'atk_min'			=>	floatval($objPHPExcel->getActiveSheet()->getCell("G$j")->getValue()),
-						'atk_min_unit'		=>	intval($objPHPExcel->getActiveSheet()->getCell("H$j")->getValue()),
-						'atk_max'			=>	floatval($objPHPExcel->getActiveSheet()->getCell("I$j")->getValue()),
-						'atk_max_unit'		=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
-						'atk'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
-						'atk_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
-						'def'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
-						'def_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
-						'mdef'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
-						'mdef_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue()),
-						'health_max'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("Q$j")->getValue()),
-						'health_max_unit'	=>	intval($objPHPExcel->getActiveSheet()->getCell("R$j")->getValue()),
-						'hit'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("S$j")->getValue()),
-						'hit_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("T$j")->getValue()),
-						'flee'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("U$j")->getValue()),
-						'flee_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("V$j")->getValue())
+						'atk'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("G$j")->getValue()),
+						'atk_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("H$j")->getValue()),
+						'def'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("I$j")->getValue()),
+						'def_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("J$j")->getValue()),
+						'mdef'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("K$j")->getValue()),
+						'mdef_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("L$j")->getValue()),
+						'health_max'		=>	floatval($objPHPExcel->getActiveSheet()->getCell("M$j")->getValue()),
+						'health_max_unit'	=>	intval($objPHPExcel->getActiveSheet()->getCell("N$j")->getValue()),
+						'hit'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("O$j")->getValue()),
+						'hit_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("P$j")->getValue()),
+						'flee'				=>	floatval($objPHPExcel->getActiveSheet()->getCell("Q$j")->getValue()),
+						'flee_unit'			=>	intval($objPHPExcel->getActiveSheet()->getCell("R$j")->getValue())
 					)
 				);
 				array_push($result, $row);
