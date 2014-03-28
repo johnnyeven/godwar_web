@@ -40,11 +40,9 @@ class Sina_weibo extends CI_Controller
 					$uid = $client->get_uid();
 					$uid = $uid['uid'];
 
-					$parameter = array(
-						'sina_weibo_id'		=>	$uid,
-						'sina_weibo_token'	=>	$token['access_token']
-					);
-					$this->role->update($this->currentRole->role['id'], $parameter);
+					$this->currentRole->thirdpart['sina_weibo_id'] = $uid;
+					$this->currentRole->thirdpart['sina_weibo_token'] = $token['access_token'];
+					$this->currentRole->save();
 
 					redirect('role/info');
 				}
