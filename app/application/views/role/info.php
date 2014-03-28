@@ -16,7 +16,7 @@
     <div class="right">
     	<div class="sina_weibo">
 	    <?php
-		if(empty($role['sina_weibo_id']))
+		if(empty($role_thirdpart['sina_weibo_id']))
 		{
 			if(empty($user['sina_weibo_id']))
 			{
@@ -29,13 +29,13 @@
 		}
 		else
 		{
-			echo '<p>已成功绑定新浪微博，ID: ' . $role['sina_weibo_id'] . '</p>';
+			echo '<p>已成功绑定新浪微博，ID: ' . $role_thirdpart['sina_weibo_id'] . '</p>';
 		}
 	    ?>
 		</div>
     	<div class="tencent_weibo">
 	    <?php
-		if(empty($role['tencent_weibo_id']))
+		if(empty($role_thirdpart['tencent_weibo_id']))
 		{
 			if(empty($user['tencent_weibo_id']))
 			{
@@ -48,7 +48,7 @@
 		}
 		else
 		{
-			echo '<p>已成功绑定腾讯微博，ID: ' . $role['tencent_weibo_id'] . '</p>';
+			echo '<p>已成功绑定腾讯微博，ID: ' . $role_thirdpart['tencent_weibo_id'] . '</p>';
 		}
 	    ?>
 		</div>

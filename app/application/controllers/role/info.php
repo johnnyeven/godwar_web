@@ -34,6 +34,7 @@ class Info extends CI_Controller
 		$parameter = array (
 			'user'				=>	$this->user,
 			'role'				=>	$this->currentRole->role,
+			'role_thirdpart'	=>	$this->currentRole->thirdpart,
 			'sina_weibo_url'	=>	$sina_url,
 			'tencent_weibo_url'	=>	$tencent_url
 		);
