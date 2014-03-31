@@ -37,6 +37,7 @@ class Skill extends CI_Controller
 			);
 			$result = $this->mongo_db->where($parameter)->get('job');
 			$exist = false;
+			$level_limit = 0;
 			if(!empty($result))
 			{
 				$result = $result[0];
@@ -45,6 +46,7 @@ class Skill extends CI_Controller
 				{
 					if($skill['id'] == $id)
 					{
+						$level_limit = $skill['level_limit'];
 						$exist = true;
 						break;
 					}
@@ -55,10 +57,17 @@ class Skill extends CI_Controller
 					showMessage( MESSAGE_TYPE_ERROR, 'SKILL_LEARN_ERROR_NOT_EXIST', '', 'role/skill', true, 5 );
 				}
 
-				array_push($this->currentRole->role['skill'], $id);
-				$this->currentRole->save();
+				if($this->currentRole->role['level'] >= $level_limit)
+				{
+					array_push($this->currentRole->role['skill'], $id);
+					$this->currentRole->save();
 
-				showMessage( MESSAGE_TYPE_SUCCESS, 'SKILL_LEARN_SUCCESS', '', 'role/skill', true, 5 );
+					showMessage( MESSAGE_TYPE_SUCCESS, 'SKILL_LEARN_SUCCESS', '', 'role/skill', true, 5 );
+				}
+				else
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'SKILL_LEARN_ERROR_LEVEL_LIMIT', '', 'role/skill', true, 5 );
+				}
 			}
 			else
 			{

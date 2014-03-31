@@ -27,7 +27,7 @@
             {
                 if($role['level'] >= $item['level_limit'])
                 {
-                    echo '<p><a href="' . site_url('role/gift/avtivate/' . $item['id']) . '">立即激活</a></p>';
+                    echo '<p><a href="' . site_url('role/gift/activate/' . $item['id']) . '">立即激活</a></p>';
                 }
                 else
                 {
