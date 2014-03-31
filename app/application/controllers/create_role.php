@@ -33,7 +33,8 @@ class Create_role extends CI_Controller
 			$result = $result[0];
 
 			$gifts = array();
-			$gift_all = json_encode($result['gift']);
+			$gift_all = $result['gift'];
+
 			foreach($gift_all as $key => $value)
 			{
 				if($value['basic'] == 1)
@@ -81,15 +82,29 @@ class Create_role extends CI_Controller
 					'skill'					=>	'',
 					'main_skill'			=>	'',
 					'passive_skill'			=>	'',
-					'gift'					=>	$gifts,
+					'gift'					=>	json_encode($gifts),
 					'createtime'			=>	$time,
 					'lasttime'				=>	$time,
 					'map_id'				=>	$baseResult['init_map_id']
 			);
 			if($this->role->create($parameter))
 			{
-				showMessage( MESSAGE_TYPE_SUCCESS, 'ROLE_CREATE_SUCCESS', '', 'choose_role',
-				true, 5 );
+				$role_id = $this->role->db()->insert_id();
+
+				$this->load->model('mthirdpart');
+				$parameter = array(
+					'role_id'	=>	$role_id
+				);
+				if($this->mthirdpart->create($parameter))
+				{
+					showMessage( MESSAGE_TYPE_SUCCESS, 'ROLE_CREATE_SUCCESS', '', 'choose_role',
+					true, 5 );
+				}
+				else
+				{
+					showMessage( MESSAGE_TYPE_ERROR, 'ROLE_CREATE_ERROR_DATABASE_FAIL', '', 'create_role',
+					true, 5 );
+				}
 			}
 		}
 		else
