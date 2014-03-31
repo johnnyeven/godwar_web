@@ -51,7 +51,7 @@ class Skill extends CI_Controller
 
 				if(!$exist)
 				{
-					return;
+					showMessage( MESSAGE_TYPE_ERROR, 'SKILL_LEARN_ERROR_NOT_EXIST', '', 'role/skill', true, 5 );
 				}
 
 				array_push($this->currentRole->role['skill'], $id);

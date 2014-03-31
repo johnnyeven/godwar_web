@@ -46,8 +46,8 @@ class RoleAdapter
 				$jobConfig = $this->CI->config->item('const_job');
 				$this->role['race_name'] = $raceConfig['race_' . $this->role['race']];
 				$this->role['job_name'] = $jobConfig['job_' . $this->role['job']];
-				$this->role['skill'] = empty($this->role['skill']) ? '' : json_decode($this->role['skill'], TRUE);
-				$this->role['passive_skill'] = empty($this->role['passive_skill']) ? '' : json_decode($this->role['passive_skill'], TRUE);
+				$this->role['skill'] = empty($this->role['skill']) ? array() : json_decode($this->role['skill'], TRUE);
+				$this->role['passive_skill'] = empty($this->role['passive_skill']) ? array() : json_decode($this->role['passive_skill'], TRUE);
 
 				$this->is_init = true;
 			}
