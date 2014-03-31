@@ -23,7 +23,7 @@ class Excel_ExpConfig_Adapter {
 				$row = array(
 					'level'			=>	intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue()),
 					'nextexp'		=>	intval($objPHPExcel->getActiveSheet()->getCell("B$j")->getOldCalculatedValue()),
-					'gift_point'	=>	intval($objPHPExcel->getActiveSheet()->getCell("C$j")->getValue());
+					'gift_point'	=>	intval($objPHPExcel->getActiveSheet()->getCell("C$j")->getValue())
 				);
 				array_push($result, $row);
 			}
