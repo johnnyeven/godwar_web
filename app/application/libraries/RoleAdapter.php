@@ -48,6 +48,7 @@ class RoleAdapter
 				$this->role['job_name'] = $jobConfig['job_' . $this->role['job']];
 				$this->role['skill'] = empty($this->role['skill']) ? array() : json_decode($this->role['skill'], TRUE);
 				$this->role['passive_skill'] = empty($this->role['passive_skill']) ? array() : json_decode($this->role['passive_skill'], TRUE);
+				$this->role['gift'] = empty($this->role['gift']) ? array() : json_decode($this->role['gift'], TRUE);
 
 				$this->is_init = true;
 			}
@@ -191,7 +192,7 @@ class RoleAdapter
 			'skill'					=>	json_encode($this->role['skill']),
 			'main_skill'			=>	$this->role['main_skill'],
 			'passive_skill'			=>	json_encode($this->role['passive_skill']),
-			'gift'					=>	$this->role['gift'],
+			'gift'					=>	json_encode($this->role['gift']),
 			'map_id'				=>	$this->role['map_id'],
 			'battletime'			=>	$this->role['battletime'],
 			'next_battletime'		=>	$this->role['next_battletime']

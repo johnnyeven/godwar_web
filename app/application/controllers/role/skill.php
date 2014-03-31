@@ -40,6 +40,7 @@ class Skill extends CI_Controller
 			if(!empty($result))
 			{
 				$result = $result[0];
+				$id = intval($id);
 				foreach($result['skill'] as $skill)
 				{
 					if($skill['id'] == $id)
