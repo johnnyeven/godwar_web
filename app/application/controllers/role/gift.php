@@ -37,7 +37,7 @@ class Gift extends CI_Controller
 		{
 			$this->load->library('Mongo_db');
 			$parameter = array(
-				'id'	=>	intval($this->currentRole->role['race'])
+				'id'	=>	$this->currentRole->role['race']
 			);
 			$result = $this->mongo_db->where($parameter)->get('race');
 			$exist = false;
@@ -45,6 +45,7 @@ class Gift extends CI_Controller
 			if(!empty($result))
 			{
 				$result = $result[0];
+				$id = intval($id);
 				foreach($result['gift'] as $gift)
 				{
 					if($gift['id'] == $id)
