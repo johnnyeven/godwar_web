@@ -31,6 +31,16 @@ class Create_role extends CI_Controller
 			);
 			$result = $this->mongo_db->where($parameter)->get('race');
 			$result = $result[0];
+
+			$gifts = array();
+			$gift_all = json_encode($result['gift']);
+			foreach($gift_all as $key => $value)
+			{
+				if($value['basic'] == 1)
+				{
+					array_push($gifts, $value['id']);
+				}
+			}
 			
 			$baseResult = $this->mongo_db->get('base');
 			$baseResult = $baseResult[0];
@@ -71,20 +81,13 @@ class Create_role extends CI_Controller
 					'skill'					=>	'',
 					'main_skill'			=>	'',
 					'passive_skill'			=>	'',
-					'gift'					=>	json_encode($result['gift']),
+					'gift'					=>	$gifts,
 					'createtime'			=>	$time,
 					'lasttime'				=>	$time,
 					'map_id'				=>	$baseResult['init_map_id']
 			);
 			if($this->role->create($parameter))
 			{
-				$db = $this->role->db();
-				$role_id = $db->insert_id();
-				$this->load->model('mthirdpart');
-				$parameter = array(
-					'role_id'	=>	$role_id
-				);
-				$this->mthirdpart->create($parameter);
 				showMessage( MESSAGE_TYPE_SUCCESS, 'ROLE_CREATE_SUCCESS', '', 'choose_role',
 				true, 5 );
 			}
