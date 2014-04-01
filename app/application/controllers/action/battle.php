@@ -66,6 +66,7 @@ class Battle extends CI_Controller {
 				}
 			} else {
 				$monster = $this->getMonsterByNearestLevel ();
+
 				$monster ['health_max'] = $monster ['health'];
 				$this->_hook_gifts($this->currentRole->role);
 
@@ -246,39 +247,18 @@ class Battle extends CI_Controller {
 						//Gift hook: 战斗失败后的hook
 						$this->gift->call_hook('after_battle_fail', $this->currentRole->role);
 					}
-
-					$parameter = array (
-							'level' => $this->currentRole->role ['level'],
-							'gold' => $this->currentRole->role ['gold'],
-							'exp' => $this->currentRole->role['exp'],
-							'nextexp' => $this->currentRole->role ['nextexp'],
-							'health_base' => $this->currentRole->role['health_base'],
-							'health_max' => $this->currentRole->role ['health_max'],
-							'atk_base' => $this->currentRole->role['atk_base'],
-							'atk' => $this->currentRole->role ['atk'],
-							'def_base' => $this->currentRole->role['def_base'],
-							'def' => $this->currentRole->role ['def'],
-							'mdef_base' => $this->currentRole->role['mdef_base'],
-							'mdef' => $this->currentRole->role ['mdef'],
-							'hit_base' => $this->currentRole->role['hit_base'],
-							'hit' => $this->currentRole->role ['hit'],
-							'flee_base' => $this->currentRole->role['flee_base'],
-							'flee' => $this->currentRole->role ['flee']
-					);
 					
-					$parameter ['health'] = $this->currentRole->role ['health'];
-					$parameter ['battletime'] = $time;
+					$this->currentRole->role ['battletime'] = $time;
 					if($restTime < $battle_rest_time)
 					{
 						$restTime = $battle_rest_time;
 					}
-					$parameter ['next_battletime'] = $time + $restTime;
+					$this->currentRole->role ['next_battletime'] = $time + $restTime;
 					
 					$battleResult ['timestamp'] = $time;
-					$battleResult ['next_battletime'] = $parameter ['next_battletime'];
+					$battleResult ['next_battletime'] = $this->currentRole->role ['next_battletime'];
 
-					$this->load->model ( 'role' );
-					$this->role->update ( $this->currentRole->role ['id'], $parameter );
+					$this->currentRole->save();
 				}
 			}
 		}
@@ -306,35 +286,43 @@ class Battle extends CI_Controller {
 					'level' => 'desc' 
 			) )->get ( 'monster' );
 			if (! empty ( $resultMonster )) {
-				$currentLevel = 0;
-				$monsters = array ();
-				
-				$count = count ( $resultMonster );
-				if ($resultMonster [$count - 1] ['level'] > $level) {
-					$currentLevel = $resultMonster [$count - 1] ['level'];
-					array_push ( $monsters, $resultMonster [$count - 1] );
-					for($i = $count - 2; $i >= 0; $i --) {
-						if ($resultMonster [$i] ['level'] != $currentLevel) {
-							break;
+				$rand = rand(0, 100);
+				if($rand <= 50)
+				{
+					$currentLevel = 0;
+					$monsters = array ();
+					
+					$count = count ( $resultMonster );
+					if ($resultMonster [$count - 1] ['level'] > $level) {
+						$currentLevel = $resultMonster [$count - 1] ['level'];
+						array_push ( $monsters, $resultMonster [$count - 1] );
+						for($i = $count - 2; $i >= 0; $i --) {
+							if ($resultMonster [$i] ['level'] != $currentLevel) {
+								break;
+							}
+							array_push ( $monsters, $resultMonster [$i] );
 						}
-						array_push ( $monsters, $resultMonster [$i] );
+					} else {
+						foreach ( $resultMonster as $value ) {
+							if ($currentLevel == 0 && $value ['level'] <= $level) {
+								$currentLevel = $value ['level'];
+								array_push ( $monsters, $value );
+								continue;
+							}
+							if ($value ['level'] == $currentLevel) {
+								array_push ( $monsters, $value );
+							}
+						}
 					}
-				} else {
-					foreach ( $resultMonster as $value ) {
-						if ($currentLevel == 0 && $value ['level'] <= $level) {
-							$currentLevel = $value ['level'];
-							array_push ( $monsters, $value );
-							continue;
-						}
-						if ($value ['level'] == $currentLevel) {
-							array_push ( $monsters, $value );
-						}
-					}
+					$count = count ( $monsters );
+					$monster = $monsters [rand ( 0, $count - 1 )];
+					
+					return $monster;
 				}
-				$count = count ( $monsters );
-				$monster = $monsters [rand ( 0, $count - 1 )];
-				
-				return $monster;
+				else
+				{
+					return $resultMonster[rand(0, count($resultMonster) - 1)];
+				}
 			} else {
 				return null;
 			}

@@ -128,6 +128,8 @@ class RoleAdapter
 		$this->role ['flee'] = $tmp_base; // 种族加成
 		$this->role ['flee'] += ($jobResult['flee_add'] + $tmp_base * $jobResult['flee_inc']); // 职业加成
 
+		$this->role ['skill_trigger'] = $this->role['skill_trigger_base'];
+
 		//技能加成
 		if(!empty($this->role ['passive_skill']))
 		{

@@ -9,7 +9,7 @@ require_once ('IGift.php');
 class Gift_150002 implements IGift
 {
 	private $gift_name = '炼金术之奥秘';
-	private $actions = array( 'before_alchemy' );
+	private $actions = array( 'before_alchemy_equipment', 'before_alchemy_item' );
 
 	public function __construct()
 	{
@@ -27,14 +27,14 @@ class Gift_150002 implements IGift
 
 	public function execute( &$parameter )
 	{
-		if(is_array($parameter))
+		if(is_array($parameter['materials']))
 		{
-			for($i=0; $i<count($parameter); $i++)
+			for($i=0; $i<count($parameter['materials']); $i++)
 			{
-				if(is_array($parameter[$i]))
+				if(is_array($parameter['materials'][$i]))
 				{
-					$parameter[$i]['cost'] *= .9;
-					$parameter[$i]['cost'] = ceil($parameter[$i]['cost']);
+					$parameter['materials'][$i]['cost'] *= .9;
+					$parameter['materials'][$i]['cost'] = ceil($parameter[$i]['cost']);
 				}
 			}
 		}

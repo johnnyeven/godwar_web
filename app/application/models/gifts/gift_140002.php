@@ -10,7 +10,7 @@ class Gift_140002 implements IGift
 {
 	private $gift_name = '效率提升';
 	//在打造、升级、附魔装备前
-	private $actions = array( 'before_make_equipment', 'before_upgrade_equipment', 'before_enchant_equipment' );
+	private $actions = array( 'after_make_equipment', 'after_upgrade_equipment', 'after_enchant_equipment' );
 
 	public function __construct()
 	{
