@@ -1,4 +1,4 @@
 RewriteEngine on
-RewriteBase /godwar_web/admin/
+RewriteBase /admin/
 RewriteCond $1 !^(index\.php|resources|robot\.txt|api|config\.inc\.php)
 RewriteRule ^(.*)$ index.php/$1 [L]
