@@ -93,6 +93,7 @@ class RoleAdapter
 
 			$this->role['exp'] = 0;
 			$this->role['nextexp'] = $expResult ['nextexp'];
+			$this->role['gift_point'] = $expResult ['gift_point'];
 		}
 		else
 		{
@@ -195,7 +196,8 @@ class RoleAdapter
 			'gift'					=>	json_encode($this->role['gift']),
 			'map_id'				=>	$this->role['map_id'],
 			'battletime'			=>	$this->role['battletime'],
-			'next_battletime'		=>	$this->role['next_battletime']
+			'next_battletime'		=>	$this->role['next_battletime'],
+			'gift_point'			=>	$this->role['gift_point']
 		);
 		$this->CI->role->update($this->role['id'], $parameter);
 

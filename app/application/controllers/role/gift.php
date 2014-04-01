@@ -35,47 +35,55 @@ class Gift extends CI_Controller
 	{
 		if(!empty($id))
 		{
-			$this->load->library('Mongo_db');
-			$parameter = array(
-				'id'	=>	$this->currentRole->role['race']
-			);
-			$result = $this->mongo_db->where($parameter)->get('race');
-			$exist = false;
-			$level_limit = 0;
-			if(!empty($result))
+			if($this->currentRole->role['gift_point'] > 0)
 			{
-				$result = $result[0];
-				$id = intval($id);
-				foreach($result['gift'] as $gift)
+				$this->load->library('Mongo_db');
+				$parameter = array(
+					'id'	=>	$this->currentRole->role['race']
+				);
+				$result = $this->mongo_db->where($parameter)->get('race');
+				$exist = false;
+				$level_limit = 0;
+				if(!empty($result))
 				{
-					if($gift['id'] == $id)
+					$result = $result[0];
+					$id = intval($id);
+					foreach($result['gift'] as $gift)
 					{
-						$exist = true;
-						$level_limit = $gift['level_limit'];
-						break;
+						if($gift['id'] == $id)
+						{
+							$exist = true;
+							$level_limit = $gift['level_limit'];
+							break;
+						}
 					}
-				}
 
-				if(!$exist)
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_NOT_EXIST', '', 'role/gift', true, 5 );
-				}
+					if(!$exist)
+					{
+						showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_NOT_EXIST', '', 'role/gift', true, 5 );
+					}
 
-				if($this->currentRole->role['level'] >= $level_limit)
-				{
-					array_push($this->currentRole->role['gift'], $id);
-					$this->currentRole->save();
+					if($this->currentRole->role['level'] >= $level_limit)
+					{
+						array_push($this->currentRole->role['gift'], $id);
+						$this->currentRole->role['gift_point']--;
+						$this->currentRole->save();
 
-					showMessage( MESSAGE_TYPE_SUCCESS, 'GIFT_ACTIVATE_SUCCESS', '', 'role/gift', true, 5 );
+						showMessage( MESSAGE_TYPE_SUCCESS, 'GIFT_ACTIVATE_SUCCESS', '', 'role/gift', true, 5 );
+					}
+					else
+					{
+						showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_LEVEL_LIMIT', '', 'role/gift', true, 5 );
+					}
 				}
 				else
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_LEVEL_LIMIT', '', 'role/gift', true, 5 );
+					showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_RACE_ERROR', '', 'role/gift', true, 5 );
 				}
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_RACE_ERROR', '', 'role/gift', true, 5 );
+				showMessage( MESSAGE_TYPE_ERROR, 'GIFT_ACTIVATE_ERROR_POINT_NOT_ENOUGH', '', 'role/gift', true, 5 );
 			}
 		}
 		else
