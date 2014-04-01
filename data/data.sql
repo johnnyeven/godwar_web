@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `account_id` BIGINT NOT NULL,
   `name` CHAR(32) NOT NULL,
   `level` INT NOT NULL DEFAULT 1,
+  `vitality` INT NOT NULL DEFAULT 100,
   `gold` BIGINT NOT NULL DEFAULT 0,
   `gold_inc` FLOAT NOT NULL DEFAULT 0,
   `exp` BIGINT NOT NULL DEFAULT 0,
