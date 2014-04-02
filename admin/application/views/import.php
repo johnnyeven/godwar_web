@@ -84,6 +84,19 @@
     </tr>
   </table>
 </form>
+<form action="<?php echo site_url("import/item_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
+  <table width="500" border="0" cellspacing="0" cellpadding="5">
+    <tr>
+      <td width="50%" align="right">item_config</td>
+      <td width="50%"><label for="itemConfig"></label>
+      <input type="file" name="itemConfig" id="itemConfig" /></td>
+    </tr>
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td><input type="submit" name="button" id="button" value="提交" /></td>
+    </tr>
+  </table>
+</form>
 <form action="<?php echo site_url("import/equipment_config_submit"); ?>" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <table width="500" border="0" cellspacing="0" cellpadding="5">
     <tr>

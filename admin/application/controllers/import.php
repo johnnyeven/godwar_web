@@ -269,6 +269,49 @@ class Import extends CI_Controller
 		}
 	}
 	
+	public function item_config_submit()
+	{
+		$this->load->library('Excel_ItemConfig_Adapter');
+		
+		$uploadDir = $this->config->item('upload_dir');
+		$error = "";
+		$msg = "";
+		$fileElementName = 'itemConfig';
+		$el = $this->input->get('el', TRUE);
+		if($el) {
+			$fileElementName = $el;
+		}
+		
+		$config['upload_path'] = $uploadDir;
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['encrypt_name'] = TRUE;
+		
+		$this->load->library('upload', $config);
+		if (!$this->upload->do_upload($fileElementName)) {
+			$error = $this->upload->display_errors('<stronng>', '</stronng>');
+			echo $error;
+		} else {
+			$data = $this->upload->data();
+			$fileName = $uploadDir . '/' . $data['file_name'];
+		}
+		
+		if(!empty($fileName))
+		{
+			$result = $this->excel_itemconfig_adapter->ParseExcel($fileName);
+			// $result = $this->excel_itemconfig_adapter->RemoveNull($result);
+			
+			if(!empty($result))
+			{
+				$this->load->library('Mongo_db');
+				$this->mongo_db->drop_collection('godwar', 'item');
+				$this->mongo_db->batch_insert('item', $result);
+				$this->mongo_db->add_index('item', array('id' => 'asc'), array('unique' => TRUE));
+		
+				var_dump($this->mongo_db->get('item'));
+			}
+		}
+	}
+	
 	public function equipment_config_submit()
 	{
 		$this->load->library('Excel_EquipmentConfig_Adapter');
