@@ -32,7 +32,15 @@ class Excel_EquipmentConfig_Adapter {
 					'health'		=>	intval($sheet->getCell("I$j")->getValue()),
 					'hit'			=>	intval($sheet->getCell("J$j")->getValue()),
 					'flee'			=>	intval($sheet->getCell("K$j")->getValue()),
-					'price'			=>	intval($sheet->getCell("L$j")->getValue())
+					'price'			=>	intval($sheet->getCell("L$j")->getValue()),
+					'upgrade_level'	=>	intval($sheet->getCell("M$j")->getValue()),
+					'success_rate'	=>	json_decode($sheet->getCell("N$j")->getValue()),
+					'atk_upgrade'	=>	json_decode($sheet->getCell("O$j")->getValue()),
+					'def_upgrade'	=>	json_decode($sheet->getCell("P$j")->getValue()),
+					'mdef_upgrade'	=>	json_decode($sheet->getCell("Q$j")->getValue()),
+					'health_max_upgrade'	=>	json_decode($sheet->getCell("R$j")->getValue()),
+					'hit_upgrade'	=>	json_decode($sheet->getCell("S$j")->getValue()),
+					'flee_upgrade'	=>	json_decode($sheet->getCell("T$j")->getValue())
 				);
 				array_push($result, $row);
 			}
