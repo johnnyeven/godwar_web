@@ -9,6 +9,6 @@
         <a href="<?php echo site_url('role/skill'); ?>">技能</a> | 
         <a href="<?php echo site_url('role/gift'); ?>">天赋</a> | 
         <a href="#">强化</a> | 
-        <a href="#">炼金术</a> | 
+        <a href="<?php echo site_url('action/alchemy'); ?>">炼金术</a> | 
         <a href="#">守护灵</a>
     </div>

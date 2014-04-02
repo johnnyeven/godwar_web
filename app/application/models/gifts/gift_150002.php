@@ -34,7 +34,7 @@ class Gift_150002 implements IGift
 				if(is_array($parameter['materials'][$i]))
 				{
 					$parameter['materials'][$i]['cost'] *= .9;
-					$parameter['materials'][$i]['cost'] = ceil($parameter[$i]['cost']);
+					$parameter['materials'][$i]['cost'] = intval($parameter[$i]['cost']);
 				}
 			}
 		}
