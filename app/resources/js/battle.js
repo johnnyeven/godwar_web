@@ -23,7 +23,7 @@ $(function() {
 	
 	function startBattle() {
 		if(run) {
-			$.post("/godwar_web/app/action/battle/request_battle", {}, showBattle);
+			$.post("/app/action/battle/request_battle", {}, showBattle);
 		}
 	}
 	
