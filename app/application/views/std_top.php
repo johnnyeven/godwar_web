@@ -4,6 +4,7 @@
         <a href="<?php echo site_url('action/instance'); ?>">众神炼狱</a> | 
         <a href="<?php echo site_url('action/map/info'); ?>">地图</a> | 
         <a href="<?php echo site_url('role/equipment'); ?>">装备</a> | 
+        <a href="<?php echo site_url('role/item'); ?>">道具</a> | 
         <a href="<?php echo site_url('action/market'); ?>">市场</a> | 
         <a href="<?php echo site_url('role/skill'); ?>">技能</a> | 
         <a href="<?php echo site_url('role/gift'); ?>">天赋</a> | 

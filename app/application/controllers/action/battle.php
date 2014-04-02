@@ -454,7 +454,41 @@ class Battle extends CI_Controller {
 		$rand = rand(0, 100000) / 100000;
 		if($rand <= $monster['item_drop'])
 		{
+			if(!empty($monster['items']) && is_array($monster['items']))
+			{
+				$id = rate_random_element($monster['items']);
+				if(!empty($id))
+				{
+					$parameter = array(
+						'id'	=>	intval($id)
+					);
+					$result = $this->mongo_db->where($parameter)->get('item');
+					if(!empty($result))
+					{
+						$result = $result[0];
 
+						$this->load->model('mitem');
+						$parameter = array(
+							'id'		=>	$id,
+							'role_id'	=>	$role['id']
+						);
+						$tmp = $this->mitem->read($parameter);
+						if(!empty($tmp))
+						{
+							$sql = "UPDATE `items` SET `count`=`count`+1 WHERE `id`={$id} AND `role_id`={$role['id']}";
+							$this->mitem->db()->query($sql);
+						}
+						else
+						{
+							$parameter['name'] = $result['name'];
+							$parameter['count'] = 1;
+							$parameter['price'] = $result['price'];
+							$this->mitem->create($parameter);
+						}
+						array_push($settle['drop'], $result);
+					}
+				}
+			}
 		}
 
 		return $settle;

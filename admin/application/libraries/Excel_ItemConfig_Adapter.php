@@ -46,6 +46,7 @@ class Excel_ItemConfig_Adapter {
 					'gold_inc_unit'	=>	intval($sheet->getCell("W$j")->getValue()),
 					'vitality_inc'	=>	floatval($sheet->getCell("X$j")->getValue()),
 					'vitality_inc_unit'	=>	intval($sheet->getCell("Y$j")->getValue()),
+					'price'			=>	intval($sheet->getCell("Z$j")->getValue())
 				);
 				array_push($result, $row);
 			}

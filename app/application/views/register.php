@@ -22,7 +22,7 @@
       <td><input type="text" name="account_email" id="account_email" /></td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
+      <td><a href="login">登录</a></td>
       <td><input type="submit" name="button" id="button" value="提交" /></td>
     </tr>
   </table>
