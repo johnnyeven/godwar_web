@@ -142,6 +142,7 @@ class RoleAdapter
 			}
 		}
 
+		//装备加成
 		if(!isset($this->CI->mequipment))
 		{
 			$this->CI->load->model('mequipment');
@@ -156,13 +157,13 @@ class RoleAdapter
 
 		foreach($result as $equipment)
 		{
-			$this->role ['atk'] += ($equipment['atk_base'] + $equipment['atk_inc']);
-			$this->role ['def'] += ($equipment['def_base'] + $equipment['def_inc']);
-			$this->role ['mdef'] += ($equipment['mdef_base'] + $equipment['mdef_inc']);
-			$this->role ['health_max'] += ($equipment['health_max_base'] + $equipment['health_max_inc']);
-			$this->role ['health'] += ($equipment['health_max_base'] + $equipment['health_max_inc']);
-			$this->role ['hit'] += ($equipment['hit_base'] + $equipment['hit_inc']);
-			$this->role ['flee'] += ($equipment['flee_base'] + $equipment['flee_inc']);
+			$this->role ['atk'] += ($equipment['atk_base'] + $equipment['atk_inc'] + $equipment['atk_upgrade']);
+			$this->role ['def'] += ($equipment['def_base'] + $equipment['def_inc'] + $equipment['def_upgrade']);
+			$this->role ['mdef'] += ($equipment['mdef_base'] + $equipment['mdef_inc'] + $equipment['mdef_upgrade']);
+			$this->role ['health_max'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
+			$this->role ['health'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
+			$this->role ['hit'] += ($equipment['hit_base'] + $equipment['hit_inc'] + $equipment['hit_upgrade']);
+			$this->role ['flee'] += ($equipment['flee_base'] + $equipment['flee_inc'] + $equipment['flee_upgrade']);
 		}
 	}
 

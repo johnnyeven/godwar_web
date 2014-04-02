@@ -45,5 +45,12 @@ define('MESSAGE_TYPE_ERROR', 0);
 define('ERROR_BATTLE_TIME_NOT_TO', 1);
 define('ERROR_ROLE_DEAD', 1042);
 
+define('ITEM_SELL_SUCCESS', 1);						//物品出售成功
+define('ITEM_SELL_ERROR_LOCKED', 1043);				//物品被锁定
+define('ITEM_SELL_ERROR_NOT_ENOUGH', 1044);			//指定数量超过当前持有量
+define('ITEM_SELL_ERROR_NOT_EXIST', 1045);			//指定物品不存在
+define('ITEM_SELL_ERROR_NO_PARAM', 1046);			//参数不正确
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

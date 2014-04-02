@@ -23,7 +23,7 @@
       <label for="remember">记住我</label></td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
+      <td><a href="register">注册</a></td>
       <td><input type="submit" name="button" id="button" value="提交" /></td>
     </tr>
   </table>

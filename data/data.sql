@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `account_id` BIGINT NOT NULL,
   `name` CHAR(32) NOT NULL,
   `level` INT NOT NULL DEFAULT 1,
+  `vitality` INT NOT NULL DEFAULT 100,
   `gold` BIGINT NOT NULL DEFAULT 0,
   `gold_inc` FLOAT NOT NULL DEFAULT 0,
   `exp` BIGINT NOT NULL DEFAULT 0,
@@ -95,6 +96,8 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`equipments` (
   `position` TINYINT NOT NULL DEFAULT 0 COMMENT '1=武器\n2=头盔\n3=护手\n4=盔甲\n5=腰带\n6=鞋子\n7=戒指\n8=项链',
   `level` INT NOT NULL DEFAULT 0,
   `grade` TINYINT NOT NULL DEFAULT 0 COMMENT '0=普通\n1=蓝装\n2=绿装\n3=紫装\n4=金装',
+  `upgrade_level` INT NOT NULL DEFAULT 0,
+  `upgrade_level_max` INT NOT NULL DEFAULT 0,
   `job` CHAR(20) NOT NULL DEFAULT '[]',
   `atk_base` INT NOT NULL DEFAULT 0,
   `def_base` INT NOT NULL DEFAULT 0,
@@ -108,6 +111,12 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`equipments` (
   `health_max_inc` INT NOT NULL DEFAULT 0,
   `hit_inc` INT NOT NULL DEFAULT 0,
   `flee_inc` INT NOT NULL DEFAULT 0,
+  `atk_upgrade` INT NOT NULL DEFAULT 0,
+  `def_upgrade` INT NOT NULL DEFAULT 0,
+  `mdef_upgrade` INT NOT NULL DEFAULT 0,
+  `health_max_upgrade` INT NOT NULL DEFAULT 0,
+  `hit_upgrade` INT NOT NULL DEFAULT 0,
+  `flee_upgrade` INT NOT NULL DEFAULT 0,
   `magic_words` TEXT NOT NULL,
   `price` INT NOT NULL DEFAULT 0,
   `is_equipped` TINYINT NOT NULL DEFAULT 0,
@@ -169,6 +178,23 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`thirdparts` (
   `tencent_weibo_id` CHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`role_id`))
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `profzone_godwar_gamedb`.`items`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`items` ;
+
+CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`items` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `role_id` BIGINT NOT NULL DEFAULT 0,
+  `name` CHAR(32) NOT NULL DEFAULT '',
+  `count` INT NOT NULL DEFAULT 0,
+  `price` INT NOT NULL DEFAULT 0,
+  `is_locked` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`, `role_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 200000000001;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
