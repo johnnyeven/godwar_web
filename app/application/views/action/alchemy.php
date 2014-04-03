@@ -12,6 +12,23 @@
     </div>
     <div class="right">
         <div id="content"></div>
+        <div id="queue">
+            <h3>合成队列</h3>
+        <?php
+        foreach($queue as $value)
+        {
+            echo '<div class="queue_item" id="queue_item_' . $value['id'] . '">';
+            echo '<span class="queue_name">' . $value['name'] . '</span>';
+            echo ' | <span class="queue_starttime">' . date('Y-m-d H:i:s', $value['starttime']) . '</span>';
+            echo ' | <span class="queue_endtime">' . date('Y-m-d H:i:s', $value['endtime']) . '</span>';
+            if($value['status'] == '1')
+            {
+                echo ' | <span class="queue_control">已完成，<a href="#" class="queue_complete" rel="' . $value['id'] . '">放入背包</a></span>';
+            }
+            echo '</div>';
+        }
+        ?>
+        </div>
         <div id="item">
         <?php
         foreach($items as $value)
@@ -27,6 +44,10 @@
     <div class="clear"></div>
     <div id="dialog_message" title="信息">
         <p id="dialog_message_content"></p>
+    </div>
+    <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
+        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+        <strong class="dialog_alert_content"></strong></p>
     </div>
     <script src="<?php echo base_url('resources/js/jquery-ui-1.10.4.custom.min.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('resources/js/const.config.js'); ?>" type="text/javascript"></script>

@@ -59,6 +59,10 @@ class Malchemy_queue extends CI_Model implements ICrud
 			{
 				$this->gamedb->select($extension['select']);
 			}
+			if(!empty($extension['order_by']))
+			{
+				$this->gamedb->order_by($extension['order_by'][0], $extension['order_by'][1]);
+			}
 		}
 		if ( $limit == 0 && $offset == 0 )
 		{
