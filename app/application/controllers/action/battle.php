@@ -384,9 +384,10 @@ class Battle extends CI_Controller {
 			'drop'		=>	array()
 		);
 
+		$rate_inc = $this->config->item('base_equipment_drop_rate_inc');
 		$rand = rand(0, 100000) / 100000;
 		// $rand = 0;
-		if($rand <= $monster['equipment_drop'])
+		if($rand <= ($monster['equipment_drop']) * $rate_inc)
 		{
 			if(!empty($monster['equipments']) && is_array($monster['equipments']))
 			{
@@ -451,8 +452,9 @@ class Battle extends CI_Controller {
 			}
 		}
 
+		$rate_inc = $this->config->item('base_item_drop_rate_inc');
 		$rand = rand(0, 100000) / 100000;
-		if($rand <= $monster['item_drop'])
+		if($rand <= ($monster['item_drop']) * $rate_inc)
 		{
 			if(!empty($monster['items']) && is_array($monster['items']))
 			{
@@ -481,6 +483,7 @@ class Battle extends CI_Controller {
 						else
 						{
 							$parameter['name'] = $result['name'];
+							$parameter['type'] = $result['type'];
 							$parameter['count'] = 1;
 							$parameter['price'] = $result['price'];
 							$this->mitem->create($parameter);

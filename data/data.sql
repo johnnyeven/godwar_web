@@ -186,15 +186,29 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`items` ;
 
 CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`items` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` BIGINT NOT NULL DEFAULT 0,
   `role_id` BIGINT NOT NULL DEFAULT 0,
   `name` CHAR(32) NOT NULL DEFAULT '',
+  `type` TINYINT NOT NULL DEFAULT 0,
   `count` INT NOT NULL DEFAULT 0,
   `price` INT NOT NULL DEFAULT 0,
   `is_locked` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `role_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 200000000001;
+
+
+-- -----------------------------------------------------
+-- Table `profzone_godwar_gamedb`.`alchemy`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`alchemy` ;
+
+CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`alchemy` (
+  `role_id` BIGINT NOT NULL DEFAULT 0,
+  `id` BIGINT NOT NULL DEFAULT 0,
+  `name` CHAR(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`role_id`, `id`))
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

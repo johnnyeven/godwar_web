@@ -19,6 +19,18 @@ $(function() {
 		return false;
 	});
 
+	$("#content > div.item > span.control > a.learn_blueprint").click(function() {
+		var item = $(this).parent().parent();
+		id = item.find('span.id').text();
+		name = item.find('span.name').text();
+
+		var parameter = {
+			"id": id
+		};
+		$.post('../action/alchemy/learn', parameter, onItemLearned);
+		return false;
+	});
+
 	$("#dialog_form").dialog({
 		autoOpen: false,
 		modal: true,
@@ -82,10 +94,32 @@ $(function() {
 				if(data.params.remain == 0) {
 					item.remove();
 				} else {
-					item.find("span.count").text(data.params.count);
+					item.find("span.count").text(data.params.remain);
 				}
 			}
 			$("#dialog_alert").find("p > strong").text("成功卖出物品 " + data.params.name + " x" + data.params.count + "，获得" + data.params.price + "金币");
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
+	}
+
+	var onItemLearned = function(data) {
+		if(data.code == ALCHEMY_LEARN_SUCCESS) {
+			var i = data.params.id;
+			var item = $("#content").find('div.item > span.id:contains("' + id + '")').parent();
+			if(item.length > 0) {
+				if(data.params.remain == 0) {
+					item.remove();
+				} else {
+					item.find("span.count").text(data.params.remain);
+				}
+			}
+			$("#dialog_alert").find("p > strong").text("成功学习新配发 " + data.params.name);
 			$("#dialog_alert").fadeIn();
 			setTimeout(function() {
 				$("#dialog_alert").fadeOut();

@@ -214,18 +214,18 @@ class Item extends CI_Controller
 	{
 		if(!empty($id))
 		{
-			$this->load->model('mequipment');
+			$this->load->model('mitem');
 			$key = array(
 				'id'		=>	$id,
 				'role_id'	=>	$this->currentRole->role['id']
 			);
-			$result = $this->mequipment->read($key);
+			$result = $this->mitem->read($key);
 			if(!empty($result))
 			{
 				$parameter = array(
 					'is_locked'		=>	0
 				); 
-				$this->mequipment->update($key, $parameter);
+				$this->mitem->update($key, $parameter);
 
 				redirect('role/item');
 			}
