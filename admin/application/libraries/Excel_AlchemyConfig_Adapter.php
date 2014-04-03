@@ -50,13 +50,16 @@ class Excel_AlchemyConfig_Adapter {
 				);
 				$p = $this->CI->mongo_db->where($parameter)->get('item');
 				$p = $p[0];
+
+				$costtime = intval($objPHPExcel->getActiveSheet()->getCell("D$j")->getValue());
 				$row = array(
 					'id'			=>	$blueprint_id,
 					'name'			=>	$b['name'],
 					'comment'		=>	$b['comment'],
 					'type'			=>	$b['type'],
 					'materials'		=>	$materials,
-					'product'		=>	$p
+					'product'		=>	$p,
+					'costtime'		=>	$costtime
 				);
 				array_push($result, $row);
 			}
