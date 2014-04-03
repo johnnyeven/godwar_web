@@ -42,6 +42,8 @@ class Alchemy extends CI_Controller
 			'status'	=>	1
 		);
 		$this->malchemy_queue->update($key, $parameter);
+		var_dump($this->malchemy_queue->db()->last_query());
+		exit();
 
 		$this->load->model('mitem');
 		$parameter = array(
