@@ -1,6 +1,8 @@
 <?php
 
 class Excel_AlchemyConfig_Adapter {
+	private $CI;
+
 	public function ParseExcel($file)
 	{
 		set_include_path(get_include_path() . PATH_SEPARATOR . BASEPATH . 'libraries/excel');
@@ -17,13 +19,28 @@ class Excel_AlchemyConfig_Adapter {
 			$sheet = $objPHPExcel->getSheet(0);
 			$highestRow = $sheet->getHighestRow(); // 取得总行数
 			$highestColumn = $sheet->getHighestColumn(); // 取得总列数
-			
+
+			$this->CI =& get_instance();
+			$this->CI->load->library('Mongo_db');
 			for($j=2; $j<=$highestRow; $j++)
 			{
+				$materials = json_decode($objPHPExcel->getActiveSheet()->getCell("C$j")->getValue(), TRUE);
+				foreach($materials as $key=>$value)
+				{
+					$parameter = array(
+						'id'	=>	$value['id']
+					);
+					$m = $this->CI->mongo_db->where($parameter)->get('item');
+					$m = $m[0];
+
+					$materials[$key]['name'] = $m['name'];
+					$materials[$key]['comment'] = $m['comment'];
+					$materials[$key]['type'] = $m['type'];
+				}
 				$row = array(
 					'id'			=>	intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue()),
 					'name'			=>	$objPHPExcel->getActiveSheet()->getCell("B$j")->getValue(),
-					'materials'		=>	json_decode($objPHPExcel->getActiveSheet()->getCell("C$j")->getValue())
+					'materials'		=>	$materials
 				);
 				array_push($result, $row);
 			}

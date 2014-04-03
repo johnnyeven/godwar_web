@@ -10,10 +10,17 @@
         {
             echo '<div class="item" style="padding:5px 20px;float:left;min-width:200px;">';
             echo '<span class="id" style="display:none;">' . $row['id'] . '</span>';
+            echo '<span class="type" style="display:none;">' . $row['type'] . '</span>';
             echo '<span class="name" style="color:#000000">' . $row['name'] . '</span>';
             echo ' (<span class="count" style="">' . $row['count'] . '</span>)';
             echo '<span class="control" style="display:none;margin-left:10px;">';
-            echo '<a class="sell" href="' . site_url('role/item/sell/' . $row['id']) . '">出售</a>';
+
+            if($row['type'] == '4')
+            {
+                echo '<a class="learn_blueprint" href="#">学习</a> | ';
+            }
+
+            echo '<a class="sell" href="#">出售</a>';
             // echo ' | <a href="' . site_url('action/market/sell/' . $row['id']) . '">拍卖行</a>';
             if($row['is_locked'] == '1')
             {
@@ -37,7 +44,7 @@
         <div id="dialog_message" title="信息">
             <p id="dialog_message_content"></p>
         </div>
-        <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="width:350px;margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
+        <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
             <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
             <strong class="dialog_alert_content"></strong></p>
         </div>
