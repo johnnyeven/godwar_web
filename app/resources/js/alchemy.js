@@ -95,7 +95,7 @@ $(function() {
 			html += ' | <span class="queue_starttime">' + starttime + '</span>';
 			html += ' | <span class="queue_endtime">' + endtime + '</span>';
 			html += '</div>';
-			$("#queue").prepend(html);
+			$("#queue > h3").after(html);
 			$("#dialog_alert").find("p > strong").text("开始合成 " + data.params.name);
 			$("#dialog_alert").fadeIn();
 			setTimeout(function() {
