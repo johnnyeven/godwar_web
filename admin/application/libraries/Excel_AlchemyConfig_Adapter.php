@@ -37,10 +37,26 @@ class Excel_AlchemyConfig_Adapter {
 					$materials[$key]['comment'] = $m['comment'];
 					$materials[$key]['type'] = $m['type'];
 				}
+				$blueprint_id = intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue());
+				$parameter = array(
+					'id'	=>	$blueprint_id
+				);
+				$b = $this->CI->mongo_db->where($parameter)->get('item');
+				$b = $b[0];
+
+				$product_id = intval($objPHPExcel->getActiveSheet()->getCell("B$j")->getValue());
+				$parameter = array(
+					'id'	=>	$product_id
+				);
+				$p = $this->CI->mongo_db->where($parameter)->get('item');
+				$p = $p[0];
 				$row = array(
-					'id'			=>	intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue()),
-					'name'			=>	$objPHPExcel->getActiveSheet()->getCell("B$j")->getValue(),
-					'materials'		=>	$materials
+					'id'			=>	$blueprint_id,
+					'name'			=>	$b['name'],
+					'comment'		=>	$b['comment'],
+					'type'			=>	$b['type'],
+					'materials'		=>	$materials,
+					'product'		=>	$p
 				);
 				array_push($result, $row);
 			}

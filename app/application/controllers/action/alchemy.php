@@ -23,11 +23,17 @@ class Alchemy extends CI_Controller
 		$parameter = array(
 			'role_id'	=>	$this->currentRole->role['id']
 		);
-		$result = $this->malchemy->read($parameter, $extension);
+		$result = $this->malchemy->read($parameter);
+
+		$this->load->model('mitem');
+		$parameter = array(
+			'role_id'	=>	$this->currentRole->role['id']
+		);
+		$item_result = $this->mitem->read($parameter);
 
 		$data = array(
 			'result'	=>	$result,
-			'role'		=>	$this->currentRole->role
+			'items'		=>	$item_result
 		);
 		$this->load->model( 'utils/render' );
 		$this->render->render( $this->pageName, $data );
@@ -95,21 +101,7 @@ class Alchemy extends CI_Controller
 							exit();
 						}
 
-						$this->load->library('Mongo_db');
-						$parameter = array(
-							'id'	=>	intval($id)
-						);
-						$mongo_result = $this->mongo_db->where($parameter)->get('item');
-						$mongo_result = $mongo_result[0];
-						$parameter = array(
-							'id'	=>	$mongo_result['make_item_id']
-						);
-						$product_result = $this->mongo_db->where($parameter)->get('alchemy');
-						$product_result = $product_result[0];
-
 						$key['name'] = $result['name'];
-						$key['materials'] = json_encode($product_result['materials']);
-						$key['product_id'] = $mongo_result['make_item_id'];
 						$this->malchemy->create($key);
 
 						$json = array(
@@ -160,7 +152,7 @@ class Alchemy extends CI_Controller
 		header('Content-type: text/json');
 		$this->load->model('utils/return_format');
 
-		$id = $this->input->post('id');
+		$id = intval($this->input->post('id'));
 
 		if(!empty($id))
 		{
@@ -178,26 +170,15 @@ class Alchemy extends CI_Controller
 
 				$this->load->library('Mongo_db');
 				$param = array(
-					'id'	=>	$result['product_id']
+					'id'	=>	$id
 				);
-				$product = $this->mongo_db->where($param)->get('item');
-				$product = $product[0];
-				$parameter['product'] = array(
-					'id'		=>	$product['id'],
-					'name'		=>	$product['name'],
-					'comment'	=>	$product['comment'],
-					'type'		=>	$product['type']
-				);
+				$result = $this->mongo_db->where($param)->get('alchemy');
+				$result = $result[0];
 
-				$materials = json_decode($result['materials']);
-				foreach($materials as $key => $value)
-				{
-					$param = array(
-						'id'	=>	$value['id']
-					);
-					$m = $this->mongo_db->where($param)->get('item');
-					$m = $m[0];
-				}
+				$json = array(
+					'code'		=>	ALCHEMY_INFO_SUCCESS,
+					'params'	=>	$result
+				);
 			}
 			else
 			{

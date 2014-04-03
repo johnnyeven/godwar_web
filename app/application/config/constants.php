@@ -58,5 +58,9 @@ define('ALCHEMY_LEARN_ERROR_NOT_EXIST', 1045);		//指定物品不存在
 define('ALCHEMY_LEARN_ERROR_NO_PARAM', 1046);		//参数不正确
 define('ALCHEMY_LEARN_ERROR_EXIST', 1047);			//指定配方已经学习
 
+define('ALCHEMY_INFO_SUCCESS', 1);					//显示配方成功
+define('ALCHEMY_INFO_ERROR_NO_PARAM', 1046);		//参数不正确
+define('ALCHEMY_INFO_ERROR_NOT_EXIST', 1047);		//指定配方不存在
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

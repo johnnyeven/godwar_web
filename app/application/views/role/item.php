@@ -11,7 +11,15 @@
             echo '<div class="item" style="padding:5px 20px;float:left;min-width:200px;">';
             echo '<span class="id" style="display:none;">' . $row['id'] . '</span>';
             echo '<span class="type" style="display:none;">' . $row['type'] . '</span>';
-            echo '<span class="name" style="color:#000000">' . $row['name'] . '</span>';
+            if($row['type'] == '4')
+            {
+                echo '<span class="name" style="color:#FF0000">';
+            }
+            else
+            {
+                echo '<span class="name" style="color:#000000">';
+            }
+            echo $row['name'] . '</span>';
             echo ' (<span class="count" style="">' . $row['count'] . '</span>)';
             echo '<span class="control" style="display:none;margin-left:10px;">';
 
@@ -37,19 +45,19 @@
         ?>
         <div style="clear:both;"></div>
         </div>
-        <div id="dialog_form" title="请输入要出售物品的数量">
-            <p>名称：<span class="dialog-item-name" id="dialog_item_name"></span></p>
-            <p>数量：<input type="text" id="dialog_item_count" name="dialog_item_count" value="" /></p>
-        </div>
-        <div id="dialog_message" title="信息">
-            <p id="dialog_message_content"></p>
-        </div>
-        <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
-            <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-            <strong class="dialog_alert_content"></strong></p>
-        </div>
     </div>
     <div class="clear"></div>
+    <div id="dialog_form" title="请输入要出售物品的数量">
+        <p>名称：<span class="dialog-item-name" id="dialog_item_name"></span></p>
+        <p>数量：<input type="text" id="dialog_item_count" name="dialog_item_count" value="" /></p>
+    </div>
+    <div id="dialog_message" title="信息">
+        <p id="dialog_message_content"></p>
+    </div>
+    <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
+        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+        <strong class="dialog_alert_content"></strong></p>
+    </div>
     <script src="<?php echo base_url('resources/js/jquery-ui-1.10.4.custom.min.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('resources/js/const.config.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo base_url('resources/js/item.js'); ?>" type="text/javascript"></script>

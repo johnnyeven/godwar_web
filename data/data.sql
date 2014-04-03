@@ -206,9 +206,7 @@ DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`alchemy` ;
 CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`alchemy` (
   `role_id` BIGINT NOT NULL DEFAULT 0,
   `id` BIGINT NOT NULL DEFAULT 0,
-  `product_id` BIGINT NOT NULL DEFAULT 0,
   `name` CHAR(32) NOT NULL DEFAULT '',
-  `materials` TEXT NOT NULL,
   PRIMARY KEY (`role_id`, `id`))
 ENGINE = InnoDB;
 
