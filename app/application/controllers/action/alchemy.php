@@ -394,6 +394,7 @@ class Alchemy extends CI_Controller
 					$parameter['price'] = $item['price'];
 					$this->mitem->create($parameter);
 				}
+				$this->malchemy_queue->delete($key);
 
 				$json = array(
 					'code'		=>	ALCHEMY_RECEIVE_SUCCESS,
