@@ -13,6 +13,15 @@ $(function() {
 		}
 	});
 
+	$(document).on("click", "#content > div.detail > a.alchemy_start", function(e) {
+		var id = $(this).parent().find("span.alchemy_item_id").text();
+		var parameter = {
+			"id": id
+		};
+		$.post('alchemy/build', parameter, onAlchemyBuild);
+		return false;
+	});
+
 	$("#dialog_message").dialog({
 		autoOpen: false,
 		modal: true,
@@ -67,4 +76,8 @@ $(function() {
 			$("#dialog_message").dialog("open");
 		}
 	};
+
+	var onAlchemyBuild = function(data) {
+		console.log(data);
+	}
 });

@@ -211,6 +211,23 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`alchemy` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `profzone_godwar_gamedb`.`alchemy_queue`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`alchemy_queue` ;
+
+CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`alchemy_queue` (
+  `role_id` BIGINT NOT NULL DEFAULT 0,
+  `id` BIGINT NOT NULL DEFAULT 0,
+  `product_id` BIGINT NOT NULL DEFAULT 0,
+  `name` CHAR(32) NOT NULL DEFAULT '',
+  `starttime` INT NOT NULL DEFAULT 0,
+  `endtime` INT NOT NULL DEFAULT 0,
+  `status` INT NOT NULL DEFAULT 0 COMMENT '0=运作中\n1=已完成\n2=已接收',
+  PRIMARY KEY (`role_id`, `id`))
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

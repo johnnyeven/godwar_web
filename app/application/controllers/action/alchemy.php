@@ -202,6 +202,131 @@ class Alchemy extends CI_Controller
 
 		echo $this->return_format->format($json);
 	}
+
+	public function build()
+	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = intval($this->input->post('id'));
+
+		if(!empty($id))
+		{
+			$this->load->model('malchemy_queue');
+			$key = array(
+				'role_id'	=>	$this->currentRole->role['id'],
+				'id'		=>	$id	
+			);
+			$result = $this->malchemy_queue->read($key);
+
+			if(empty($result))
+			{
+				$this->load->model('malchemy');
+				$result = $this->malchemy->read($key);
+
+				if(!empty($result))
+				{
+					$result = $result[0];
+					$parameter = array();
+
+					$this->load->library('Mongo_db');
+					$param = array(
+						'id'	=>	$id
+					);
+					$result = $this->mongo_db->where($param)->get('alchemy');
+					if(!empty($result))
+					{
+						$result = $result[0];
+						$this->load->model('mitem');
+
+						$role_id = $this->currentRole->role['id'];
+						$success = true;
+						foreach($result['materials'] as $item)
+						{
+							$count = $item['cost'];
+
+							$parameter = array(
+								'id'		=>	$item['id'],
+								'role_id'	=>	$role_id,
+								'count >='	=>	$count
+							);
+							$tmp = $this->mitem->read($parameter);
+							if(empty($tmp))
+							{
+								$success = false;
+								break;
+							}
+						}
+						if($success)
+						{
+							foreach($result['materials'] as $item)
+							{
+								$count = $item['cost'];
+								$item_id = $item['id'];
+								$sql = "UPDATE `items` SET `count`=`count`-{$count} WHERE `id`={$item_id} AND `role_id`={$role_id}";
+								$this->mitem->db()->query($sql);
+							}
+
+							$time = time();
+							$endtime = $time + $result['costtime'];
+							$parameter = array(
+								'role_id'		=>	$role_id,
+								'id'			=>	$id,
+								'product_id'	=>	$result['product']['id'],
+								'name'			=>	$result['product']['name'],
+								'starttime'		=>	$time,
+								'endtime'		=>	$endtime
+							);
+							$this->malchemy_queue->create($parameter);
+
+							$json = array(
+								'code'		=>	ALCHEMY_BUILD_SUCCESS,
+								'params'	=>	$parameter
+							);
+						}
+						else
+						{
+							$json = array(
+								'code'		=>	ALCHEMY_BUILD_ERROR_NOT_ENOUGH,
+								'params'	=>	array(
+									'id'	=>	$result
+								)
+							);
+						}
+					}
+				}
+				else
+				{
+					$json = array(
+						'code'		=>	ALCHEMY_BUILD_ERROR_NOT_EXIST,
+						'params'	=>	array(
+							'id'	=>	$id
+						)
+					);
+				}
+			}
+			else
+			{
+				$json = array(
+					'code'		=>	ALCHEMY_BUILD_ERROR_MAX_QUEUE,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
+			}
+		}
+		else
+		{
+			$json = array(
+				'code'		=>	ALCHEMY_BUILD_ERROR_NO_PARAM,
+				'params'	=>	array(
+					'id'	=>	$id
+				)
+			);
+		}
+
+		echo $this->return_format->format($json);
+	}
 }
 
 ?>
