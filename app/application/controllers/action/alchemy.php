@@ -34,6 +34,15 @@ class Alchemy extends CI_Controller
 		);
 		$queue_result = $this->malchemy_queue->read($parameter, $extension);
 
+		$key = array(
+			'role_id'		=>	$this->currentRole->role['id'],
+			'endtime <='	=>	time()
+		);
+		$parameter = array(
+			'status'	=>	1
+		);
+		$this->malchemy_queue->update($key, $parameter);
+
 		$this->load->model('mitem');
 		$parameter = array(
 			'role_id'	=>	$this->currentRole->role['id']
