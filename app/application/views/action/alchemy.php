@@ -12,6 +12,22 @@
     </div>
     <div class="right">
         <div id="content"></div>
+        <div id="queue">
+        <?php
+        foreach($queue as $value)
+        {
+            echo '<div class="queue_item">';
+            echo '<span class="queue_name">' . $value['name'] . '</span>';
+            echo '<span class="queue_starttime">' . date('Y-m-d H:i:s', $value['starttime']) . '</span>';
+            echo '<span class="queue_starttime">' . date('Y-m-d H:i:s', $value['endtime']) . '</span>';
+            if($value['status'] == '1')
+            {
+                echo '<span class="queue_control"><a href="#" rel="' . $value['product_id'] . '">放入背包</a></span>';
+            }
+            echo '</div>';
+        }
+        ?>
+        </div>
         <div id="item">
         <?php
         foreach($items as $value)

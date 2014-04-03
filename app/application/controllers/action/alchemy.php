@@ -25,6 +25,15 @@ class Alchemy extends CI_Controller
 		);
 		$result = $this->malchemy->read($parameter);
 
+		$this->load->model('malchemy_queue');
+		$parameter = array(
+			'role_id'	=>	$this->currentRole->role['id']
+		);
+		$extension = array(
+			'order_by'	=>	array('endtime', 'asc')
+		);
+		$queue_result = $this->malchemy_queue->read($parameter, $extension);
+
 		$this->load->model('mitem');
 		$parameter = array(
 			'role_id'	=>	$this->currentRole->role['id']
@@ -33,6 +42,7 @@ class Alchemy extends CI_Controller
 
 		$data = array(
 			'result'	=>	$result,
+			'queue'		=>	$queue_result,
 			'items'		=>	$item_result
 		);
 		$this->load->model( 'utils/render' );
