@@ -23,7 +23,7 @@
             echo ' | <span class="queue_endtime">' . date('Y-m-d H:i:s', $value['endtime']) . '</span>';
             if($value['status'] == '1')
             {
-                echo ' | <span class="queue_control"><a href="#" rel="' . $value['product_id'] . '">放入背包</a></span>';
+                echo ' | <span class="queue_control">已完成，<a href="#" rel="' . $value['product_id'] . '">放入背包</a></span>';
             }
             echo '</div>';
         }
