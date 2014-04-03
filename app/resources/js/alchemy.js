@@ -87,7 +87,24 @@ $(function() {
 	};
 
 	var onAlchemyBuild = function(data) {
-		console.log(data);
+		if(data.code == ALCHEMY_BUILD_SUCCESS) {
+			var starttime = getLocalTime(data.params.starttime);
+			var endtime = getLocalTime(data.params.endtime);
+			var html = '<div class="queue_item" id="queue_item_' + data.params.id + '">';
+			html += '<span class="queue_name">' + data.params.name + '</span>';
+			html += ' | <span class="queue_starttime">' + starttime + '</span>';
+			html += ' | <span class="queue_endtime">' + endtime + '</span>';
+			html += '</div>';
+			$("#queue").prepend(html);
+			$("#dialog_alert").find("p > strong").text("开始合成 " + data.params.name);
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
 	}
 
 	var onAlchemyReceive = function(data) {
@@ -100,7 +117,12 @@ $(function() {
 				$("#dialog_alert").fadeOut();
 			}, 3000);
 		} else {
-
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
 		}
 	}
 });
+
+function getLocalTime(nS) { 
+	return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " "); 
+} 
