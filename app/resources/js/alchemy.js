@@ -22,6 +22,15 @@ $(function() {
 		return false;
 	});
 
+	$(document).on("click", "#queue > div.queue_item > span.queue_control > a.queue_complete", function(e) {
+		var id = $(this).attr('rel');
+		var parameter = {
+			"id": id
+		};
+		$.post('alchemy/receive', parameter, onAlchemyReceive);
+		return false;
+	});
+
 	$("#dialog_message").dialog({
 		autoOpen: false,
 		modal: true,
@@ -79,5 +88,19 @@ $(function() {
 
 	var onAlchemyBuild = function(data) {
 		console.log(data);
+	}
+
+	var onAlchemyReceive = function(data) {
+		if(data.code == ALCHEMY_RECEIVE_SUCCESS) {
+			var id = data.params.id;
+			$("#queue_item_" + id).remove();
+			$("#dialog_alert").find("p > strong").text("已接收 " + data.params.name + " x1");
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+
+		}
 	}
 });

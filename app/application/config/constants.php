@@ -69,5 +69,9 @@ define('ALCHEMY_BUILD_ERROR_NOT_EXIST', 1047);		//指定配方不存在
 define('ALCHEMY_BUILD_ERROR_NOT_ENOUGH', 1044);		//指定配方材料不足
 define('ALCHEMY_BUILD_ERROR_MAX_QUEUE', 1048);		//队列已满
 
+define('ALCHEMY_RECEIVE_SUCCESS', 1);				//显示配方成功
+define('ALCHEMY_RECEIVE_ERROR_NO_PARAM', 1046);		//参数不正确
+define('ALCHEMY_RECEIVE_ERROR_NOT_EXIST', 1047);	//指定配方不存在
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
