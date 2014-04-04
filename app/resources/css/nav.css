@@ -1,0 +1,9 @@
+@charset "utf-8";
+.wrapper .top {height:100px;}
+.wrapper .top .logo {width:159px;height:57px;margin-top:20px;float:left;}
+.wrapper .top .nav {height:29px;float:right;margin-top:60px;margin-right:10px;}
+.wrapper .top .nav .nav_left {width:16px;height:29px;background:url(../images/nav_bg_left.png) no-repeat;float:left;}
+.wrapper .top .nav .nav_right {width:16px;height:29px;background:url(../images/nav_bg_right.png) no-repeat;float:left;}
+.wrapper .top .nav .nav_main {height:29px;float:left;line-height:29px;background:#351d07;}
+.wrapper .top .nav .nav_main a {color:#AF8938;background:url(../images/nav_list_icon.png) left center no-repeat;text-indent:10px;display:inline-block;}
+.wrapper .top .nav .nav_main a:visited {color:#906d36;}

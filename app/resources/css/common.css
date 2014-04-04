@@ -1,0 +1,9 @@
+@charset "utf-8";
+html, body {margin:0;padding:0;font-size:12px;background:#e1e1e1 url(../images/top_bg.png) top repeat-x;}
+.wrapper {width:1000px;margin:0 auto;}
+.content {min-height:500px;}
+.footer {height:100px;color:#585858;text-align:center;}
+
+.clear {clear:both;}
+a, a:visited {text-decoration:none;}
+a:hover {text-decoration:underline;}
