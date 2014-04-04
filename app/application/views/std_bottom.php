@@ -1,3 +1,3 @@
-<p>
-copyright johnnyeven 2013
-</p>
+	<div class="footer">
+    	<p>JohnNy LeE 2014 &copy; Copyright</p>
+    </div>
