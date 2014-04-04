@@ -25,6 +25,8 @@ CREATE TABLE IF NOT EXISTS `profzone_accountdb`.`accounts` (
   `tencent_weibo_id` CHAR(32) NOT NULL DEFAULT '',
   `tencent_weibo_key` CHAR(64) NOT NULL DEFAULT '',
   `tencent_weibo_token` CHAR(64) NOT NULL DEFAULT '',
+  `renren_id` CHAR(32) NOT NULL DEFAULT '',
+  `renren_name` CHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`))
 AUTO_INCREMENT = 1004000001;
 
@@ -77,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `next_battletime` INT NOT NULL DEFAULT 0,
   `gathertime` INT NOT NULL DEFAULT 0,
   `next_gathertime` INT NOT NULL DEFAULT 0,
-  `current_action` TINYINT NOT NULL DEFAULT 0,
+  `current_action` TINYINT NOT NULL DEFAULT 0 COMMENT '1=战斗\n2=采集',
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`name` ASC))
@@ -179,6 +181,8 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`thirdparts` (
   `tencent_weibo_token` CHAR(64) NOT NULL DEFAULT '',
   `tencent_weibo_key` CHAR(64) NOT NULL DEFAULT '',
   `tencent_weibo_id` CHAR(32) NOT NULL DEFAULT '',
+  `renren_id` CHAR(32) NOT NULL DEFAULT '',
+  `renren_name` CHAR(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`role_id`))
 ENGINE = InnoDB;
 

@@ -52,5 +52,24 @@
 		}
 	    ?>
 		</div>
+    	<div class="renren">
+	    <?php
+		if(empty($role_thirdpart['renren_id']))
+		{
+			if(empty($user['renren_id']))
+			{
+				echo '<p>还没有绑定人人网帐号，<a href="' . $renren_url . '">现在就去绑定</a></p>';
+			}
+			else
+			{
+				echo '<p>已成功绑定人人网帐号，ID: ' . $user['renren_name'] . '</p>';
+			}
+		}
+		else
+		{
+			echo '<p>已成功绑定人人网帐号，ID: ' . $role_thirdpart['renren_name'] . '</p>';
+		}
+	    ?>
+		</div>
     </div>
 	<div class="clear"></div>
