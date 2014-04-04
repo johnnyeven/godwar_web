@@ -23,7 +23,7 @@ $(function() {
 	
 	function startBattle() {
 		if(run) {
-			$.post("/app/action/battle/request_battle", {}, showBattle);
+			$.post("battle/request_battle", {}, showBattle);
 		}
 	}
 	
