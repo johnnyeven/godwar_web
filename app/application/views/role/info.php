@@ -1,4 +1,4 @@
-<link href="<?php base_url('resources/css/tow_column.common.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo base_url('resources/css/tow_column.common.css'); ?>" rel="stylesheet" type="text/css" />
     	<div class="left">
         	<p>角色名：<?php echo $role['name']; ?></p>
             <p>等级：<?php echo $role['level']; ?></p>
