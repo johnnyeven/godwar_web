@@ -18,7 +18,7 @@ class Check_user extends CI_Model
 		
 		$redirectUrl = 'login?redirect=' . urlencode( $this->input->server( 'REQUEST_URI' ) );
 		$cookieName = $this->config->item( 'cookie_prefix' ) . 'user';
-		if ( !$this->input->cookie( $cookieName, TRUE ) )
+		if ( empty($this->input->cookie( $cookieName, TRUE )) )
 		{
 			if ( $redirect )
 			{

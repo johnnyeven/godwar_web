@@ -26,6 +26,16 @@ class Register extends CI_Controller
 			$this->load->helper( 'security' );
 			$this->load->model( 'account' );
 			
+			$parameter = array(
+				'name'		=>	$accountName
+			);
+			$result = $this->account->read($parameter);
+			if(!empty($result))
+			{
+				showMessage( MESSAGE_TYPE_ERROR, 'USER_REGISTER_ERROR_EXIST', '', 'register', true, 5 );
+				exit();
+			}
+
 			$time = time();
 			$parameter = array (
 					'name' => $accountName,
@@ -50,7 +60,8 @@ class Register extends CI_Controller
 					'expire' => $this->config->item( 'cookie_expire' ),
 					'domain' => $this->config->item( 'cookie_domain' ),
 					'path' => $this->config->item( 'cookie_path' ),
-					'prefix' => $this->config->item( 'cookie_prefix' ) 
+					'prefix' => $this->config->item( 'cookie_prefix' ),
+					'expire' => $this->config->item( 'cookie_expire' )
 			);
 			$this->input->set_cookie( $cookie );
 			
@@ -58,7 +69,7 @@ class Register extends CI_Controller
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'USER_REGISTER_NO_PARAM', '', 'regiser', true, 5 );
+			showMessage( MESSAGE_TYPE_ERROR, 'USER_REGISTER_NO_PARAM', '', 'register', true, 5 );
 		}
 	}
 }

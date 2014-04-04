@@ -30,7 +30,8 @@ class Account extends CI_Model implements ICrud
 	{
 		if ( !empty( $row ) )
 		{
-			return $this->db->insert( $this->table, $row );
+			$this->db->insert( $this->table, $row );
+			return $this->db->insert_id();
 		}
 		else
 		{

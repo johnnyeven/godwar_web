@@ -44,6 +44,13 @@ define('MESSAGE_TYPE_ERROR', 0);
 */
 define('ERROR_BATTLE_TIME_NOT_TO', 1);
 define('ERROR_ROLE_DEAD', 1042);
+define('BATTLE_ERROR_CONFLICT', 11040);
+
+define('GATHER_SUCCESS', 20001);					//采集成功
+define('GATHER_ERROR_CONFLICT', 21040);				//动作冲突，同一时刻只能选择战斗或者采集
+define('GATHER_ERROR_NOT_TIME', 21041);				//时间冷却未到
+define('GATHER_ERROR_MAP_NOT_EXIST', 21042);		//地图编号不存在
+define('GATHER_ERROR_ITEM_NOT_EXIST', 21045);		//物品编号不存在
 
 define('ITEM_SELL_SUCCESS', 1);						//物品出售成功
 define('ITEM_SELL_ERROR_LOCKED', 1043);				//物品被锁定

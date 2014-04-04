@@ -1,5 +1,12 @@
 var ERROR_BATTLE_TIME_NOT_TO = 1;
 var ERROR_ROLE_DEAD = 1042;
+var BATTLE_ERROR_CONFLICT = 11040;
+
+var GATHER_SUCCESS = 20001;						//采集成功
+var GATHER_ERROR_CONFLICT = 21040;				//动作冲突，同一时刻只能选择战斗或者采集
+var GATHER_ERROR_NOT_TIME = 21041;				//时间冷却未到
+var GATHER_ERROR_MAP_NOT_EXIST = 21042;			//地图编号不存在
+var GATHER_ERROR_ITEM_NOT_EXIST = 21045;		//物品编号不存在
 
 var ITEM_SELL_SUCCESS = 1;						//物品出售成功
 var ITEM_SELL_ERROR_LOCKED = 1043;				//物品被锁定
