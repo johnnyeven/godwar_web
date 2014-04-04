@@ -1,6 +1,7 @@
     <div class="menu">
         <a href="<?php echo site_url('role/info'); ?>">信息</a> | 
         <a href="<?php echo site_url('action/battle'); ?>">战斗</a> | 
+        <a href="<?php echo site_url('action/gather'); ?>">采集</a> | 
         <a href="<?php echo site_url('action/instance'); ?>">众神炼狱</a> | 
         <a href="<?php echo site_url('action/map/info'); ?>">地图</a> | 
         <a href="<?php echo site_url('role/equipment'); ?>">装备</a> | 

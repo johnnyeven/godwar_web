@@ -198,9 +198,12 @@ class RoleAdapter
 			'passive_skill'			=>	json_encode($this->role['passive_skill']),
 			'gift'					=>	json_encode($this->role['gift']),
 			'map_id'				=>	$this->role['map_id'],
+			'gift_point'			=>	$this->role['gift_point'],
 			'battletime'			=>	$this->role['battletime'],
 			'next_battletime'		=>	$this->role['next_battletime'],
-			'gift_point'			=>	$this->role['gift_point']
+			'gathertime'			=>	$this->role['gathertime'],
+			'next_gathertime'		=>	$this->role['next_gathertime'],
+			'current_action'		=>	$this->role['current_action']
 		);
 		$this->CI->role->update($this->role['id'], $parameter);
 

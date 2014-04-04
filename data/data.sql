@@ -72,9 +72,12 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `createtime` INT NOT NULL DEFAULT 0 COMMENT '创建时间',
   `lasttime` INT NOT NULL DEFAULT 0 COMMENT '上次登录时间',
   `map_id` INT NOT NULL DEFAULT 0,
+  `gift_point` INT NOT NULL DEFAULT 0,
   `battletime` INT NOT NULL DEFAULT 0,
   `next_battletime` INT NOT NULL DEFAULT 0,
-  `gift_point` INT NOT NULL DEFAULT 0,
+  `gathertime` INT NOT NULL DEFAULT 0,
+  `next_gathertime` INT NOT NULL DEFAULT 0,
+  `current_action` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`name` ASC))

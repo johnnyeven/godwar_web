@@ -45,7 +45,8 @@ class Choose_role extends CI_Controller
 					'expire' => 0,
 					'domain' => $this->config->item( 'cookie_domain' ),
 					'path' => $this->config->item( 'cookie_path' ),
-					'prefix' => $this->config->item( 'cookie_prefix' ) 
+					'prefix' => $this->config->item( 'cookie_prefix' ),
+					'expire' => $this->config->item( 'cookie_expire' )
 			);
 			$this->input->set_cookie( $cookie );
 			

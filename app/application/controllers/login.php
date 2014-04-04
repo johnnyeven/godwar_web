@@ -73,7 +73,8 @@ class Login extends CI_Controller
 						'expire' => $this->config->item( 'cookie_expire' ),
 						'domain' => $this->config->item( 'cookie_domain' ),
 						'path' => $this->config->item( 'cookie_path' ),
-						'prefix' => $this->config->item( 'cookie_prefix' ) 
+						'prefix' => $this->config->item( 'cookie_prefix' ),
+						'expire' => $this->config->item( 'cookie_expire' )
 				);
 				if ( $cookieRemain == '1' )
 				{
