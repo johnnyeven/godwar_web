@@ -218,7 +218,9 @@ class RoleAdapter
 			'tencent_weibo_refresh_token'	=>	$this->thirdpart['tencent_weibo_refresh_token'],
 			'tencent_weibo_token'			=>	$this->thirdpart['tencent_weibo_token'],
 			'tencent_weibo_key'				=>	$this->thirdpart['tencent_weibo_key'],
-			'tencent_weibo_id'				=>	$this->thirdpart['tencent_weibo_id']
+			'tencent_weibo_id'				=>	$this->thirdpart['tencent_weibo_id'],
+			'renren_id'						=>	$this->thirdpart['renren_id'],
+			'renren_name'					=>	$this->thirdpart['renren_name']
 		);
 		$this->CI->mthirdpart->update($this->role['id'], $parameter);
 	}
