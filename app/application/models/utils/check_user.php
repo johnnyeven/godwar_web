@@ -18,7 +18,8 @@ class Check_user extends CI_Model
 		
 		$redirectUrl = 'login?redirect=' . urlencode( $this->input->server( 'REQUEST_URI' ) );
 		$cookieName = $this->config->item( 'cookie_prefix' ) . 'user';
-		if ( empty($this->input->cookie( $cookieName, TRUE )) )
+		$cookie = $this->input->cookie( $cookieName, TRUE );
+		if ( empty($cookie) )
 		{
 			if ( $redirect )
 			{
@@ -27,7 +28,6 @@ class Check_user extends CI_Model
 		}
 		else
 		{
-			$cookie = $this->input->cookie( $cookieName, TRUE );
 			$cookie = _authcode( $cookie );
 			$json = json_decode( $cookie );
 			$id = $json->id;
