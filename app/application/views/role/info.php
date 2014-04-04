@@ -22,16 +22,16 @@
             {
                 if(empty($user['sina_weibo_id']))
                 {
-                    echo '<p>还没有绑定新浪微博，<a href="' . $sina_weibo_url . '">现在就去绑定</a></p>';
+                    echo '<span>还没有绑定新浪微博，<a href="' . $sina_weibo_url . '">现在就去绑定</a></span>';
                 }
                 else
                 {
-                    echo '<p>已成功绑定新浪微博，ID: ' . $user['sina_weibo_id'] . '</p>';
+                    echo '<span>已成功绑定新浪微博，ID: ' . $user['sina_weibo_id'] . '</span>';
                 }
             }
             else
             {
-                echo '<p>已成功绑定新浪微博，ID: ' . $role_thirdpart['sina_weibo_id'] . '</p>';
+                echo '<span>已成功绑定新浪微博，ID: ' . $role_thirdpart['sina_weibo_id'] . '</span>';
             }
             ?>
             </div>
@@ -41,16 +41,16 @@
                 {
                     if(empty($user['tencent_weibo_id']))
                     {
-                        echo '<p>还没有绑定腾讯微博，<a href="' . $tencent_weibo_url . '">现在就去绑定</a></p>';
+                        echo '<span>还没有绑定腾讯微博，<a href="' . $tencent_weibo_url . '">现在就去绑定</a></span>';
                     }
                     else
                     {
-                        echo '<p>已成功绑定腾讯微博，ID: ' . $user['tencent_weibo_id'] . '</p>';
+                        echo '<span>已成功绑定腾讯微博，ID: ' . $user['tencent_weibo_id'] . '</span>';
                     }
                 }
                 else
                 {
-                    echo '<p>已成功绑定腾讯微博，ID: ' . $role_thirdpart['tencent_weibo_id'] . '</p>';
+                    echo '<span>已成功绑定腾讯微博，ID: ' . $role_thirdpart['tencent_weibo_id'] . '</span>';
                 }
                 ?>
                 </div>
@@ -60,16 +60,16 @@
                 {
                     if(empty($user['renren_id']))
                     {
-                        echo '<p>还没有绑定人人网帐号，<a href="' . $renren_url . '">现在就去绑定</a></p>';
+                        echo '<span>还没有绑定人人网帐号，<a href="' . $renren_url . '">现在就去绑定</a></span>';
                     }
                     else
                     {
-                        echo '<p>已成功绑定人人网帐号，ID: ' . $user['renren_name'] . '</p>';
+                        echo '<span>已成功绑定人人网帐号，ID: ' . $user['renren_name'] . '</span>';
                     }
                 }
                 else
                 {
-                    echo '<p>已成功绑定人人网帐号，ID: ' . $role_thirdpart['renren_name'] . '</p>';
+                    echo '<span>已成功绑定人人网帐号，ID: ' . $role_thirdpart['renren_name'] . '</span>';
                 }
                 ?>
                 </div>
