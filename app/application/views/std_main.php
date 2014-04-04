@@ -1,4 +1,4 @@
-<link href="<?php site_url('resources/css/tow_column.common.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php base_url('resources/css/tow_column.common.css'); ?>" rel="stylesheet" type="text/css" />
     	<div class="left">
         
         </div>

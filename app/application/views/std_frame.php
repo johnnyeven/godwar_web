@@ -4,8 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo $std_header; ?>
 </head>
-<script src="<?php site_url('resources/js/jquery-1.10.2.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php site_url('resources/js/jquery-ui-1.10.4.custom.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php base_url('resources/js/jquery-1.10.2.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php base_url('resources/js/jquery-ui-1.10.4.custom.min.js'); ?>" type="text/javascript"></script>
 <body>
 <div class="wrapper">
 	<?php echo $std_top; ?>

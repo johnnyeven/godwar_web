@@ -1,9 +1,9 @@
 	<div class="top">
     	<div class="logo">
-        	<img src="<?php site_url('resources/images/logo.png'); ?>" alt="profzone" width="159" height="57" />
+        	<img src="<?php base_url('resources/images/logo.png'); ?>" alt="profzone" width="159" height="57" />
         </div>
         <div class="nav">
-        	<div class="nav_left"><img src="<?php site_url('resources/images/nav_bg_left.png'); ?>" /></div>
+        	<div class="nav_left"><img src="<?php base_url('resources/images/nav_bg_left.png'); ?>" /></div>
             <div class="nav_main">
                 <a href="#">首页</a>
                 <a href="#">行动</a>
@@ -17,7 +17,7 @@
                 <a href="#">炼金术</a>
                 <a href="#">守护灵</a>
             </div>
-        	<div class="nav_right"><img src="<?php site_url('resources/images/nav_bg_right.png'); ?>" /></div>
+        	<div class="nav_right"><img src="<?php base_url('resources/images/nav_bg_right.png'); ?>" /></div>
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
