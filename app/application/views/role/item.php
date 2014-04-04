@@ -15,6 +15,10 @@
             {
                 echo '<span class="name" style="color:#FF0000">';
             }
+            elseif($row['type'] == '2' || $row['type'] == '3')
+            {
+                echo '<span class="name" style="color:#00FF00">';
+            }
             else
             {
                 echo '<span class="name" style="color:#000000">';
@@ -26,6 +30,10 @@
             if($row['type'] == '4')
             {
                 echo '<a class="learn_blueprint" href="#">学习</a> | ';
+            }
+            elseif($row['type'] == '2' || $row['type'] == '3')
+            {
+                echo '<a class="use" href="#">使用</a> | ';
             }
 
             echo '<a class="sell" href="#">出售</a>';
