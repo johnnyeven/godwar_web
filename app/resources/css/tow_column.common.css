@@ -3,4 +3,4 @@
 .wrapper .content .right {float:left;width:700px;min-height:500px;padding:20px 0;}
 .wrapper .content .right .right_top {background:url(../images/seperator_top.png) left no-repeat;height:26px;}
 .wrapper .content .right .right_bottom {background:url(../images/seperator_bottom.png) left no-repeat;height:26px;}
-.wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:400px;padding:10px 20px;}
+.wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:400px;padding:1px 20px;}
