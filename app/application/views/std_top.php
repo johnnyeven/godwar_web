@@ -5,7 +5,7 @@
         <div class="nav">
         	<div class="nav_left"><img src="<?php echo base_url('resources/images/nav_bg_left.png'); ?>" /></div>
             <div class="nav_main">
-                <a href="<?php echo site_url('action/battle'); ?>">首页</a>
+                <a href="<?php echo site_url('role/info'); ?>">首页</a>
                 <a href="<?php echo site_url('action/battle'); ?>">行动</a>
                 <a href="<?php echo site_url('action/gather'); ?>">采集</a>
                 <a href="<?php echo site_url('action/instance'); ?>">众神炼狱</a>
