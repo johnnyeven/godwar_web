@@ -35,13 +35,13 @@ $(function() {
 			switch(err) {
 				case 1:
 					remains = data.next_battletime - data.timestamp;
-					html = '<div class="post"><div class="entry">战斗刚结束，正在休息恢复中，并搜寻敌人...<em id="findTimer">(' + remains + ')</em></div></div>';
+					html = '<div class="post"><div class="entry color-purple">战斗刚结束，正在休息恢复中，并搜寻敌人...<em id="findTimer">(' + remains + ')</em></div></div>';
 		        	$('#content').prepend(html);
 		        	timerId = self.setInterval(checkTimer, 1000);
 					break;
 				case 1042:
 					clearInfo();
-					html = '<div class="post"><div class="entry">您已阵亡，请前往圣灵祭坛复活</div></div>';
+					html = '<div class="post"><div class="entry color-red">您已阵亡，请前往圣灵祭坛复活</div></div>';
 					$('#content').prepend(html);
 					break;
 			}
@@ -66,7 +66,18 @@ $(function() {
 				{
 					html += '，获得道具';
 					for(var i = 0; i<currentData.settle.drop.length; i++) {
-						html += ' <span class="equipment">' + currentData.settle.drop[i].name + '</span>';
+						if(currentData.settle.drop[i].grade == 1) {
+							html += ' <span class="equipment color-blue">';
+						} else if(currentData.settle.drop[i].grade == 2) {
+							html += ' <span class="equipment color-green">';
+						} else if(currentData.settle.drop[i].grade == 3) {
+							html += ' <span class="equipment color-purple">';
+						} else if(currentData.settle.drop[i].grade == 4) {
+							html += ' <span class="equipment color-orange">';
+						} else {
+							html += ' <span class="equipment">';
+						}
+						html += currentData.settle.drop[i].name + '</span>';
 					}
 				}
 			} else {

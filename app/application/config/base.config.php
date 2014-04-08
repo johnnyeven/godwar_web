@@ -13,4 +13,4 @@ $config['base_recover_health_rate'] = 2;
 $config['base_battle_rest_time'] = 30;
 
 //采集固定休息时间
-$config['base_gather_rest_time'] = 1;
+$config['base_gather_rest_time'] = 10;

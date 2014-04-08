@@ -4,3 +4,25 @@
 .wrapper .content .right .right_top {background:url(../images/seperator_top.png) left no-repeat;height:26px;}
 .wrapper .content .right .right_bottom {background:url(../images/seperator_bottom.png) left no-repeat;height:26px;}
 .wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:400px;padding:1px 20px;}
+
+.row-item {margin:10px;padding:10px;}
+.role-info-item {float:left;width:50%;padding:5px 0;}
+.role-info-item span {display:inline-block;}
+.role-info-item-label {width:50px;font-weight: bold;color:#A37229;}
+
+.post {padding:5px 0;border-bottom: #CCC 1px dashed;}
+.post .entry span {font-weight:bold;}
+.post .entry span.defender, .post .entry span.damage {color:#FF0000;}
+.post .entry span.defender_self {color:#8DC43C;}
+.post .entry span.skill {color:#0000FF;}
+.post .entry span.status {color:#FF00FF;}
+.post .entry span.exp, .post .entry span.gold {color:#FFFF99;background:#765524;display:inline-block;padding:2px 3px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}
+
+.post .entry span.gather_name {color:#8DC43C;}
+
+.with-border-bottom {border-bottom: #CCC 1px solid;}
+.color-red {color:#FF0000;}
+.color-green {color:#2BD52B;}
+.color-blue {color:#0099FF;}
+.color-purple {color:#FF00FF;}
+.color-orange {color:#FF9900;}
