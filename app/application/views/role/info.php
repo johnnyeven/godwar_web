@@ -1,17 +1,55 @@
 <link href="<?php echo base_url('resources/css/tow_column.common.css'); ?>" rel="stylesheet" type="text/css" />
     	<div class="left">
-        	<p>角色名：<?php echo $role['name']; ?></p>
-            <p>等级：<?php echo $role['level']; ?></p>
-            <p>经验：<?php echo number_format($role['exp']); ?>/<?php echo number_format($role['nextexp']); ?></p>
-            <p>金币：<?php echo number_format($role['gold']); ?></p>
-            <p>种族：<?php echo $role['race_name']; ?></p>
-            <p>职业：<?php echo $role['job_name']; ?></p>
-            <p>生命值：<?php echo number_format($role['health']); ?>/<?php echo number_format($role['health_max']); ?></p>
-            <p>攻击：<?php echo $role['atk']; ?></p>
-            <p>防御：<?php echo $role['def']; ?></p>
-            <p>魔抗：<?php echo $role['mdef']; ?></p>
-            <p>命中：<?php echo $role['hit']; ?></p>
-            <p>闪避：<?php echo $role['flee']; ?></p>
+            <div class="row-item with-border-bottom">
+                <div class="role-info-item">
+                    <span class="role-info-item-label">角色名</span>
+                    <span class="role-info-item-value"><?php echo $role['name']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">等级</span>
+                    <span class="role-info-item-value"><?php echo $role['level']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">经验</span>
+                    <span class="role-info-item-value"><?php echo number_format($role['exp']); ?> / <?php echo number_format($role['nextexp']); ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">金币</span>
+                    <span class="role-info-item-value"><?php echo number_format($role['gold']); ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">种族</span>
+                    <span class="role-info-item-value"><?php echo $role['race_name']; ?></span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="row-item">
+                <div class="role-info-item">
+                    <span class="role-info-item-label">生命值</span>
+                    <span class="role-info-item-value"><?php echo number_format($role['health']); ?> / <?php echo number_format($role['health_max']); ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">攻击</span>
+                    <span class="role-info-item-value"><?php echo $role['atk']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">防御</span>
+                    <span class="role-info-item-value"><?php echo $role['def']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">魔抗</span>
+                    <span class="role-info-item-value"><?php echo $role['mdef']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">命中</span>
+                    <span class="role-info-item-value"><?php echo $role['hit']; ?></span>
+                </div>
+                <div class="role-info-item">
+                    <span class="role-info-item-label">闪避</span>
+                    <span class="role-info-item-value"><?php echo $role['flee']; ?></span>
+                </div>
+                <div class="clear"></div>
+            </div>
         </div>
         <div class="right">
         	<div class="right_top"></div>

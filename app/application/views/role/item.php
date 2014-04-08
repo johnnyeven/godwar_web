@@ -19,7 +19,7 @@
 		            }
 		            elseif($row['type'] == '2' || $row['type'] == '3')
 		            {
-		                echo '<span class="name" style="color:#00FF00">';
+		                echo '<span class="name" style="color:#FF00FF">';
 		            }
 		            else
 		            {
