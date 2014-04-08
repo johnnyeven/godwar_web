@@ -5,11 +5,11 @@
         <div class="right">
         	<div class="right_top"></div>
             <div class="right_main">
-	            <div class="controlPanel">
+	            <div class="row-item controlPanel">
 		        	<input type="button" name="btnStartBattle" id="btnStartBattle" value="战斗" />
 		        	<input type="button" name="btnStopBattle" id="btnStopBattle" value="停止" />
 		    	</div>
-		        <div id="content">
+		        <div class="row-item" id="content">
 		        
 		        </div>
             </div>
