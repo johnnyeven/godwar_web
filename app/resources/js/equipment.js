@@ -13,7 +13,9 @@ $(function() {
 	});
 
 	$(document).on("click", function(e) {
-		currentMenu.hide();
-		currentMenu = null;
+		if(currentMenu) {
+			currentMenu.hide();
+			currentMenu = null;
+		}
 	});
 });

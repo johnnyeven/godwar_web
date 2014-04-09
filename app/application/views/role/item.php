@@ -5,50 +5,52 @@
         <div class="right">
         	<div class="right_top"></div>
             <div class="right_main">
-            	<p><a href="<?php echo site_url('role/item/sell_all'); ?>">出售所有未上锁的物品</a></p>
-		        <div id="content">
+            	<div class="row-item">
+            		<a href="<?php echo site_url('role/item/sell_all'); ?>"><button class="btn btn-warning">出售所有未上锁的物品</button></a>
+            	</div>
+		        <div id="content" class="row-item">
 		        <?php
 		        foreach($result as $row)
 		        {
-		            echo '<div class="item" style="padding:5px 20px;float:left;min-width:200px;">';
+		            echo '<div class="equipment-item">';
 		            echo '<span class="id" style="display:none;">' . $row['id'] . '</span>';
 		            echo '<span class="type" style="display:none;">' . $row['type'] . '</span>';
 		            if($row['type'] == '4')
 		            {
-		                echo '<span class="name" style="color:#FF0000">';
+		                echo '<span class="name color-red">';
 		            }
 		            elseif($row['type'] == '2' || $row['type'] == '3')
 		            {
-		                echo '<span class="name" style="color:#FF00FF">';
+		                echo '<span class="name color-purple">';
 		            }
 		            else
 		            {
-		                echo '<span class="name" style="color:#000000">';
+		                echo '<span class="name">';
 		            }
 		            echo $row['name'] . '</span>';
-		            echo ' (<span class="count" style="">' . $row['count'] . '</span>)';
-		            echo '<span class="control" style="display:none;margin-left:10px;">';
+		            echo ' (<span class="count">' . $row['count'] . '</span>)';
+		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
 
 		            if($row['type'] == '4')
 		            {
-		                echo '<a class="learn_blueprint" href="#">学习</a> | ';
+		                echo '<li><a class="learn_blueprint" href="#"><span class="ui-icon ui-icon-lightbulb"></span>学习</a></li>';
 		            }
 		            elseif($row['type'] == '2' || $row['type'] == '3')
 		            {
-		                echo '<a class="use" href="#">使用</a> | ';
+		                echo '<li><a class="use" href="#"><span class="ui-icon ui-icon-power"></span>使用</a></li>';
 		            }
 
-		            echo '<a class="sell" href="#">出售</a>';
-		            // echo ' | <a href="' . site_url('action/market/sell/' . $row['id']) . '">拍卖行</a>';
+		            echo '<li><a class="sell" href="#"><span class="ui-icon ui-icon-transferthick-e-w"></span>出售</a></li>';
+		            // echo '<li><a href="' . site_url('action/market/sell/' . $row['id']) . '">拍卖行</a></li>';
 		            if($row['is_locked'] == '1')
 		            {
-		                echo ' | <a class="unlock" href="' . site_url('role/item/unlock/' . $row['id']) . '">解锁</a>';
+		                echo '<li><a class="unlock" href="' . site_url('role/item/unlock/' . $row['id']) . '"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
 		            }
 		            else
 		            {
-		                echo ' | <a class="lock" href="' . site_url('role/item/lock/' . $row['id']) . '">上锁</a>';
+		                echo '<li><a class="lock" href="' . site_url('role/item/lock/' . $row['id']) . '"><span class="ui-icon ui-icon-locked"></span>上锁</a></li>';
 		            }
-		            echo ' | <a class="destroy" href="' . site_url('role/item/destroy/' . $row['id']) . '">销毁</a>';
+		            echo '<li><a class="destroy" href="' . site_url('role/item/destroy/' . $row['id']) . '"><span class="ui-icon ui-icon-trash"></span>销毁</a></li>';
 		            echo '</span>';
 		            echo '</div>';
 		        }

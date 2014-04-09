@@ -61,26 +61,26 @@
 		            {
 		                echo '<span class="color-orange">' . $equipment['name'] . '</span>';
 		            }
-		            echo '<ul class="menu" style="display:none;margin-left:10px;">';
+		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
 		            if($equipment['is_equipped'] == '1')
 		            {
-		                echo '<li><a href="' . site_url('role/equipment/unequip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>卸下</a></li>';
+		                echo '<li><a href="' . site_url('role/equipment/unequip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-arrowthick-1-s"></span>卸下</a></li>';
 		            }
 		            else
 		            {
-		                echo '<li><a href="' . site_url('role/equipment/equip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>装备</a></li>';
+		                echo '<li><a href="' . site_url('role/equipment/equip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-arrowthick-1-n"></span>装备</a></li>';
 		            }
-		            echo '<li><a href="' . site_url('role/equipment/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>出售</a></li>';
-		            echo '<li><a href="' . site_url('action/market/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>拍卖行</a></li>';
+		            echo '<li><a href="' . site_url('role/equipment/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-transferthick-e-w"></span>出售</a></li>';
+		            echo '<li><a href="' . site_url('action/market/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-person"></span>拍卖行</a></li>';
 		            if($equipment['is_locked'] == '1')
 		            {
-		                echo '<li><a href="' . site_url('role/equipment/unlock/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>解锁</a></li>';
+		                echo '<li><a href="' . site_url('role/equipment/unlock/' . $equipment['id']) . '"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
 		            }
 		            else
 		            {
-		                echo '<li><a href="' . site_url('role/equipment/lock/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>上锁</a></li>';
+		                echo '<li><a href="' . site_url('role/equipment/lock/' . $equipment['id']) . '"><span class="ui-icon ui-icon-locked"></span>上锁</a></li>';
 		            }
-		            echo '<li><a href="' . site_url('role/equipment/destroy/' . $equipment['id']) . '"><span class="ui-icon ui-icon-disk"></span>销毁</a></li>';
+		            echo '<li><a href="' . site_url('role/equipment/destroy/' . $equipment['id']) . '"><span class="ui-icon ui-icon-trash"></span>销毁</a></li>';
 		            echo '</ul>';
 		            echo '</div>';
 		        }

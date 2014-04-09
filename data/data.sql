@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `gathertime` INT NOT NULL DEFAULT 0,
   `next_gathertime` INT NOT NULL DEFAULT 0,
   `current_action` TINYINT NOT NULL DEFAULT 0 COMMENT '1=战斗\n2=采集',
+  `append_status` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
   INDEX `role_name` (`name` ASC))

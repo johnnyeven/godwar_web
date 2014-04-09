@@ -85,7 +85,8 @@ class Create_role extends CI_Controller
 					'gift'					=>	json_encode($gifts),
 					'createtime'			=>	$time,
 					'lasttime'				=>	$time,
-					'map_id'				=>	$baseResult['init_map_id']
+					'map_id'				=>	$baseResult['init_map_id'],
+					'append_status'			=>	'[]'
 			);
 			if($this->role->create($parameter))
 			{
