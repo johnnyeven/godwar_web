@@ -1,14 +1,27 @@
 $(function() {
+	var currentMenu;
 	var id, name, current_count;
 
-	$("#content > div.item").mouseover(function() {
-		$(this).find('span.control').show();
-	}).mouseout(function() {
-		$(this).find('span.control').hide();
+	$("#content > div.equipment-item > ul.menu").menu();
+	$("#content > div.equipment-item").click(function(e) {
+		if(currentMenu) {
+			currentMenu.hide();
+		}
+		currentMenu = $(this).find('ul.menu');
+		currentMenu.show();
+
+		event.stopPropagation();
 	});
 
-	$("#content > div.item > span.control > a.sell").click(function() {
-		var item = $(this).parent().parent();
+	$(document).on("click", function(e) {
+		if(currentMenu) {
+			currentMenu.hide();
+			currentMenu = null;
+		}
+	});
+
+	$("#content > div.equipment-item > ul.menu > li > a.sell").click(function() {
+		var item = $(this).parent().parent().parent();
 		id = item.find('span.id').text();
 		name = item.find('span.name').text();
 		current_count = parseInt(item.find('span.count').text());
@@ -19,8 +32,8 @@ $(function() {
 		return false;
 	});
 
-	$("#content > div.item > span.control > a.learn_blueprint").click(function() {
-		var item = $(this).parent().parent();
+	$("#content > div.equipment-item > ul.menu > li > a.learn_blueprint").click(function() {
+		var item = $(this).parent().parent().parent();
 		id = item.find('span.id').text();
 		name = item.find('span.name').text();
 
@@ -89,7 +102,7 @@ $(function() {
 		if(data.code == ITEM_SELL_SUCCESS) {
 			var i = data.params.id;
 			var c = data.params.count
-			var item = $("#content").find('div.item > span.id:contains("' + id + '")').parent();
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
 			if(item.length > 0) {
 				if(data.params.remain == 0) {
 					item.remove();
@@ -111,7 +124,7 @@ $(function() {
 	var onItemLearned = function(data) {
 		if(data.code == ALCHEMY_LEARN_SUCCESS) {
 			var i = data.params.id;
-			var item = $("#content").find('div.item > span.id:contains("' + id + '")').parent();
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
 			if(item.length > 0) {
 				if(data.params.remain == 0) {
 					item.remove();

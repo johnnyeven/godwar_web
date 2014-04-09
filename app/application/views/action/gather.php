@@ -6,8 +6,8 @@
         	<div class="right_top"></div>
             <div class="right_main">
 	            <div class="row-item controlPanel">
-		        	<input type="button" name="btnStart" id="btnStart" value="开始采集" />
-		        	<input type="button" name="btnStop" id="btnStop" value="停止" />
+                    <button class="btn" id="btnStart">开始采集</button>
+                    <button class="btn" id="btnStop">停止</button>
 		    	</div>
 		        <div class="row-item" id="content">
 		        

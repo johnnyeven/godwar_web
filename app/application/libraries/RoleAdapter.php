@@ -61,6 +61,52 @@ class RoleAdapter
 		return false;
 	}
 
+	public function check_role_status()
+	{
+		$status = json_decode($this->role['append_status']);
+		if(!empty($status))
+		{
+			$changed = false;
+			foreach($status as $key => $value)
+			{
+				// $status_model = 'item_' . $key;
+				// $this->load->model('skills/' . $status_model);
+				// $statu = $this->$status_model->execute($this->role, $value[1]);
+
+				// $this->role['append_status'][$key][0]--;
+				if($defender['append_status'][$key][0] <= 0)
+				{
+					unset($defender['append_status'][$key]);
+					$changed = true;
+				}
+			}
+
+			if($changed)
+			{
+				if(!isset($this->CI->mongo_db))
+				{
+					$this->CI->load->library('Mongo_db');
+				}
+				$param = array (
+						'id' => $this->role ['race'] 
+				);
+				$raceResult = $this->CI->mongo_db->where ( $param )->get ( 'race' );
+				$raceResult = $raceResult [0];
+				
+				$param = array(
+						'id'	=>	intval ( $this->role ['job'] )
+				);
+				$jobResult = $this->CI->mongo_db->where ( $param )->get ( 'job' );
+				$jobResult = $jobResult [0];
+				if(!empty($raceResult) && !empty($jobResult))
+				{
+					$this->calculate_property($raceResult, $jobResult);
+					$this->save();
+				}
+			}
+		}
+	}
+
 	public function role_level_up()
 	{
 		if(!isset($this->CI->mongo_db))
@@ -87,7 +133,7 @@ class RoleAdapter
 		$jobResult = $this->CI->mongo_db->where ( $param )->get ( 'job' );
 		$jobResult = $jobResult [0];
 
-		if(!empty($raceResult) && !empty($expResult))
+		if(!empty($raceResult) && !empty($jobResult))
 		{
 			$this->calculate_property($raceResult, $jobResult);
 
@@ -101,34 +147,55 @@ class RoleAdapter
 		}
 	}
 
-	public function calculate_property($raceResult, $jobResult)
+	public function calculate_property($raceResult, $jobResult, $type = 'all')
 	{
-		$tmp_base = $this->role ['health_base'] + $this->role['level'] * $raceResult['health_inc'];
-		$this->role ['health_max'] = $tmp_base; //种族加成
-		$this->role ['health_max'] += ($jobResult['health_add'] + $tmp_base * $jobResult['health_inc']); //职业加成
-		$this->role ['health'] = $this->role ['health_max'];
+		if($type == 'all' || $type == 'health')
+		{
+			$tmp_base = $this->role ['health_base'] + $this->role['level'] * $raceResult['health_inc'];
+			$this->role ['health_max'] = $tmp_base; //种族加成
+			$this->role ['health_max'] += ($jobResult['health_add'] + $tmp_base * $jobResult['health_inc']); //职业加成
+			$this->role ['health'] = $this->role ['health_max'];
+		}
 
-		$tmp_base = $this->role ['atk_base'] + $this->role['level'] * $raceResult['atk_inc'];
-		$this->role ['atk'] = $tmp_base; // 种族加成
-		$this->role ['atk'] += ($jobResult['atk_add'] + $tmp_base * $jobResult['atk_inc']); // 职业加成
+		if($type == 'all' || $type == 'atk')
+		{
+			$tmp_base = $this->role ['atk_base'] + $this->role['level'] * $raceResult['atk_inc'];
+			$this->role ['atk'] = $tmp_base; // 种族加成
+			$this->role ['atk'] += ($jobResult['atk_add'] + $tmp_base * $jobResult['atk_inc']); // 职业加成
+		}
 
-		$tmp_base = $this->role ['def_base'] + $this->role['level'] * $raceResult['def_inc'];
-		$this->role ['def'] = $tmp_base; // 种族加成
-		$this->role ['def'] += ($jobResult['def_add'] + $tmp_base * $jobResult['def_inc']); // 职业加成
+		if($type == 'all' || $type == 'def')
+		{
+			$tmp_base = $this->role ['def_base'] + $this->role['level'] * $raceResult['def_inc'];
+			$this->role ['def'] = $tmp_base; // 种族加成
+			$this->role ['def'] += ($jobResult['def_add'] + $tmp_base * $jobResult['def_inc']); // 职业加成
+		}
 
-		$tmp_base = $this->role ['mdef_base'] + $this->role['level'] * $raceResult['mdef_inc'];
-		$this->role ['mdef'] = $tmp_base; // 种族加成
-		$this->role ['mdef'] += ($jobResult['mdef_add'] + $tmp_base * $jobResult['mdef_inc']); // 职业加成
+		if($type == 'all' || $type == 'mdef')
+		{
+			$tmp_base = $this->role ['mdef_base'] + $this->role['level'] * $raceResult['mdef_inc'];
+			$this->role ['mdef'] = $tmp_base; // 种族加成
+			$this->role ['mdef'] += ($jobResult['mdef_add'] + $tmp_base * $jobResult['mdef_inc']); // 职业加成
+		}
 
-		$tmp_base = $this->role ['hit_base'] + $this->role['level'] * $raceResult['hit_inc'];
-		$this->role ['hit'] = $tmp_base; // 种族加成
-		$this->role ['hit'] += ($jobResult['hit_add'] + $tmp_base * $jobResult['hit_inc']); // 职业加成
+		if($type == 'all' || $type == 'hit')
+		{
+			$tmp_base = $this->role ['hit_base'] + $this->role['level'] * $raceResult['hit_inc'];
+			$this->role ['hit'] = $tmp_base; // 种族加成
+			$this->role ['hit'] += ($jobResult['hit_add'] + $tmp_base * $jobResult['hit_inc']); // 职业加成
+		}
 
-		$tmp_base = $this->role ['flee_base'] + $this->role['level'] * $raceResult['flee_inc'];
-		$this->role ['flee'] = $tmp_base; // 种族加成
-		$this->role ['flee'] += ($jobResult['flee_add'] + $tmp_base * $jobResult['flee_inc']); // 职业加成
+		if($type == 'all' || $type == 'flee')
+		{
+			$tmp_base = $this->role ['flee_base'] + $this->role['level'] * $raceResult['flee_inc'];
+			$this->role ['flee'] = $tmp_base; // 种族加成
+			$this->role ['flee'] += ($jobResult['flee_add'] + $tmp_base * $jobResult['flee_inc']); // 职业加成
+		}
 
-		$this->role ['skill_trigger'] = $this->role['skill_trigger_base'];
+		if($type == 'all' || $type == 'skill_trigger')
+		{
+			$this->role ['skill_trigger'] = $this->role['skill_trigger_base'];
+		}
 
 		//技能加成
 		if(!empty($this->role ['passive_skill']))
@@ -138,7 +205,7 @@ class RoleAdapter
 			{
 				$skillId = 'skill_' . $passive;
 				$this->load->model ( "skills/{$skillId}" );
-				$damage = $this->$skillId->execute ( $this->role, null );
+				$damage = $this->$skillId->execute ( $this->role, $type );
 			}
 		}
 
@@ -157,13 +224,46 @@ class RoleAdapter
 
 		foreach($result as $equipment)
 		{
-			$this->role ['atk'] += ($equipment['atk_base'] + $equipment['atk_inc'] + $equipment['atk_upgrade']);
-			$this->role ['def'] += ($equipment['def_base'] + $equipment['def_inc'] + $equipment['def_upgrade']);
-			$this->role ['mdef'] += ($equipment['mdef_base'] + $equipment['mdef_inc'] + $equipment['mdef_upgrade']);
-			$this->role ['health_max'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
-			$this->role ['health'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
-			$this->role ['hit'] += ($equipment['hit_base'] + $equipment['hit_inc'] + $equipment['hit_upgrade']);
-			$this->role ['flee'] += ($equipment['flee_base'] + $equipment['flee_inc'] + $equipment['flee_upgrade']);
+			if($type == 'all' || $type == 'atk')
+			{
+				$this->role ['atk'] += ($equipment['atk_base'] + $equipment['atk_inc'] + $equipment['atk_upgrade']);
+			}
+			if($type == 'all' || $type == 'def')
+			{
+				$this->role ['def'] += ($equipment['def_base'] + $equipment['def_inc'] + $equipment['def_upgrade']);
+			}
+			if($type == 'all' || $type == 'mdef')
+			{
+				$this->role ['mdef'] += ($equipment['mdef_base'] + $equipment['mdef_inc'] + $equipment['mdef_upgrade']);
+			}
+			if($type == 'all' || $type == 'health')
+			{
+				$this->role ['health_max'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
+			}
+			if($type == 'all' || $type == 'health')
+			{
+				$this->role ['health'] += ($equipment['health_max_base'] + $equipment['health_max_inc'] + $equipment['health_max_upgrade']);
+			}
+			if($type == 'all' || $type == 'hit')
+			{
+				$this->role ['hit'] += ($equipment['hit_base'] + $equipment['hit_inc'] + $equipment['hit_upgrade']);
+			}
+			if($type == 'all' || $type == 'flee')
+			{
+				$this->role ['flee'] += ($equipment['flee_base'] + $equipment['flee_inc'] + $equipment['flee_upgrade']);
+			}
+		}
+
+		//药剂加成
+		if(!empty($this->role ['append_status']))
+		{
+			$status = json_decode($this->role ['append_status']);
+			foreach($status as $item)
+			{
+				$skillId = 'item_' . $item;
+				$this->load->model ( "skills/{$skillId}" );
+				$damage = $this->$skillId->execute ( $this->role, $type );
+			}
 		}
 	}
 

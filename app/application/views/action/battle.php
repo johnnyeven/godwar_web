@@ -6,8 +6,8 @@
         	<div class="right_top"></div>
             <div class="right_main">
 	            <div class="row-item controlPanel">
-		        	<input type="button" name="btnStartBattle" id="btnStartBattle" value="战斗" />
-		        	<input type="button" name="btnStopBattle" id="btnStopBattle" value="停止" />
+                    <button class="btn" id="btnStartBattle">战斗</button>
+                    <button class="btn" id="btnStopBattle">停止</button>
 		    	</div>
 		        <div class="row-item" id="content">
 		        
