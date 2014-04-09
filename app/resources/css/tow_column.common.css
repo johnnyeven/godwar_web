@@ -5,10 +5,12 @@
 .wrapper .content .right .right_bottom {background:url(../images/seperator_bottom.png) left no-repeat;height:26px;}
 .wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:400px;padding:1px 20px;}
 
-.row-item {margin:10px;padding:10px;}
 .role-info-item {float:left;width:50%;padding:5px 0;}
-.role-info-item span {display:inline-block;}
-.role-info-item-label {width:50px;font-weight: bold;color:#A37229;}
+.equipment-info-item {padding:5px 0;}
+.role-info-item span, .equipment-info-item span {display:inline-block;}
+.role-info-item-label, .equipment-info-item-label {width:50px;font-weight: bold;color:#A37229;}
+
+.equipment-item {padding:5px 20px;float:left;min-width:150px;position:relative;cursor: pointer;}
 
 .post {padding:5px 0;border-bottom: #CCC 1px dashed;}
 .post .entry span {font-weight:bold;}
@@ -20,9 +22,4 @@
 
 .post .entry span.gather_name {color:#8DC43C;}
 
-.with-border-bottom {border-bottom: #CCC 1px solid;}
-.color-red {color:#FF0000;}
-.color-green {color:#2BD52B;}
-.color-blue {color:#0099FF;}
-.color-purple {color:#FF00FF;}
-.color-orange {color:#FF9900;}
+.menu {position:absolute;top:27px;left:0;z-index:1;min-width:120px;}

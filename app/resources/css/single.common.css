@@ -1,0 +1,6 @@
+@charset "utf-8";
+.wrapper .content .main {width:100%;min-height:500px;padding:20px 0;}
+
+.map-item {float:left;padding:10px 20px;}
+.map-item a, .map-item a:visited {}
+.current-map {border:#585858 1px dashed;padding:9px 19px;}
