@@ -48,7 +48,7 @@ $(function() {
 	var onAlchemyInfo = function(data) {
 		if(data.code == ALCHEMY_INFO_SUCCESS) {
 			var result = data.params;
-			var html = '<div class="detail" id="alchemy_item_' + result.id + '">';
+			var html = '<div class="row-item detail" id="alchemy_item_' + result.id + '">';
 			html += '<span class="alchemy_item_id" style="display:none;">' + result.id + '</span>';
 			html += '<h3>' + result.name + '</h3>';
 			html += '<p>' + result.comment + '</p>';
@@ -72,10 +72,10 @@ $(function() {
 			}
 			html += '</ul>';
 			html += '<div class="product">';
-			html += '<h3>产出 ' + result.product.name + '</h3>';
+			html += '<h4>产出 ' + result.product.name + '</h4>';
 			html += '<p>' + result.product.comment + '</p>';
 			html += '</div>';
-			html += '<a class="alchemy_start" href="#">立即制作</a>';
+			html += '<a class="alchemy_start" href="#"><button class="btn btn-success btn-mini">立即制作</button></a>';
 			html += '</div>';
 
 			$("#content > div.detail").hide();

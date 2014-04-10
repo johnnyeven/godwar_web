@@ -54,11 +54,11 @@
 		              }
 		              if($item['role_id'] == $role['id'])
 		              {
-		                  echo ' | <a href="' . site_url('action/market/cancel/' . $item['id']) . '">取消订单</a>';
+		                  echo '<a href="' . site_url('action/market/cancel/' . $item['id']) . '"><span class="badge badge-important">取消订单</span></a>';
 		              }
 		              else
 		              {
-		                  echo ' | <a href="' . site_url('action/market/buy/' . $item['id']) . '">购买</a>';
+		                  echo '<a href="' . site_url('action/market/buy/' . $item['id']) . '"><span class="badge badge-success">购买</span></a>';
 		              }
 		              echo '</td>';
 		              echo '<td>' . $equipment_title[intval($item['equipment_position'])] . '</td>';

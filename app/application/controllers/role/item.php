@@ -31,6 +31,75 @@ class Item extends CI_Controller
 		$this->render->render( $this->pageName, $data );
 	}
 
+	public function use()
+	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = $this->input->post('id');
+
+		if(!empty($id))
+		{
+			$this->load->model('mitem');
+			$result = $this->mitem->read($key);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				if($result['is_locked'] == '1')
+				{
+					$remain = $result['count'];
+					$json = array(
+						'code'		=>	ITEM_USE_ERROR_LOCKED,
+						'params'	=>	array(
+							'id'	=>	$id,
+							'remain'=>	$remain
+						)
+					);
+				}
+				else
+				{
+					if($result['type'] == '2')
+					{
+
+					}
+					elseif($result['type'] == '3')
+					{
+
+					}
+					else
+					{
+						$json = array(
+							'code'		=>	ITEM_USE_ERROR_TYPE_ERROR,
+							'params'	=>	array(
+								'id'	=>	$id
+							)
+						);
+					}
+				}
+			}
+			else
+			{
+				$json = array(
+					'code'		=>	ITEM_USE_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
+			}
+		}
+		else
+		{
+			$json = array(
+				'code'		=>	ITEM_USE_ERROR_NO_PARAM,
+				'params'	=>	array(
+					'id'	=>	$id
+				)
+			);
+		}
+
+		echo $this->return_format->format($json);
+	}
+
 	public function sell()
 	{
 		header('Content-type: text/json');

@@ -14,7 +14,7 @@
         	<div class="right_top"></div>
             <div class="right_main">
 	            <div id="content"></div>
-		        <div id="queue">
+		        <div id="queue" class="row-item">
 		            <h3>合成队列</h3>
 		        <?php
 		        foreach($queue as $value)
@@ -25,7 +25,7 @@
 		            echo ' | <span class="queue_endtime">' . date('Y-m-d H:i:s', $value['endtime']) . '</span>';
 		            if($value['status'] == '1')
 		            {
-		                echo ' | <span class="queue_control">已完成，<a href="#" class="queue_complete" rel="' . $value['id'] . '">放入背包</a></span>';
+		                echo ' | <span class="queue_control">已完成<a href="#" class="queue_complete" rel="' . $value['id'] . '"><button class="btn btn-mini btn-success">放入背包</button></a></span>';
 		            }
 		            echo '</div>';
 		        }

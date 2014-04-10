@@ -13,6 +13,12 @@ $(function() {
 		event.stopPropagation();
 	});
 
+	$("#content > div.equipment-item > ul.menu > li").click(function(e) {
+		currentMenu.hide();
+		currentMenu = null;
+		e.stopPropagation();
+	});
+
 	$(document).on("click", function(e) {
 		if(currentMenu) {
 			currentMenu.hide();
@@ -29,7 +35,6 @@ $(function() {
 		$("#dialog_item_name").text(name);
 		$("#dialog_item_count").val(current_count);
 		$("#dialog_form").dialog("open");
-		return false;
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.learn_blueprint").click(function() {
@@ -41,7 +46,6 @@ $(function() {
 			"id": id
 		};
 		$.post('../action/alchemy/learn', parameter, onItemLearned);
-		return false;
 	});
 
 	$("#dialog_form").dialog({
