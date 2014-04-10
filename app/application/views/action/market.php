@@ -5,7 +5,7 @@
         <div class="right">
         	<div class="right_top"></div>
             <div class="right_main">
-				<table width="100%" border="0" cellspacing="0" cellpadding="5" style="min-width:600px;">
+				<table class="table table-bordered table-striped" border="0" cellspacing="0" cellpadding="5">
 		          <thead>
 		            <tr>
 		              <th style="text-align:left;">名称</th>
