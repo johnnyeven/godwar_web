@@ -106,6 +106,7 @@ $(function() {
 				$("#role_exp_next").text(currentData.final.nextexp);
 				$("#role_level").text(currentData.final.level);
 				$("#role_health").text(currentData.final.health);
+				$("#role_health_max").text(currentData.final.health_max);
 				$("#role_atk").text(currentData.final.atk);
 				$("#role_def").text(currentData.final.def);
 				$("#role_mdef").text(currentData.final.mdef);
@@ -172,6 +173,7 @@ $(function() {
 			}
 			$("#role_level").text(role.level);
 			$("#role_health").text(role.health);
+			$("#role_health_max").text(role.health_max);
 			$("#role_atk").text(role.atk);
 			$("#role_def").text(role.def);
 			$("#role_mdef").text(role.mdef);
