@@ -31,7 +31,7 @@ class Item extends CI_Controller
 		$this->render->render( $this->pageName, $data );
 	}
 
-	public function use()
+	public function apply()
 	{
 		header('Content-type: text/json');
 		$this->load->model('utils/return_format');
@@ -40,6 +40,7 @@ class Item extends CI_Controller
 
 		if(!empty($id))
 		{
+			$id = intval($id);
 			$this->load->model('mitem');
 			$result = $this->mitem->read($key);
 			if(!empty($result))
@@ -60,11 +61,39 @@ class Item extends CI_Controller
 				{
 					if($result['type'] == '2')
 					{
+						//状态药剂
+						$this->load->library('Mongo_db');
+						$params = array(
+							'id'	=>	$id
+						);
+						$item = $this->mongo_db->where($params)->get('item');
+						$item = $item[0];
+						$this->currentRole->role['append_status'][$id] = time() + $item['remain_time'];
+						$this->currentRole->check_role_status(true);
 
+						$json = array(
+							'code'		=>	ITEM_USE_SUCCESS,
+							'params'	=>	array(
+								'id'	=>	$id,
+								'type'	=>	2
+							)
+						);
 					}
 					elseif($result['type'] == '3')
 					{
-
+						//恢复药剂
+						$item_id = 'item_' . $result['id'];
+						$this->load->model('skills/' . $item_id);
+						$statu = $this->$item_id->execute($this->currentRole->role);
+						$this->currentRole->save();
+						
+						$json = array(
+							'code'		=>	ITEM_USE_SUCCESS,
+							'params'	=>	array(
+								'id'	=>	$id,
+								'type'	=>	3
+							)
+						);
 					}
 					else
 					{

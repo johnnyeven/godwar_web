@@ -393,8 +393,8 @@ class Battle extends CI_Controller {
 	private function _settle_battle($monster, $role)
 	{
 		$settle = array(
-			'exp'		=>	$monster['exp'],
-			'gold'		=>	$monster['gold'],
+			'exp'		=>	intval($monster['exp'] * (1 + $role['exp_inc'])),
+			'gold'		=>	intval($monster['gold'] * (1 + $role['gold_inc'])),
 			'drop'		=>	array()
 		);
 

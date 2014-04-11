@@ -49,6 +49,7 @@ class RoleAdapter
 				$this->role['skill'] = empty($this->role['skill']) ? array() : json_decode($this->role['skill'], TRUE);
 				$this->role['passive_skill'] = empty($this->role['passive_skill']) ? array() : json_decode($this->role['passive_skill'], TRUE);
 				$this->role['gift'] = empty($this->role['gift']) ? array() : json_decode($this->role['gift'], TRUE);
+				$this->role['append_status'] = empty($this->role['append_status']) ? array() : json_decode($this->role['append_status'], TRUE);
 
 				$this->is_init = true;
 			}
@@ -61,27 +62,21 @@ class RoleAdapter
 		return false;
 	}
 
-	public function check_role_status()
+	public function check_role_status($enforce = false)
 	{
-		$status = json_decode($this->role['append_status']);
-		if(!empty($status))
+		if(!empty($this->role['append_status']))
 		{
 			$changed = false;
-			foreach($status as $key => $value)
+			foreach($this->role['append_status'] as $key => $value)
 			{
-				// $status_model = 'item_' . $key;
-				// $this->load->model('skills/' . $status_model);
-				// $statu = $this->$status_model->execute($this->role, $value[1]);
-
-				// $this->role['append_status'][$key][0]--;
-				if($defender['append_status'][$key][0] <= 0)
+				if($this->role['append_status'][$key] <= time())
 				{
-					unset($defender['append_status'][$key]);
+					unset($this->role['append_status'][$key]);
 					$changed = true;
 				}
 			}
 
-			if($changed)
+			if($changed || $enforce)
 			{
 				if(!isset($this->CI->mongo_db))
 				{
@@ -257,12 +252,12 @@ class RoleAdapter
 		//药剂加成
 		if(!empty($this->role ['append_status']))
 		{
-			$status = json_decode($this->role ['append_status']);
-			foreach($status as $item)
+			$status = $this->role ['append_status'];
+			foreach($status as $key=>$item)
 			{
-				$skillId = 'item_' . $item;
-				$this->load->model ( "skills/{$skillId}" );
-				$damage = $this->$skillId->execute ( $this->role, $type );
+				$skillId = 'item_' . $key;
+				$this->CI->load->model ( "skills/{$skillId}" );
+				$damage = $this->CI->$skillId->execute ( $this->role, $type );
 			}
 		}
 	}
@@ -303,7 +298,8 @@ class RoleAdapter
 			'next_battletime'		=>	$this->role['next_battletime'],
 			'gathertime'			=>	$this->role['gathertime'],
 			'next_gathertime'		=>	$this->role['next_gathertime'],
-			'current_action'		=>	$this->role['current_action']
+			'current_action'		=>	$this->role['current_action'],
+			'append_status'			=>	json_encode($this->role['append_status'])
 		);
 		$this->CI->role->update($this->role['id'], $parameter);
 

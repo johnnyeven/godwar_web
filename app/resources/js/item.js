@@ -48,6 +48,17 @@ $(function() {
 		$.post('../action/alchemy/learn', parameter, onItemLearned);
 	});
 
+	$("#content > div.equipment-item > ul.menu > li > a.use").click(function() {
+		var item = $(this).parent().parent().parent();
+		id = item.find('span.id').text();
+		name = item.find('span.name').text();
+
+		var parameter = {
+			"id": id
+		};
+		$.post('item/apply', parameter, onItemApply);
+	});
+
 	$("#dialog_form").dialog({
 		autoOpen: false,
 		modal: true,
@@ -145,5 +156,9 @@ $(function() {
 			$("#dialog_message_content").text(data.code);
 			$("#dialog_message").dialog("open");
 		}
+	}
+
+	var onItemApply = function(data) {
+		console.log(data);
 	}
 });
