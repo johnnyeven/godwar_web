@@ -159,6 +159,24 @@ $(function() {
 	}
 
 	var onItemApply = function(data) {
-		console.log(data);
+		if(data.code == ITEM_USE_SUCCESS) {
+			var i = data.params.id;
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
+			if(item.length > 0) {
+				if(data.params.remain == 0) {
+					item.remove();
+				} else {
+					item.find("span.count").text(data.params.remain);
+				}
+			}
+			$("#dialog_alert").find("p > strong").text("已使用 " + data.params.name);
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
 	}
 });
