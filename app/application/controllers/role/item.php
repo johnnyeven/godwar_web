@@ -31,6 +31,104 @@ class Item extends CI_Controller
 		$this->render->render( $this->pageName, $data );
 	}
 
+	public function apply()
+	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = $this->input->post('id');
+
+		if(!empty($id))
+		{
+			$id = intval($id);
+			$this->load->model('mitem');
+			$result = $this->mitem->read($key);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				if($result['is_locked'] == '1')
+				{
+					$remain = $result['count'];
+					$json = array(
+						'code'		=>	ITEM_USE_ERROR_LOCKED,
+						'params'	=>	array(
+							'id'	=>	$id,
+							'remain'=>	$remain
+						)
+					);
+				}
+				else
+				{
+					if($result['type'] == '2')
+					{
+						//状态药剂
+						$this->load->library('Mongo_db');
+						$params = array(
+							'id'	=>	$id
+						);
+						$item = $this->mongo_db->where($params)->get('item');
+						$item = $item[0];
+						$this->currentRole->role['append_status'][$id] = time() + $item['remain_time'];
+						$this->currentRole->check_role_status(true);
+
+						$json = array(
+							'code'		=>	ITEM_USE_SUCCESS,
+							'params'	=>	array(
+								'id'	=>	$id,
+								'type'	=>	2
+							)
+						);
+					}
+					elseif($result['type'] == '3')
+					{
+						//恢复药剂
+						$item_id = 'item_' . $result['id'];
+						$this->load->model('skills/' . $item_id);
+						$statu = $this->$item_id->execute($this->currentRole->role);
+						$this->currentRole->save();
+						
+						$json = array(
+							'code'		=>	ITEM_USE_SUCCESS,
+							'params'	=>	array(
+								'id'	=>	$id,
+								'type'	=>	3
+							)
+						);
+					}
+					else
+					{
+						$json = array(
+							'code'		=>	ITEM_USE_ERROR_TYPE_ERROR,
+							'params'	=>	array(
+								'id'	=>	$id
+							)
+						);
+					}
+				}
+			}
+			else
+			{
+				$json = array(
+					'code'		=>	ITEM_USE_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
+			}
+		}
+		else
+		{
+			$json = array(
+				'code'		=>	ITEM_USE_ERROR_NO_PARAM,
+				'params'	=>	array(
+					'id'	=>	$id
+				)
+			);
+		}
+
+		echo $this->return_format->format($json);
+	}
+
 	public function sell()
 	{
 		header('Content-type: text/json');

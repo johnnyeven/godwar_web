@@ -4,10 +4,10 @@
 	        <h3>职业树</h3>
 	        <div id="tmp">
 	            <?php foreach($job as $item): ?>
-	            <div class="job_item<?php if($item['id'] == $role['job']): ?> current_job<?php endif; ?>">
+	            <div class="job_item">
 	                <span class="id" style="display:none;"><?php echo $item['id']; ?></span>
 	                <span class="pre_job" style="display:none;"><?php echo $item['pre_job']; ?></span>
-	                <span class="job_name"><?php echo $item['name']; ?></span>
+	                <button class="job_name btn btn-mini<?php if($item['id'] == $role['job']): ?> btn-success<?php endif; ?>"><?php echo $item['name']; ?></button>
 	                <div class="sub_job"></div>
 	            </div>
 	            <?php endforeach; ?>

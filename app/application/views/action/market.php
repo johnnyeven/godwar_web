@@ -5,7 +5,7 @@
         <div class="right">
         	<div class="right_top"></div>
             <div class="right_main">
-				<table width="100%" border="0" cellspacing="0" cellpadding="5" style="min-width:600px;">
+				<table class="table table-bordered table-striped" border="0" cellspacing="0" cellpadding="5">
 		          <thead>
 		            <tr>
 		              <th style="text-align:left;">名称</th>
@@ -54,11 +54,11 @@
 		              }
 		              if($item['role_id'] == $role['id'])
 		              {
-		                  echo ' | <a href="' . site_url('action/market/cancel/' . $item['id']) . '">取消订单</a>';
+		                  echo '<a href="' . site_url('action/market/cancel/' . $item['id']) . '"><span class="badge badge-important">取消订单</span></a>';
 		              }
 		              else
 		              {
-		                  echo ' | <a href="' . site_url('action/market/buy/' . $item['id']) . '">购买</a>';
+		                  echo '<a href="' . site_url('action/market/buy/' . $item['id']) . '"><span class="badge badge-success">购买</span></a>';
 		              }
 		              echo '</td>';
 		              echo '<td>' . $equipment_title[intval($item['equipment_position'])] . '</td>';
