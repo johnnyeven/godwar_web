@@ -1,14 +1,15 @@
 @charset "utf-8";
 .wrapper .content .left {float:left;width:300px;min-height:500px;padding:20px 0;}
-.wrapper .content .right {float:left;width:700px;min-height:500px;padding:20px 0;}
+.wrapper .content .right {float:left;width:700px;min-height:750px;padding:20px 0;}
 .wrapper .content .right .right_top {background:url(../images/seperator_top.png) left no-repeat;height:26px;}
 .wrapper .content .right .right_bottom {background:url(../images/seperator_bottom.png) left no-repeat;height:26px;}
-.wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:400px;padding:1px 20px;}
+.wrapper .content .right .right_main {background:url(../images/seperator_bg.png) left repeat-y;min-height:650px;padding:1px 20px;}
 
 .avatar-container {position:relative;}
 .avatar-container .avatar {width:94px;height:94px;margin:0 10px 10px 0;padding:10px;background:#CCC;}
 .avatar-container .progress {width:85%;}
 .avatar-container .percent {position:absolute;right:0;bottom:6px;font-weight:bold;}
+.vs-icon {height:50px;background:url("../images/vs.png") center no-repeat;}
 .role-info-item {float:left;width:50%;padding:5px 0;}
 .equipment-info-item {padding:5px 0;}
 .role-info-item span, .equipment-info-item span {display:inline-block;}

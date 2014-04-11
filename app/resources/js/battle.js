@@ -16,6 +16,7 @@ $(function() {
 		$("#role_health_bar").addClass("progress-danger");
 	}
 	$("#role_health_bar > div.bar").css("width", healthPercent + "%");
+	$("#health_percent").text(healthPercent + "%");
 	
 	$("#btnStartBattle").click(function() {
 		if(!run) {
@@ -60,6 +61,31 @@ $(function() {
 		} else {
 			clearInfo();
 			currentData = data;
+			$("#monster_name").text(currentData.monster.name);
+			$("#monster_level").text(currentData.monster.level);
+			$("#monster_health").text(currentData.monster.health);
+			$("#monster_health_max").text(currentData.monster.health_max);
+			$("#monster_atk").text(currentData.monster.atk);
+			$("#monster_def").text(currentData.monster.def);
+			$("#monster_mdef").text(currentData.monster.mdef);
+			$("#monster_hit").text(currentData.monster.hit);
+			$("#monster_flee").text(currentData.monster.flee);
+			
+			health = parseInt($("#monster_health").text());
+			healthMax = parseInt($("#monster_health_max").text());
+			healthPercent = parseInt(health / healthMax * 100);
+			$("#monster_health_bar").removeClass("progress-success").removeClass("progress-warning").removeClass("progress-danger");
+			if(healthPercent >= 60) {
+				$("#monster_health_bar").addClass("progress-success");
+			} else if(healthPercent >= 30) {
+				$("#monster_health_bar").addClass("progress-warning");
+			} else {
+				$("#monster_health_bar").addClass("progress-danger");
+			}
+			$("#monster_health_bar > div.bar").css("width", healthPercent + "%");
+			$("#monster_health_percent").text(healthPercent + "%");
+			$("#monster_health_bar").addClass("active");
+			$("#monster_info").show();
 			timerId = self.setInterval(showBattleRound, 1500);
 		}
 	}
@@ -67,6 +93,7 @@ $(function() {
 	function showBattleRound() {
 		var data;
 		var html;
+		var health, healthMax, healthPercent;
 		if(currentIndex >= currentData.rounds.length) {
 			self.clearInterval(timerId);
 
@@ -74,7 +101,38 @@ $(function() {
 			html = '<div class="post"><div class="entry">';
 			if(currentData.result == 1) {
 				html += '战斗胜利，获得经验 <span class="exp">' + currentData.settle.exp + '</span>，金币 <span class="gold">' + currentData.settle.gold + '</span>';
-				$("#role_gold").text(parseInt($("#role_gold").text()) + parseInt(currentData.settle.gold));
+				$("#role_gold").text(currentData.final.gold);
+				$("#role_exp").text(currentData.final.exp);
+				$("#role_exp_next").text(currentData.final.nextexp);
+				$("#role_level").text(currentData.final.level);
+				$("#role_health").text(currentData.final.health);
+				$("#role_atk").text(currentData.final.atk);
+				$("#role_def").text(currentData.final.def);
+				$("#role_mdef").text(currentData.final.mdef);
+				$("#role_hit").text(currentData.final.hit);
+				$("#role_flee").text(currentData.final.flee);
+
+				health = parseInt($("#role_health").text());
+				healthMax = parseInt($("#role_health_max").text());
+				healthPercent = parseInt(health / healthMax * 100);
+				$("#role_health_bar").removeClass("progress-success").removeClass("progress-warning").removeClass("progress-danger");
+				if(healthPercent >= 60) {
+					$("#role_health_bar").addClass("progress-success");
+				} else if(healthPercent >= 30) {
+					$("#role_health_bar").addClass("progress-warning");
+				} else {
+					$("#role_health_bar").addClass("progress-danger");
+				}
+				$("#role_health_bar > div.bar").css("width", healthPercent + "%");
+				$("#health_percent").text(healthPercent + "%");
+
+				$("#monster_health_bar").removeClass("progress-success");
+				$("#monster_health_bar").removeClass("progress-warning");
+				$("#monster_health_bar").removeClass("progress-danger");
+				$("#monster_health_bar").removeClass("active");
+				$("#monster_health_bar").removeClass("progress-success").removeClass("progress-warning").removeClass("progress-danger");
+				$("#monster_info").hide();
+
 				if(currentData.settle.drop.length > 0)
 				{
 					html += '，获得道具';
@@ -119,6 +177,42 @@ $(function() {
 			$("#role_mdef").text(role.mdef);
 			$("#role_hit").text(role.hit);
 			$("#role_flee").text(role.flee);
+
+			health = parseInt($("#role_health").text());
+			healthMax = parseInt($("#role_health_max").text());
+			healthPercent = parseInt(health / healthMax * 100);
+			$("#role_health_bar").removeClass("progress-success").removeClass("progress-warning").removeClass("progress-danger");
+			if(healthPercent >= 60) {
+				$("#role_health_bar").addClass("progress-success");
+			} else if(healthPercent >= 30) {
+				$("#role_health_bar").addClass("progress-warning");
+			} else {
+				$("#role_health_bar").addClass("progress-danger");
+			}
+			$("#role_health_bar > div.bar").css("width", healthPercent + "%");
+			$("#health_percent").text(healthPercent + "%");
+
+			$("#monster_health").text(monster.health);
+			$("#monster_health_max").text(monster.health_max);
+			$("#monster_atk").text(monster.atk);
+			$("#monster_def").text(monster.def);
+			$("#monster_mdef").text(monster.mdef);
+			$("#monster_hit").text(monster.hit);
+			$("#monster_flee").text(monster.flee);
+
+			health = parseInt($("#monster_health").text());
+			healthMax = parseInt($("#monster_health_max").text());
+			healthPercent = parseInt(health / healthMax * 100);
+			$("#monster_health_bar").removeClass("progress-success").removeClass("progress-warning").removeClass("progress-danger");
+			if(healthPercent >= 60) {
+				$("#monster_health_bar").addClass("progress-success");
+			} else if(healthPercent >= 30) {
+				$("#monster_health_bar").addClass("progress-warning");
+			} else {
+				$("#monster_health_bar").addClass("progress-danger");
+			}
+			$("#monster_health_bar > div.bar").css("width", healthPercent + "%");
+			$("#monster_health_percent").text(healthPercent + "%");
 
 			html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
 			if(data.damage[0].target == data.attacker.name) {

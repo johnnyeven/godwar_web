@@ -52,10 +52,50 @@
                     <div class="clear"></div>
                 </div>
             </div>
-            <div class="vs-icon row-item with-border-bottom"
+            <div class="vs-icon row-item with-border-bottom"></div>
             <div class="monster">
-                <div class="avatar row-item">
-
+                <div class="avatar-container row-item">
+                    <div id="monster_avatar" class="avatar align-right"><img src="<?php echo base_url('resources/images/avatar/question_icon.png'); ?>" /></div>
+                    <div class="clear"></div>
+                    <div id="monster_health_bar" class="progress progress-mini progress-striped">
+                        <div class="bar" style="width:0%"></div>
+                    </div>
+                    <div id="monster_health_percent" class="percent">0%</div>
+                </div>
+                <div class="row-item" id="monster_info" style="display:none;">
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">名字</span>
+                        <span class="role-info-item-value" id="monster_name"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">等级</span>
+                        <span class="role-info-item-value" id="monster_level"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">生命值</span>
+                        <span class="role-info-item-value"><span id="monster_health"></span> / <span id="monster_health_max"></span></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">攻击</span>
+                        <span class="role-info-item-value" id="monster_atk"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">防御</span>
+                        <span class="role-info-item-value" id="monster_def"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">魔抗</span>
+                        <span class="role-info-item-value" id="monster_mdef"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">命中</span>
+                        <span class="role-info-item-value" id="monster_hit"></span>
+                    </div>
+                    <div class="role-info-item">
+                        <span class="role-info-item-label">闪避</span>
+                        <span class="role-info-item-value" id="monster_flee"></span>
+                    </div>
+                    <div class="clear"></div>
                 </div>
             </div>
         </div>

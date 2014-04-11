@@ -108,6 +108,7 @@ class Battle extends CI_Controller {
 						$win = false;
 						
 						$battleResult = array (
+							'monster'	=>	$monster,
 							'rounds'	=>	array()
 						);
 						$round = 1;
@@ -266,6 +267,8 @@ class Battle extends CI_Controller {
 						$battleResult ['next_battletime'] = $this->currentRole->role ['next_battletime'];
 
 						$this->currentRole->save();
+
+						$battleResult ['final'] = $this->currentRole->role;
 					}
 				}
 			}
