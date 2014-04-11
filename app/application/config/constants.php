@@ -81,6 +81,7 @@ define('ALCHEMY_RECEIVE_ERROR_NOT_EXIST', 1047);	//指定配方不存在
 
 define('ITEM_USE_SUCCESS', 1);						//使用道具成功
 define('ITEM_USE_ERROR_LOCKED', 1043);				//道具被锁定
+define('ITEM_USE_ERROR_NOT_ENOUGH', 1044);			//道具不足
 define('ITEM_USE_ERROR_NO_PARAM', 1046);			//参数不正确
 define('ITEM_USE_ERROR_NOT_EXIST', 1047);			//道具不存在
 define('ITEM_USE_ERROR_TYPE_ERROR', 1049);			//道具类型错误

@@ -42,6 +42,10 @@ class Item extends CI_Controller
 		{
 			$id = intval($id);
 			$this->load->model('mitem');
+			$key = array(
+				'role_id'	=>	$this->currentRole->role['id'],
+				'id'		=>	$id	
+			);
 			$result = $this->mitem->read($key);
 			if(!empty($result))
 			{
@@ -59,6 +63,35 @@ class Item extends CI_Controller
 				}
 				else
 				{
+					if($result['type'] == '2' || $result['type'] == '3')
+					{
+						if($result['count'] > 1)
+						{
+							$role_id = $this->currentRole->role['id'];
+							$sql = "UPDATE `items` SET `count`=`count`-1 WHERE `id`={$id} AND `role_id`={$role_id}";
+							$this->mitem->db()->query($sql);
+							$remain = $result['count'] - 1;
+						}
+						elseif($result['count'] == 1)
+						{
+							$this->mitem->delete($key);
+							$remain = 0;
+						}
+						else
+						{
+							$remain = $result['count'];
+							$json = array(
+								'code'		=>	ITEM_USE_ERROR_NOT_ENOUGH,
+								'params'	=>	array(
+									'id'	=>	$id,
+									'remain'=>	$remain
+								)
+							);
+							echo $this->return_format->format($json);
+							exit();
+						}
+					}
+
 					if($result['type'] == '2')
 					{
 						//状态药剂
@@ -75,7 +108,8 @@ class Item extends CI_Controller
 							'code'		=>	ITEM_USE_SUCCESS,
 							'params'	=>	array(
 								'id'	=>	$id,
-								'type'	=>	2
+								'type'	=>	2,
+								'remain'=>	$remain
 							)
 						);
 					}
@@ -91,7 +125,8 @@ class Item extends CI_Controller
 							'code'		=>	ITEM_USE_SUCCESS,
 							'params'	=>	array(
 								'id'	=>	$id,
-								'type'	=>	3
+								'type'	=>	3,
+								'remain'=>	$remain
 							)
 						);
 					}
@@ -100,7 +135,8 @@ class Item extends CI_Controller
 						$json = array(
 							'code'		=>	ITEM_USE_ERROR_TYPE_ERROR,
 							'params'	=>	array(
-								'id'	=>	$id
+								'id'	=>	$id,
+								'remain'=>	$remain
 							)
 						);
 					}
