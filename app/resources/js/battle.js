@@ -4,6 +4,18 @@ $(function() {
 	var remains = 0;
 	var currentIndex = 0;
 	var currentData;
+
+	var health = parseInt($("#role_health").text());
+	var healthMax = parseInt($("#role_health_max").text());
+	var healthPercent = parseInt(health / healthMax * 100);
+	if(healthPercent >= 60) {
+		$("#role_health_bar").addClass("progress-success");
+	} else if(healthPercent >= 30) {
+		$("#role_health_bar").addClass("progress-warning");
+	} else {
+		$("#role_health_bar").addClass("progress-danger");
+	}
+	$("#role_health_bar > div.bar").css("width", healthPercent + "%");
 	
 	$("#btnStartBattle").click(function() {
 		if(!run) {
@@ -62,6 +74,7 @@ $(function() {
 			html = '<div class="post"><div class="entry">';
 			if(currentData.result == 1) {
 				html += '战斗胜利，获得经验 <span class="exp">' + currentData.settle.exp + '</span>，金币 <span class="gold">' + currentData.settle.gold + '</span>';
+				$("#role_gold").text(parseInt($("#role_gold").text()) + parseInt(currentData.settle.gold));
 				if(currentData.settle.drop.length > 0)
 				{
 					html += '，获得道具';
@@ -90,8 +103,24 @@ $(function() {
 			startBattle();
 		} else {
 			data = currentData.rounds[currentIndex];
-			html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
 
+			var role, monster;
+			if(data.attacker.account_id) {
+				role = data.attacker;
+				monster = data.defender;
+			} else {
+				role = data.defender;
+				monster = data.attacker;
+			}
+			$("#role_level").text(role.level);
+			$("#role_health").text(role.health);
+			$("#role_atk").text(role.atk);
+			$("#role_def").text(role.def);
+			$("#role_mdef").text(role.mdef);
+			$("#role_hit").text(role.hit);
+			$("#role_flee").text(role.flee);
+
+			html = '<div class="post"><div class="entry">' + data.round + '. <span class="attacker">' + data.attacker.name + '</span> 对 ';
 			if(data.damage[0].target == data.attacker.name) {
 				html += '<span class="defender_self">自己</span>';
 			} else {

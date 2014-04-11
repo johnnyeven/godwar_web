@@ -21,7 +21,7 @@ class Battle extends CI_Controller {
 		$this->currentRole->save();
 
 		$parameter = array (
-				'role' => $this->currentRole
+				'role' => $this->currentRole->role
 		);
 		$this->load->model ( 'utils/render' );
 		$this->render->render ( $this->pageName, $parameter );
