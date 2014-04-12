@@ -8,6 +8,7 @@ html, body {margin:0;padding:0;font-size:12px;background:#e1e1e1 url(../images/t
 a, a:visited {text-decoration:none;color:#585858;}
 a:hover {text-decoration:underline;color:#585858;}
 
+.hidden {display:none;}
 .align-right {float: right;}
 .row-item {margin:10px;padding:10px;}
 .with-border-bottom {border-bottom: #CCC 1px solid;}

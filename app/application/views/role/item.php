@@ -42,14 +42,14 @@
 
 		            echo '<li><a class="sell" href="#"><span class="ui-icon ui-icon-transferthick-e-w"></span>出售</a></li>';
 		            // echo '<li><a href="' . site_url('action/market/sell/' . $row['id']) . '">拍卖行</a></li>';
-		            if($row['is_locked'] == '1')
-		            {
-		                echo '<li><a class="unlock" href="' . site_url('role/item/unlock/' . $row['id']) . '"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
-		            }
-		            else
-		            {
-		                echo '<li><a class="lock" href="' . site_url('role/item/lock/' . $row['id']) . '"><span class="ui-icon ui-icon-locked"></span>上锁</a></li>';
-		            }
+	                echo '<li';
+	                if($row['is_locked'] != '1') echo ' class="hidden"';
+	                echo '><a class="unlock" href="#"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
+
+	                echo '<li';
+	                if($row['is_locked'] == '1') echo ' class="hidden"';
+	                echo '><a class="lock" href="#"><span class="ui-icon ui-icon-locked"></span>上锁</a></li>';
+
 		            echo '<li><a class="destroy" href="' . site_url('role/item/destroy/' . $row['id']) . '"><span class="ui-icon ui-icon-trash"></span>销毁</a></li>';
 		            echo '</span>';
 		            echo '</div>';

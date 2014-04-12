@@ -57,6 +57,7 @@ class Item extends CI_Controller
 						'code'		=>	ITEM_USE_ERROR_LOCKED,
 						'params'	=>	array(
 							'id'	=>	$id,
+							'name'	=>	$result['name'],
 							'remain'=>	$remain
 						)
 					);
@@ -84,6 +85,7 @@ class Item extends CI_Controller
 								'code'		=>	ITEM_USE_ERROR_NOT_ENOUGH,
 								'params'	=>	array(
 									'id'	=>	$id,
+									'name'	=>	$result['name'],
 									'remain'=>	$remain
 								)
 							);
@@ -109,6 +111,7 @@ class Item extends CI_Controller
 							'params'	=>	array(
 								'id'	=>	$id,
 								'type'	=>	2,
+								'name'	=>	$result['name'],
 								'remain'=>	$remain
 							)
 						);
@@ -126,6 +129,7 @@ class Item extends CI_Controller
 							'params'	=>	array(
 								'id'	=>	$id,
 								'type'	=>	3,
+								'name'	=>	$result['name'],
 								'remain'=>	$remain
 							)
 						);
@@ -226,7 +230,7 @@ class Item extends CI_Controller
 						exit();
 					}
 
-					$price = $result['price'] * $result['count'];
+					$price = $result['price'] * $count;
 					$this->load->library('Gift');
 					$this->_hook_gifts($this->currentRole->role);
 					$parameter = array(
@@ -316,6 +320,10 @@ class Item extends CI_Controller
 
 	public function lock($id)
 	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = $this->input->post('id');
 		if(!empty($id))
 		{
 			$this->load->model('mitem');
@@ -331,21 +339,40 @@ class Item extends CI_Controller
 				); 
 				$this->mitem->update($key, $parameter);
 
-				redirect('role/item');
+				$json = array(
+					'code'		=>	ITEM_LOCK_SUCCESS,
+					'params'	=>	array(
+						'id'	=>	$id,
+						'name'	=>	$result['name']
+					)
+				);
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'ITEM_DESTROY_ERROR_NOT_EXIST', '', 'role/item', true, 5 );
+				$json = array(
+					'code'		=>	ITEM_LOCK_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'ITEM_DESTROY_ERROR_NO_PARAM', '', 'role/item', true, 5 );
+			$json = array(
+				'code'		=>	ITEM_LOCK_ERROR_NO_PARAM
+			);
 		}
+
+		echo $this->return_format->format($json);
 	}
 
 	public function unlock($id)
 	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = $this->input->post('id');
 		if(!empty($id))
 		{
 			$this->load->model('mitem');
@@ -356,22 +383,38 @@ class Item extends CI_Controller
 			$result = $this->mitem->read($key);
 			if(!empty($result))
 			{
+				$result = $result[0]
 				$parameter = array(
 					'is_locked'		=>	0
 				); 
 				$this->mitem->update($key, $parameter);
 
-				redirect('role/item');
+				$json = array(
+					'code'		=>	ITEM_UNLOCK_SUCCESS,
+					'params'	=>	array(
+						'id'	=>	$id,
+						'name'	=>	$result['name']
+					)
+				);
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'ITEM_DESTROY_ERROR_NOT_EXIST', '', 'role/item', true, 5 );
+				$json = array(
+					'code'		=>	ITEM_UNLOCK_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'ITEM_DESTROY_ERROR_NO_PARAM', '', 'role/item', true, 5 );
+			$json = array(
+				'code'		=>	ITEM_UNLOCK_ERROR_NO_PARAM
+			);
 		}
+
+		echo $this->return_format->format($json);
 	}
 
 	public function destroy($id, $count)

@@ -59,6 +59,28 @@ $(function() {
 		$.post('item/apply', parameter, onItemApply);
 	});
 
+	$("#content > div.equipment-item > ul.menu > li > a.lock").click(function() {
+		var item = $(this).parent().parent().parent();
+		id = item.find('span.id').text();
+		name = item.find('span.name').text();
+
+		var parameter = {
+			"id": id
+		};
+		$.post('item/lock', parameter, onItemLocked);
+	});
+
+	$("#content > div.equipment-item > ul.menu > li > a.unlock").click(function() {
+		var item = $(this).parent().parent().parent();
+		id = item.find('span.id').text();
+		name = item.find('span.name').text();
+
+		var parameter = {
+			"id": id
+		};
+		$.post('item/unlock', parameter, onItemUnlocked);
+	});
+
 	$("#dialog_form").dialog({
 		autoOpen: false,
 		modal: true,
@@ -170,6 +192,44 @@ $(function() {
 				}
 			}
 			$("#dialog_alert").find("p > strong").text("已使用 " + data.params.name);
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
+	}
+
+	var onItemLocked = function(data) {
+		if(data.code == ITEM_LOCK_SUCCESS) {
+			var i = data.params.id;
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
+			if(item.length > 0) {
+				item.find("ul.menu > li > a.lock").parent().hide();
+				item.find("ul.menu > li > a.unlock").parent().show();
+			}
+			$("#dialog_alert").find("p > strong").text("已锁定 " + data.params.name);
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
+	}
+
+	var onItemUnlocked = function(data) {
+		if(data.code == ITEM_UNLOCK_SUCCESS) {
+			var i = data.params.id;
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
+			if(item.length > 0) {
+				item.find("ul.menu > li > a.unlock").parent().hide();
+				item.find("ul.menu > li > a.lock").parent().show();
+			}
+			$("#dialog_alert").find("p > strong").text("已解锁 " + data.params.name);
 			$("#dialog_alert").fadeIn();
 			setTimeout(function() {
 				$("#dialog_alert").fadeOut();

@@ -14,6 +14,14 @@ var ITEM_SELL_ERROR_NOT_ENOUGH = 1044;			//指定数量超过当前持有量
 var ITEM_SELL_ERROR_NOT_EXIST = 1045;			//指定物品不存在
 var ITEM_SELL_ERROR_NO_PARAM = 1046;			//参数不正确
 
+var ITEM_LOCK_SUCCESS = 1;						//成功
+var ITEM_LOCK_ERROR_NOT_EXIST = 1045;			//指定物品不存在
+var ITEM_LOCK_ERROR_NO_PARAM = 1046;			//参数不正确
+
+var ITEM_UNLOCK_SUCCESS = 1;					//成功
+var ITEM_UNLOCK_ERROR_NOT_EXIST = 1045;			//指定物品不存在
+var ITEM_UNLOCK_ERROR_NO_PARAM = 1046;			//参数不正确
+
 var ALCHEMY_LEARN_SUCCESS = 1;					//学习配方成功
 var ALCHEMY_LEARN_ERROR_LOCKED = 1043;			//物品被锁定
 var ALCHEMY_LEARN_ERROR_NOT_ENOUGH = 1044;		//指定数量超过当前持有量
