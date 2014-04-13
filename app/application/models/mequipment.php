@@ -101,7 +101,17 @@ class Mequipment extends CI_Model implements ICrud
 	{
 		if ( !empty( $id ) )
 		{
-			$this->gamedb->where( 'id', $id );
+			if(is_array($id))
+			{
+				foreach ( $id as $key => $value )
+				{
+					$this->gamedb->where( $key, $value );
+				}
+			}
+			elseif(is_numeric($id))
+			{
+				$this->gamedb->where( 'id', $id );
+			}
 			return $this->gamedb->delete( $this->table );
 		}
 		else

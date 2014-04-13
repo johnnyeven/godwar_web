@@ -30,9 +30,7 @@ class Equipment extends CI_Controller
 		);
 		$this->load->model('mequipment');
 		$parameter = array(
-			'role_id'		=>	$this->currentRole->role['id'],
-			'is_market'		=>	0,
-			'is_destroyed'	=>	0
+			'role_id'		=>	$this->currentRole->role['id']
 		);
 		$result = $this->mequipment->read($parameter);
 
@@ -74,14 +72,6 @@ class Equipment extends CI_Controller
 				if($current['is_equipped'] == '1')
 				{
 					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
-				}
-				elseif($current['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
-				elseif($current['is_destroyed'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
 				}
 				else
 				{
@@ -202,14 +192,6 @@ class Equipment extends CI_Controller
 				{
 					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_UNEQUIPPED', '', 'role/equipment', true, 5 );
 				}
-				elseif($result['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_destroyed'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
-				}
 				else
 				{
 					$parameter = array(
@@ -271,14 +253,6 @@ class Equipment extends CI_Controller
 				{
 					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
 				}
-				elseif($result['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_destroyed'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
-				}
 				else
 				{
 					$price = $result['price'];
@@ -293,10 +267,7 @@ class Equipment extends CI_Controller
 						$this->gift->call_hook('after_billing_sell', $parameter);
 						$price = $parameter['price'];
 
-						$parameter = array(
-							'is_destroyed'	=>	1
-						);
-						$this->mequipment->update($id, $parameter);
+						$this->mequipment->delete($id);
 
 						$this->currentRole->role['gold'] += $price;
 						$this->currentRole->save();
@@ -326,9 +297,7 @@ class Equipment extends CI_Controller
 		$parameter = array(
 			'role_id'		=>	$this->currentRole->role['id'],
 			'is_equipped'	=>	0,
-			'is_locked'		=>	0,
-			'is_market'		=>	0,
-			'is_destroyed'	=>	0
+			'is_locked'		=>	0
 		);
 		$extension = array(
 			'select_sum'	=>	'price'
@@ -347,11 +316,7 @@ class Equipment extends CI_Controller
 			$this->gift->call_hook('after_billing_sell', $gift_param);
 			$price = $gift_param['price'];
 
-			$id = $parameter;
-			$parameter = array(
-				'is_destroyed'	=>	1
-			);
-			$this->mequipment->update($id, $parameter);
+			$this->mequipment->delete($parameter);
 
 			$this->currentRole->role['gold'] += $price;
 			$this->currentRole->save();
@@ -446,16 +411,9 @@ class Equipment extends CI_Controller
 				{
 					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_LOCKED', '', 'role/equipment', true, 5 );
 				}
-				elseif($result['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
 				else
 				{
-					$parameter = array(
-						'is_destroyed'	=>	1
-					);
-					$this->mequipment->update($id, $parameter);
+					$this->mequipment->delete($id);
 
 					redirect('role/equipment');
 				}
