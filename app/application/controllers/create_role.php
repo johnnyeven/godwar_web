@@ -86,6 +86,7 @@ class Create_role extends CI_Controller
 					'createtime'			=>	$time,
 					'lasttime'				=>	$time,
 					'map_id'				=>	$baseResult['init_map_id'],
+					'gather_trigger'		=>	0.3,
 					'append_status'			=>	'[]'
 			);
 			if($this->role->create($parameter))

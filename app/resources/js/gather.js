@@ -39,7 +39,6 @@ $(function() {
 		        	timerId = self.setInterval(checkTimer, 1000);
 					break;
 				case GATHER_ERROR_CONFLICT:
-					clearInfo();
 					html = '<div class="post"><div class="entry color-red">同一时刻只能进行一项行动，战斗或者采集，请刷新页面重试</div></div>';
 					$('#content').prepend(html);
 					if(run) {
@@ -50,7 +49,6 @@ $(function() {
 					}
 					break;
 				case GATHER_ERROR_MAP_NOT_EXIST:
-					clearInfo();
 					html = '<div class="post"><div class="entry color-red">地图编号信息错误</div></div>';
 					$('#content').prepend(html);
 					if(run) {
@@ -61,7 +59,6 @@ $(function() {
 					}
 					break;
 				case GATHER_ERROR_ITEM_NOT_EXIST:
-					clearInfo();
 					html = '<div class="post"><div class="entry color-red">物品编号信息错误</div></div>';
 					$('#content').prepend(html);
 					if(run) {
@@ -71,9 +68,8 @@ $(function() {
 						self.clearInterval(timerId);
 					}
 					break;
-				case GATHER_SUCCESS:
-					clearInfo();
-					html = '<div class="post"><div class="entry">成功采集到 <span class="gather_name">' + data.params.name + '</span></div></div>';
+				case GATHER_NOTHING:
+					html = '<div class="post"><div class="entry">没有采到任何东西...</div></div>';
 					$('#content').prepend(html);
 
 					remains = data.params.next_battletime - data.params.timestamp;
@@ -81,6 +77,15 @@ $(function() {
 					$('#content').prepend(html);
 		        	timerId = self.setInterval(checkTimer, 1000);
 		        	break;
+				case GATHER_SUCCESS:
+					html = '<div class="post"><div class="entry">成功采集到 <span class="gather_name">' + data.params.name + '</span></div></div>';
+					$('#content').prepend(html);
+
+					remains = data.params.next_battletime - data.params.timestamp;
+					html = '<div class="post"><div class="entry color-purple">正在搜寻新的采集物...<em id="findTimer">(' + remains + ')</em></div></div>';
+					$('#content').prepend(html);
+		        	timerId = self.setInterval(checkTimer, 1000);
+					break;
 			}
 		}
 	}
@@ -90,9 +95,13 @@ $(function() {
 			remains--;
 			$("#findTimer").text("(" + remains + ")");
 		} else {
+			clearInfo();
+			html = '<div class="post"><div class="entry color-purple">正在采集...</div></div>';
+        	$('#content').prepend(html);
+
 			remains = 0;
-			start();
 			self.clearInterval(timerId);
+			setTimeout(start, 1000);
 		}
 	}
 

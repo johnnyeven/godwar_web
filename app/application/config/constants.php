@@ -47,6 +47,7 @@ define('ERROR_ROLE_DEAD', 1042);
 define('BATTLE_ERROR_CONFLICT', 11040);
 
 define('GATHER_SUCCESS', 20001);					//采集成功
+define('GATHER_NOTHING', 21039);					//没有采到东西
 define('GATHER_ERROR_CONFLICT', 21040);				//动作冲突，同一时刻只能选择战斗或者采集
 define('GATHER_ERROR_NOT_TIME', 21041);				//时间冷却未到
 define('GATHER_ERROR_MAP_NOT_EXIST', 21042);		//地图编号不存在

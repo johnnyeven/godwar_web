@@ -37,75 +37,95 @@ class Gather extends CI_Controller {
 			$time = time();
 			if ($this->currentRole->role ['next_gathertime'] < $time)
 			{
-				$map_id = intval($this->currentRole->role['map_id']);
-				$this->load->library('Mongo_db');
-				$parameter = array(
-					'id'		=>	$map_id
-				);
-				$result = $this->mongo_db->where($parameter)->get('map');
-				if(!empty($result))
+				$rand = rand(1, 10000) / 10000;
+				if($rand <= $this->currentRole->role['gather_trigger'])
 				{
-					$result = $result[0];
-					$this->load->helper('array');
-					$id = intval(rate_random_element($result['gather']));
+					$map_id = intval($this->currentRole->role['map_id']);
+					$this->load->library('Mongo_db');
 					$parameter = array(
-						'id'	=>	$id
+						'id'		=>	$map_id
 					);
-					$item = $this->mongo_db->where($parameter)->get('item');
-					if(!empty($item))
+					$result = $this->mongo_db->where($parameter)->get('map');
+					if(!empty($result))
 					{
-						$item = $item[0];
-						$role_id = $this->currentRole->role['id'];
-						$this->load->model('mitem');
+						$result = $result[0];
+						$this->load->helper('array');
+						$id = intval(rate_random_element($result['gather']));
 						$parameter = array(
-							'id'		=>	$id,
-							'role_id'	=>	$role_id
+							'id'	=>	$id
 						);
-						$result = $this->mitem->read($parameter);
-						if(!empty($result))
+						$item = $this->mongo_db->where($parameter)->get('item');
+						if(!empty($item))
 						{
-							$sql = "UPDATE `items` SET `count`=`count`+1 WHERE `id`={$id} AND `role_id`={$role_id}";
-							$this->mitem->db()->query($sql);
+							$item = $item[0];
+							$role_id = $this->currentRole->role['id'];
+							$this->load->model('mitem');
+							$parameter = array(
+								'id'		=>	$id,
+								'role_id'	=>	$role_id
+							);
+							$result = $this->mitem->read($parameter);
+							if(!empty($result))
+							{
+								$sql = "UPDATE `items` SET `count`=`count`+1 WHERE `id`={$id} AND `role_id`={$role_id}";
+								$this->mitem->db()->query($sql);
+							}
+							else
+							{
+								$parameter['name'] = $item['name'];
+								$parameter['type'] = $item['type'];
+								$parameter['count'] = 1;
+								$parameter['price'] = $item['price'];
+								$this->mitem->create($parameter);
+							}
+
+							$this->load->config('base.config');
+							$gather_rest_time = $this->config->item('base_gather_rest_time');
+							$this->currentRole->role['gathertime'] = $time;
+							$this->currentRole->role['next_gathertime'] = $time + $gather_rest_time;
+							$this->currentRole->save();
+
+							$json = array(
+								'code'		=>	GATHER_SUCCESS,
+								'params'	=>	array(
+									'id'				=>	$id,
+									'name'				=>	$item['name'],
+									'timestamp'			=>	$time,
+									'next_battletime'	=>	$this->currentRole->role ['next_gathertime']
+								)
+							);
 						}
 						else
 						{
-							$parameter['name'] = $item['name'];
-							$parameter['type'] = $item['type'];
-							$parameter['count'] = 1;
-							$parameter['price'] = $item['price'];
-							$this->mitem->create($parameter);
+							$json = array(
+								'code'		=>	GATHER_ERROR_ITEM_NOT_EXIST,
+								'params'	=>	array(
+									'id'	=>	$id
+								)
+							);
 						}
-
-						$this->load->config('base.config');
-						$gather_rest_time = $this->config->item('base_gather_rest_time');
-						$this->currentRole->role['gathertime'] = $time;
-						$this->currentRole->role['next_gathertime'] = $time + $gather_rest_time;
-						$this->currentRole->save();
-
-						$json = array(
-							'code'		=>	GATHER_SUCCESS,
-							'params'	=>	array(
-								'id'				=>	$id,
-								'name'				=>	$item['name'],
-								'timestamp'			=>	$time,
-								'next_battletime'	=>	$this->currentRole->role ['next_gathertime']
-							)
-						);
 					}
 					else
 					{
 						$json = array(
-							'code'		=>	GATHER_ERROR_ITEM_NOT_EXIST,
-							'params'	=>	array(
-								'id'	=>	$id
-							)
+							'code'		=>	GATHER_ERROR_MAP_NOT_EXIST
 						);
 					}
 				}
 				else
 				{
+					$this->load->config('base.config');
+					$gather_rest_time = $this->config->item('base_gather_rest_time');
+					$this->currentRole->role['gathertime'] = $time;
+					$this->currentRole->role['next_gathertime'] = $time + $gather_rest_time;
+					$this->currentRole->save();
+
 					$json = array(
-						'code'		=>	GATHER_ERROR_MAP_NOT_EXIST
+						'code'		=>	GATHER_NOTHING,
+						'params'	=>	array(
+							'timestamp'			=>	$time,
+							'next_battletime'	=>	$this->currentRole->role ['next_gathertime']
+						)
 					);
 				}
 			}
