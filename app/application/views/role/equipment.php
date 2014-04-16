@@ -85,7 +85,14 @@
 		            }
 		            if($equipment['upgrade_level'] > 0) echo ' (+' . $equipment['upgrade_level'] . ')</p>';
 		            echo '<p>' . $equipment_title[intval($equipment['position'])] . '</p>';
-		            echo '<p>' . $equipment['level'] . '级</p>';
+		            if($equipment['level'] > $role['level'])
+		            {
+						echo '<p class="color-red">' . $equipment['level'] . '级</p>';
+		            }
+		            else
+		            {
+		            	echo '<p>' . $equipment['level'] . '级</p>';
+		            }
 		            echo '<p>最高强化等级：' . $equipment['upgrade_level_max'] . '</p>';
 		            echo '<hr>';
 		            if($equipment['atk_base'] > 0) echo '<p>攻击：' .  $equipment['atk_base'] . '</p>';
@@ -105,6 +112,25 @@
 		            	if($magic['property']['hit'] > 0) echo '<p>命中加成：' . ($magic['property']['hit_unit'] == 1 ? $magic['property']['hit'] : ($magic['property']['hit'] * 100) . '%') . '</p>';
 		            	if($magic['property']['flee'] > 0) echo '<p>闪避加成：' . ($magic['property']['flee_unit'] == 1 ? $magic['property']['flee'] : ($magic['property']['flee'] * 100) . '%') . '</p>';
 		            }
+		            if(!empty($magics)) echo '<hr>';
+		            $jobs = json_decode($equipment['job'], TRUE);
+		            echo '<p>';
+		            foreach($jobs as $job)
+		            {
+		            	if($job == 99)
+		            	{
+		            		echo '<span>全职业</span>';
+		            	}
+		            	elseif($job == $role['job'])
+		            	{
+		            		echo '<span>' . $job_list['job_' . $job] . '</span> ';
+		            	}
+		            	else
+		            	{
+		            		echo '<span class="color-red">' . $job_list['job_' . $job] . '</span> ';
+		            	}
+		            }
+		            echo '</p>';
 		            echo '</div>';
 
 		            echo '<ul class="menu" style="display:none;margin-left:20px;">';

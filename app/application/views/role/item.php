@@ -29,8 +29,13 @@
 		            }
 		            echo $row['name'] . '</span>';
 		            echo ' (<span class="count">' . $row['count'] . '</span>)';
-		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
 
+		            echo '<div class="equipment-item-detail">';
+		            echo '<p class="font-size-16 bold">' . $row['name'] . '</p>';
+		            echo '<p>' . $row['comment'] . '</p>';
+		            echo '</div>';
+
+		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
 		            if($row['type'] == '4')
 		            {
 		                echo '<li><a class="learn_blueprint" href="#"><span class="ui-icon ui-icon-lightbulb"></span>学习</a></li>';
@@ -51,7 +56,7 @@
 	                echo '><a class="lock" href="#"><span class="ui-icon ui-icon-locked"></span>上锁</a></li>';
 
 		            echo '<li><a class="destroy" href="' . site_url('role/item/destroy/' . $row['id']) . '"><span class="ui-icon ui-icon-trash"></span>销毁</a></li>';
-		            echo '</span>';
+		            echo '</ul>';
 		            echo '</div>';
 		        }
 		        ?>
