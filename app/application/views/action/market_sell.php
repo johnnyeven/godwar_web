@@ -7,7 +7,7 @@
             <div class="right_main">
 				<form action="<?php echo site_url('action/market/sell_submit'); ?>" method="post" enctype="application/x-www-form-urlencoded" name="form" id="form">
 		        	<input type="hidden" id="id" name="id" value="<?php echo $equipment['id']; ?>" />
-		            <p>名字：<?php echo $equipment['name']; ?></p>
+		            <p>名字：<?php echo $value['name']; ?></p>
 		            <p>价格：<input type="text" name="price" id="price" value="<?php echo $equipment['price']; ?>" /></p>
 		            <p>结束时间：
 		                <select id="endtime" name="endtime">

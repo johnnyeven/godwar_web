@@ -4,7 +4,7 @@
 $config['base_equipment_drop_rate_inc'] = 1;
 
 //服务器物品倍增掉率
-$config['base_item_drop_rate_inc'] = 5;
+$config['base_item_drop_rate_inc'] = 1;
 
 //每秒恢复血量
 $config['base_recover_health_rate'] = 2;
