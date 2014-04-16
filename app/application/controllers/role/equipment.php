@@ -42,7 +42,7 @@ class Equipment extends CI_Controller
 		$equipped = array();
 		foreach($e as $item)
 		{
-			$equipped[$item['position']] = $item;
+			$equipped[intval($item['position'])] = $item;
 		}
 
 		$data = array(
@@ -107,17 +107,17 @@ class Equipment extends CI_Controller
 									{
 										if($magic['property'][$property . '_unit'] == 1)
 										{
-											$current[$property . '_inc'] = intval($value);
+											$current[$property . '_inc'] += intval($value);
 										}
 										elseif($magic['property'][$property . '_unit'] == 2)
 										{
 											if(!empty($current[$property . '_base']))
 											{
-												$current[$property . '_inc'] = intval($current[$property . '_base'] * $value);
+												$current[$property . '_inc'] += intval($current[$property . '_base'] * $value);
 											}
 											else
 											{
-												$current[$property . '_inc'] = intval($this->currentRole->role[$property] * $value);
+												$current[$property . '_inc'] += intval($this->currentRole->role[$property] * $value);
 											}
 										}
 									}
@@ -195,6 +195,12 @@ class Equipment extends CI_Controller
 				else
 				{
 					$parameter = array(
+						'atk_inc'		=>	0,
+						'def_inc'		=>	0,
+						'mdef_inc'		=>	0,
+						'health_max_inc'=>	0,
+						'hit_inc'		=>	0,
+						'flee_inc'		=>	0,
 						'is_equipped'	=>	0
 					);
 					$this->mequipment->update($id, $parameter);

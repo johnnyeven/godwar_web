@@ -100,18 +100,10 @@ class Market extends CI_Controller
 				{
 					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_LOCKED', '', 'role/equipment', true, 5 );
 				}
-				elseif($result['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_destroyed'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
-				}
 				else
 				{
 					$data = array(
-						'equipment'	=>	$result
+						'value'	=>	$result
 					);
 
 					$this->load->model( 'utils/render' );
