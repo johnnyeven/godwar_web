@@ -1,7 +1,10 @@
 $(function() {
-	var currentMenu;
-	var id, name, current_count;
+	var current_menu;
+	var id, name, current_item, current_count;
 
+	$("#content").contextmenu(function() {
+		return false;
+	});
 	$("#content").tooltip({
 		items: "div.equipment-item",
 		content: function() {
@@ -12,30 +15,52 @@ $(function() {
 	});
 
 	$("#content > div.equipment-item > ul.menu").menu();
-	$("#content > div.equipment-item").click(function(e) {
-		$("#content").tooltip("disable");
-		if(currentMenu) {
-			currentMenu.hide();
-		}
-		currentMenu = $(this).find('ul.menu');
-		currentMenu.show();
+	$("#content > div.equipment-item").mouseup(function(e) {
+		if(e.which == 3) {
+			if(current_item) {
+				current_item.removeClass('equipment-item-current');
+			}
+			current_item = $(this);
+			current_item.addClass('equipment-item-current');
 
-		event.stopPropagation();
+			$("#content").tooltip("disable");
+			if(current_menu) {
+				current_menu.hide();
+			}
+			current_menu = $(this).find('ul.menu');
+			var top = e.clientY + $(document).scrollTop();
+			var left = e.clientX + $(document).scrollLeft();
+
+			current_menu.css({
+				"top": top,
+				"left": left
+			});
+			current_menu.show();
+		}
+		e.stopPropagation();
+	});
+	$("#content > div.equipment-item").click(function(e) {
+		$("#content").tooltip("enable");
+		if(current_item) {
+			current_item.removeClass('equipment-item-current');
+		}
+		current_item = $(this);
+		current_item.addClass('equipment-item-current');
+
+		if(current_menu) {
+			current_menu.hide();
+			current_menu = null;
+		}
+		
+		e.stopPropagation();
 	});
 
 	$("#content > div.equipment-item > ul.menu > li").click(function(e) {
 		$("#content").tooltip("disable");
-		currentMenu.hide();
-		currentMenu = null;
-		e.stopPropagation();
-	});
-
-	$(document).on("click", function(e) {
-		$("#content").tooltip("enable");
-		if(currentMenu) {
-			currentMenu.hide();
-			currentMenu = null;
-		}
+		current_menu.hide();
+		current_menu = null;
+		
+		return false;
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.sell").click(function() {
@@ -91,6 +116,18 @@ $(function() {
 			"id": id
 		};
 		$.post('item/unlock', parameter, onItemUnlocked);
+	});
+
+	$(document).click(function(e) {
+		$("#content").tooltip("enable");
+		if(current_item) {
+			current_item.removeClass('equipment-item-current');
+			current_item = null;
+		}
+		if(current_menu) {
+			current_menu.hide();
+			current_menu = null;
+		}
 	});
 
 	$("#dialog_form").dialog({

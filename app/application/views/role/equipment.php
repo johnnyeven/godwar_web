@@ -134,7 +134,7 @@
 		            echo '</p>';
 		            echo '</div>';
 
-		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
+		            echo '<ul class="menu" style="display:none;">';
 		            if($equipment['is_equipped'] == '1')
 		            {
 		                echo '<li><a href="' . site_url('role/equipment/unequip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-arrowthick-1-s"></span>卸下</a></li>';

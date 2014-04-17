@@ -15,8 +15,10 @@
 .role-info-item span, .equipment-info-item span {display:inline-block;}
 .role-info-item-label, .equipment-info-item-label {width:50px;font-weight: bold;color:#A37229;}
 
-.equipment-item {padding:5px 20px;float:left;min-width:150px;position:relative;cursor: pointer;}
+.equipment-item {padding:5px 20px;float:left;min-width:150px;cursor: pointer;}
+.equipment-item-current {font-weight:bold;background-color:#CCC;}
 .equipment-item-detail {display:none;}
+.market-item-current td {background-color:#F8FFDD !important;}
 
 .post {padding:5px 0;border-bottom: #CCC 1px dashed;}
 .post .entry span {font-weight:bold;}
@@ -28,4 +30,4 @@
 
 .post .entry span.gather_name {color:#8DC43C;}
 
-.menu {position:absolute;top:27px;left:0;z-index:1;min-width:120px;}
+.menu {position:absolute;z-index:1;min-width:120px;}

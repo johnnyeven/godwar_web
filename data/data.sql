@@ -146,6 +146,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`market` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `role_id` BIGINT NOT NULL DEFAULT 0,
   `name` CHAR(40) NOT NULL DEFAULT '',
+  `count` INT NOT NULL DEFAULT 0,
   `price` BIGINT NOT NULL DEFAULT 0,
   `property` TEXT NOT NULL,
   `starttime` INT NOT NULL DEFAULT 0,

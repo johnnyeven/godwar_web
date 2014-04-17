@@ -19,6 +19,8 @@ class Market extends CI_Controller
 	{
 		$time = time();
 
+		$this->load->config('const.config');
+		$job_list = $this->config->item('const_job');
 		$this->load->model('mmarket');
 		$parameter = array(
 			'starttime <='	=>	$time,
@@ -32,14 +34,20 @@ class Market extends CI_Controller
 
 		$data = array(
 			'orders'	=>	$result,
+			'job_list'	=>	$job_list,
 			'role'		=>	$this->currentRole->role
 		);
 		$this->load->model( 'utils/render' );
 		$this->render->render( $this->pageName, $data );
 	}
 
-	public function cancel($id)
+	public function cancel()
 	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
+		$id = $this->input->post('id');
+
 		if(!empty($id))
 		{
 			$this->load->model('mmarket');
@@ -51,30 +59,45 @@ class Market extends CI_Controller
 			if(!empty($result))
 			{
 				$result = $result[0];
-				$equipment_id = $result['equipment_id'];
+				$this->mmarket->delete($id);
 
-				$parameter = array(
-					'status'	=>	3
+				if($result['type'] == 1)
+				{
+					$this->load->model('mequipment', 'myitem');
+				}
+				else
+				{
+					$this->load->model('mitem', 'myitem');
+				}
+				$property = json_decode($result['property']);
+				$this->myitem->create($property);
+
+				$json = array(
+					'code'		=>	EQUIPMENT_MARKET_CANCEL_SUCCESS,
+					'params'	=>	array(
+						'id'	=>	$id,
+						'name'	=>	$result['name']
+					)
 				);
-				$this->mmarket->update($id, $parameter);
-
-				$this->load->model('mequipment');
-				$parameter = array(
-					'is_market'	=>	0
-				);
-				$this->mequipment->update($equipment_id, $parameter);
-
-				redirect('action/market');
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
+				$json = array(
+					'code'		=>	EQUIPMENT_MARKET_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
+			$json = array(
+				'code'		=>	EQUIPMENT_MARKET_ERROR_NO_PARAM
+			);
 		}
+
+		echo $this->return_format->format($json);
 	}
 
 	public function sell_submit()
@@ -84,21 +107,30 @@ class Market extends CI_Controller
 
 		$id = $this->input->post('id');
 		$type = $this->input->post('type');
+		$count = $this->input->post('count');
 		$price = $this->input->post('price');
 		$endtime = $this->input->post('endtime');
 
-		if(!empty($id) && !empty($type) && ($type == '1' || $type == '2'))
+		if(!empty($id) && !empty($type) && ($type == '1' || $type == '2') && $count > 0 && $price > 0)
 		{
-			$this->load->model('mequipment');
-			$parameter = array(
+			if($type == '1')
+			{
+				$this->load->model('mequipment', 'myitem');
+			}
+			else
+			{
+				$this->load->model('mitem', 'myitem');
+			}
+
+			$key = array(
 				'id'		=>	$id,
 				'role_id'	=>	$this->currentRole->role['id']
 			);
-			$result = $this->mequipment->read($parameter);
+			$result = $this->myitem->read($key);
 			if(!empty($result))
 			{
 				$result = $result[0];
-				if($result['is_equipped'] == '1')
+				if($type == '1' && $result['is_equipped'] == '1')
 				{
 					$json = array(
 						'code'		=>	EQUIPMENT_MARKET_ERROR_EQUIPPED,
@@ -106,8 +138,10 @@ class Market extends CI_Controller
 							'id'	=>	$id
 						)
 					);
+					echo $this->return_format->format($json);
+					exiy();
 				}
-				elseif($result['is_locked'] == '1')
+				if($result['is_locked'] == '1')
 				{
 					$json = array(
 						'code'		=>	EQUIPMENT_MARKET_ERROR_LOCKED,
@@ -123,6 +157,40 @@ class Market extends CI_Controller
 						$price = $result['price'];
 					}
 
+					if($type == '1')
+					{
+						$this->myitem->delete($id);
+					}
+					else
+					{
+						if($result['count'] > 1)
+						{
+							$role_id = $this->currentRole->role['id'];
+							$sql = "UPDATE `items` SET `count`=`count`-1 WHERE `id`={$id} AND `role_id`={$role_id}";
+							$this->myitem->db()->query($sql);
+							$remain = $result['count'] - 1;
+						}
+						elseif($result['count'] == 1)
+						{
+							$this->myitem->delete($key);
+							$remain = 0;
+						}
+						else
+						{
+							$remain = $result['count'];
+							$json = array(
+								'code'		=>	EQUIPMENT_MARKET_ERROR_NOT_ENOUGH,
+								'params'	=>	array(
+									'id'	=>	$id,
+									'name'	=>	$result['name'],
+									'remain'=>	$remain
+								)
+							);
+							echo $this->return_format->format($json);
+							exit();
+						}
+					}
+
 					$time = time();
 					$parameter = array(
 						'role_id'				=>	$this->currentRole->role['id'],
@@ -136,8 +204,6 @@ class Market extends CI_Controller
 					);
 					$this->load->model('mmarket');
 					$this->mmarket->create($parameter);
-
-					$this->mequipment->delete($id);
 
 					$json = array(
 						'code'		=>	EQUIPMENT_MARKET_SELL_SUCCESS,
@@ -161,64 +227,18 @@ class Market extends CI_Controller
 		else
 		{
 			$json = array(
-				'code'		=>	EQUIPMENT_MARKET_ERROR_NO_PARAM,
-				'params'	=>	array(
-					'id'	=>	$id
-				)
+				'code'		=>	EQUIPMENT_MARKET_ERROR_NO_PARAM
 			);
 		}
 
 		echo $this->return_format->format($json);
 	}
 
-	public function buy($id)
-	{
-		if(!empty($id))
-		{
-			$this->load->model('mmarket');
-			$parameter = array(
-				'id'		=>	$id
-			);
-			$result = $this->mmarket->read($parameter);
-			if(!empty($result))
-			{
-				$result = $result[0];
-				if($result['status'] == '2')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_ALREADY_COMPLETED', '', 'action/market', true, 5 );
-				}
-				elseif($result['status'] == '3')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_CANCELED', '', 'action/market', true, 5 );
-				}
-				elseif($result['role_id'] == $this->currentRole->role['id'])
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_SELF_ORDER', '', 'action/market', true, 5 );
-				}
-				else
-				{
-					$this->pageName = 'action/market_buy';
-					$data = array(
-						'order'	=>	$result
-					);
-
-					$this->load->model( 'utils/render' );
-					$this->render->render( $this->pageName, $data );
-				}
-			}
-			else
-			{
-				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
-			}
-		}
-		else
-		{
-			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
-		}
-	}
-
 	public function buy_submit()
 	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
 		$id = $this->input->post('id');
 
 		if(!empty($id))
@@ -231,35 +251,39 @@ class Market extends CI_Controller
 			if(!empty($result))
 			{
 				$result = $result[0];
-				if($result['status'] == '2')
+				if($result['role_id'] == $this->currentRole->role['id'])
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_ALREADY_COMPLETED', '', 'action/market', true, 5 );
-				}
-				elseif($result['status'] == '3')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_CANCELED', '', 'action/market', true, 5 );
-				}
-				elseif($result['role_id'] == $this->currentRole->role['id'])
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_SELF_ORDER', '', 'action/market', true, 5 );
+					$json = array(
+						'code'		=>	MARKET_ERROR_SELF_ORDER,
+						'params'	=>	array(
+							'id'	=>	$id
+						)
+					);
 				}
 				elseif($result['price'] > $this->currentRole->role['gold'])
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_ENOUGH_GOLD', '', 'action/market', true, 5 );
+					$json = array(
+						'code'		=>	MARKET_ERROR_NOT_ENOUGH_GOLD,
+						'params'	=>	array(
+							'id'	=>	$id
+						)
+					);
 				}
 				else
 				{
-					$parameter = array(
-						'status'	=>	2
-					);
-					$this->mmarket->update($id, $parameter);
+					$this->mmarket->delete($id);
 
-					$this->load->model('mequipment');
-					$parameter = array(
-						'role_id'		=>	$this->currentRole->role['id'],
-						'is_market'		=>	0
-					);
-					$this->mequipment->update($result['equipment_id'], $parameter);
+					if($result['type'] == 1)
+					{
+						$this->load->model('mequipment', 'myitem');
+					}
+					else
+					{
+						$this->load->model('mitem', 'myitem');
+					}
+					$property = json_decode($result['property'], TRUE);
+					$property['role_id'] = $this->currentRole->role['id'];
+					$this->myitem->create($property);
 
 					$this->load->model('role');
 					$db = $this->role->db();
@@ -270,18 +294,33 @@ class Market extends CI_Controller
 					$this->currentRole->role['gold'] -= $result['price'];
 					$this->currentRole->save();
 
-					redirect('action/market');
+					$json = array(
+						'code'		=>	MARKET_BUY_SUCCESS,
+						'params'	=>	array(
+							'id'	=>	$id,
+							'name'	=>	$result['name']
+						)
+					);
 				}
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NOT_EXIST', '', 'action/market', true, 5 );
+				$json = array(
+					'code'		=>	MARKET_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'MARKET_ERROR_NO_PARAM', '', 'action/market', true, 5 );
+			$json = array(
+				'code'		=>	MARKET_ERROR_NO_PARAM
+			);
 		}
+
+		echo $this->return_format->format($json);
 	}
 }
 
