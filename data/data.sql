@@ -2,14 +2,8 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
--- -----------------------------------------------------
--- Schema profzone_accountdb
--- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `profzone_accountdb` ;
 CREATE SCHEMA IF NOT EXISTS `profzone_accountdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
--- -----------------------------------------------------
--- Schema profzone_godwar_gamedb
--- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `profzone_godwar_gamedb` ;
 CREATE SCHEMA IF NOT EXISTS `profzone_godwar_gamedb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `profzone_accountdb` ;
@@ -54,24 +48,8 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `exp` BIGINT NOT NULL DEFAULT 0,
   `exp_inc` FLOAT NOT NULL DEFAULT 0,
   `nextexp` BIGINT NOT NULL DEFAULT 0,
-  `race` ENUM('01001','01002','01003','01004','01005','01006') NOT NULL DEFAULT '01001' COMMENT '01001=�' /* comment truncated */ /*类
-01002=天使
-01003=恶魔
-01004=精灵
-01005=亡灵
-01006=泰坦*/,
-  `job` INT NOT NULL DEFAULT 0 COMMENT '0 = 初' /* comment truncated */ /*��者
-一转
-1 = 战士
-2 = 法师
-3 = 使者
-二转
-4 = 佣兵
-5 = 抵抗者
-6 = 咒术师
-7 = 贤者
-8 = 牧师
-9 = 守护者*/,
+  `race` ENUM('01001','01002','01003','01004','01005','01006') NOT NULL DEFAULT '01001' COMMENT '01001=人类\n01002=天使\n01003=恶魔\n01004=精灵\n01005=亡灵\n01006=泰坦',
+  `job` INT NOT NULL DEFAULT 0 COMMENT '0 = 初心者\n一转\n1 = 战士\n2 = 法师\n3 = 使者\n二转\n4 = 佣兵\n5 = 抵抗者\n6 = 咒术师\n7 = 贤者\n8 = 牧师\n9 = 守护者',
   `health_base` INT NOT NULL DEFAULT 0,
   `health_max` INT NOT NULL DEFAULT 0,
   `health` INT NOT NULL DEFAULT 0,
@@ -99,10 +77,10 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`roles` (
   `gift_point` INT NOT NULL DEFAULT 0,
   `battletime` INT NOT NULL DEFAULT 0,
   `next_battletime` INT NOT NULL DEFAULT 0,
+  `gather_trigger` DOUBLE(5,4) NOT NULL DEFAULT 0,
   `gathertime` INT NOT NULL DEFAULT 0,
   `next_gathertime` INT NOT NULL DEFAULT 0,
-  `current_action` TINYINT NOT NULL DEFAULT 0 COMMENT '1=�' /* comment truncated */ /*斗
-2=采集*/,
+  `current_action` TINYINT NOT NULL DEFAULT 0 COMMENT '1=战斗\n2=采集',
   `append_status` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `account_id` (`account_id` ASC),
@@ -122,20 +100,9 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`equipments` (
   `role_id` BIGINT NOT NULL,
   `original_id` INT NOT NULL DEFAULT 0,
   `name` CHAR(40) NOT NULL DEFAULT '',
-  `position` TINYINT NOT NULL DEFAULT 0 COMMENT '1=�' /* comment truncated */ /*器
-2=头盔
-3=护手
-4=盔甲
-5=腰带
-6=鞋子
-7=戒指
-8=项链*/,
+  `position` TINYINT NOT NULL DEFAULT 0 COMMENT '1=武器\n2=头盔\n3=护手\n4=盔甲\n5=腰带\n6=鞋子\n7=戒指\n8=项链',
   `level` INT NOT NULL DEFAULT 0,
-  `grade` TINYINT NOT NULL DEFAULT 0 COMMENT '0=�' /* comment truncated */ /*通
-1=蓝装
-2=绿装
-3=紫装
-4=金装*/,
+  `grade` TINYINT NOT NULL DEFAULT 0 COMMENT '0=普通\n1=蓝装\n2=绿装\n3=紫装\n4=金装',
   `upgrade_level` INT NOT NULL DEFAULT 0,
   `upgrade_level_max` INT NOT NULL DEFAULT 0,
   `job` CHAR(20) NOT NULL DEFAULT '[]',
@@ -161,6 +128,8 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`equipments` (
   `price` INT NOT NULL DEFAULT 0,
   `is_equipped` TINYINT NOT NULL DEFAULT 0,
   `is_locked` TINYINT NOT NULL DEFAULT 0,
+  `is_market` TINYINT NOT NULL DEFAULT 0,
+  `is_destroyed` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `role_id` (`role_id` ASC),
   INDEX `is_equipped` (`role_id` ASC, `is_equipped` ASC))
@@ -176,15 +145,13 @@ DROP TABLE IF EXISTS `profzone_godwar_gamedb`.`market` ;
 CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`market` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `role_id` BIGINT NOT NULL DEFAULT 0,
+  `name` CHAR(40) NOT NULL DEFAULT '',
   `price` BIGINT NOT NULL DEFAULT 0,
   `property` TEXT NOT NULL,
   `starttime` INT NOT NULL DEFAULT 0,
   `endtime` INT NOT NULL DEFAULT 0,
-  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '1=正�' /* comment truncated */ /*�出售
-2=交易成功
-3=取消*/,
-  `type` TINYINT NOT NULL COMMENT '1=�' /* comment truncated */ /*器
-2=道具*/,
+  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '1=正在出售\n2=交易成功\n3=取消',
+  `type` TINYINT NOT NULL COMMENT '1=武器\n2=道具',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -225,6 +192,29 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`items` (
   `count` INT NOT NULL DEFAULT 0,
   `price` INT NOT NULL DEFAULT 0,
   `is_locked` TINYINT NOT NULL DEFAULT 0,
+  `comment` TEXT NOT NULL,
+  `remain_time` INT NOT NULL DEFAULT 0,
+  `atk_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `atk_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `def_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `def_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `mdef_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `mdef_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `health_max_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `health_max_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `hit_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `hit_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `crit_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `crit_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `flee_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `flee_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `exp_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `exp_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `gold_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `gold_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `vitality_inc` DECIMAL(10,2) NOT NULL DEFAULT 0,
+  `vitality_inc_unit` TINYINT NOT NULL DEFAULT 0,
+  `make_item_id` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `role_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 200000000001;
@@ -255,9 +245,7 @@ CREATE TABLE IF NOT EXISTS `profzone_godwar_gamedb`.`alchemy_queue` (
   `name` CHAR(32) NOT NULL DEFAULT '',
   `starttime` INT NOT NULL DEFAULT 0,
   `endtime` INT NOT NULL DEFAULT 0,
-  `status` INT NOT NULL DEFAULT 0 COMMENT '0=运' /* comment truncated */ /*��中
-1=已完成
-2=已接收*/,
+  `status` INT NOT NULL DEFAULT 0 COMMENT '0=运作中\n1=已完成\n2=已接收',
   PRIMARY KEY (`role_id`, `id`))
 ENGINE = InnoDB;
 

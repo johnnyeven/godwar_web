@@ -77,57 +77,17 @@ class Market extends CI_Controller
 		}
 	}
 
-	public function sell($id)
-	{
-		if(!empty($id))
-		{
-			$this->load->model('mequipment');
-			$parameter = array(
-				'id'		=>	$id,
-				'role_id'	=>	$this->currentRole->role['id']
-			);
-			$result = $this->mequipment->read($parameter);
-			if(!empty($result))
-			{
-				$this->pageName = 'action/market_sell';
-
-				$result = $result[0];
-				if($result['is_equipped'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_locked'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_LOCKED', '', 'role/equipment', true, 5 );
-				}
-				else
-				{
-					$data = array(
-						'value'	=>	$result
-					);
-
-					$this->load->model( 'utils/render' );
-					$this->render->render( $this->pageName, $data );
-				}
-			}
-			else
-			{
-				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NOT_EXIST', '', 'role/equipment', true, 5 );
-			}
-		}
-		else
-		{
-			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NO_PARAM', '', 'role/equipment', true, 5 );
-		}
-	}
-
 	public function sell_submit()
 	{
+		header('Content-type: text/json');
+		$this->load->model('utils/return_format');
+
 		$id = $this->input->post('id');
+		$type = $this->input->post('type');
 		$price = $this->input->post('price');
 		$endtime = $this->input->post('endtime');
 
-		if(!empty($id))
+		if(!empty($id) && !empty($type) && ($type == '1' || $type == '2'))
 		{
 			$this->load->model('mequipment');
 			$parameter = array(
@@ -140,19 +100,21 @@ class Market extends CI_Controller
 				$result = $result[0];
 				if($result['is_equipped'] == '1')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_EQUIPPED', '', 'role/equipment', true, 5 );
+					$json = array(
+						'code'		=>	EQUIPMENT_MARKET_ERROR_EQUIPPED,
+						'params'	=>	array(
+							'id'	=>	$id
+						)
+					);
 				}
 				elseif($result['is_locked'] == '1')
 				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_LOCKED', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_market'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_IN_MARKET', '', 'role/equipment', true, 5 );
-				}
-				elseif($result['is_destroyed'] == '1')
-				{
-					showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_MARKET_ERROR_DESTROYED', '', 'role/equipment', true, 5 );
+					$json = array(
+						'code'		=>	EQUIPMENT_MARKET_ERROR_LOCKED,
+						'params'	=>	array(
+							'id'	=>	$id
+						)
+					);
 				}
 				else
 				{
@@ -164,44 +126,49 @@ class Market extends CI_Controller
 					$time = time();
 					$parameter = array(
 						'role_id'				=>	$this->currentRole->role['id'],
-						'equipment_id'			=>	$result['id'],
-						'equipment_name'		=>	$result['name'],
-						'equipment_position'	=>	$result['position'],
-						'equipment_level'		=>	$result['level'],
-						'equipment_grade'		=>	$result['grade'],
-						'equipment_job'			=>	$result['job'],
-						'atk_base'				=>	$result['atk_base'],
-						'def_base'				=>	$result['def_base'],
-						'mdef_base'				=>	$result['mdef_base'],
-						'health_max_base'		=>	$result['health_max_base'],
-						'hit_base'				=>	$result['hit_base'],
-						'flee_base'				=>	$result['flee_base'],
-						'magic_words'			=>	$result['magic_words'],
+						'name'					=>	$result['name'],
 						'price'					=>	$price,
+						'property'				=>	json_encode($result),
 						'starttime'				=>	$time,
 						'endtime'				=>	$time + $endtime * 86400,
-						'status'				=>	1
+						'status'				=>	1,
+						'type'					=>	$type
 					);
 					$this->load->model('mmarket');
 					$this->mmarket->create($parameter);
 
-					$parameter = array(
-						'is_market'		=>	1
-					);
-					$this->mequipment->update($id, $parameter);
+					$this->mequipment->delete($id);
 
-					showMessage( MESSAGE_TYPE_SUCCESS, 'MARKET_SELL_SUBMIT', '', 'action/market', true, 5 );
+					$json = array(
+						'code'		=>	EQUIPMENT_MARKET_SELL_SUCCESS,
+						'params'	=>	array(
+							'id'	=>	$id,
+							'name'	=>	$result['name']
+						)
+					);
 				}
 			}
 			else
 			{
-				showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NOT_EXIST', '', 'role/equipment', true, 5 );
+				$json = array(
+					'code'		=>	EQUIPMENT_MARKET_ERROR_NOT_EXIST,
+					'params'	=>	array(
+						'id'	=>	$id
+					)
+				);
 			}
 		}
 		else
 		{
-			showMessage( MESSAGE_TYPE_ERROR, 'EQUIPMENT_ERROR_NO_PARAM', '', 'role/equipment', true, 5 );
+			$json = array(
+				'code'		=>	EQUIPMENT_MARKET_ERROR_NO_PARAM,
+				'params'	=>	array(
+					'id'	=>	$id
+				)
+			);
 		}
+
+		echo $this->return_format->format($json);
 	}
 
 	public function buy($id)

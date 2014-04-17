@@ -150,7 +150,7 @@ $(function() {
 	var onItemSold = function(data) {
 		if(data.code == ITEM_SELL_SUCCESS) {
 			var i = data.params.id;
-			var c = data.params.count
+			var c = data.params.count;
 			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
 			if(item.length > 0) {
 				if(data.params.remain == 0) {
