@@ -73,7 +73,7 @@ class Market extends CI_Controller
 				$this->myitem->create($property);
 
 				$json = array(
-					'code'		=>	EQUIPMENT_MARKET_CANCEL_SUCCESS,
+					'code'		=>	MARKET_CANCEL_SUCCESS,
 					'params'	=>	array(
 						'id'	=>	$id,
 						'name'	=>	$result['name']
