@@ -41,25 +41,26 @@
 		        foreach($equipments as $equipment)
 		        {
 		            echo '<div class="equipment-item">';
+		            echo '<span class="id" style="display:none;">' . $equipment['id'] . '</span>';
 		            if($equipment['grade'] == 0)
 		            {
-		                echo '<span>' . $equipment['name'] . '</span>';
+		                echo '<span class="name">' . $equipment['name'] . '</span>';
 		            }
 		            elseif($equipment['grade'] == 1)
 		            {
-		                echo '<span class="color-blue">' . $equipment['name'] . '</span>';
+		                echo '<span class="name color-blue">' . $equipment['name'] . '</span>';
 		            }
 		            elseif($equipment['grade'] == 2)
 		            {
-		                echo '<span class="color-green">' . $equipment['name'] . '</span>';
+		                echo '<span class="name color-green">' . $equipment['name'] . '</span>';
 		            }
 		            elseif($equipment['grade'] == 3)
 		            {
-		                echo '<span class="color-purple">' . $equipment['name'] . '</span>';
+		                echo '<span class="name color-purple">' . $equipment['name'] . '</span>';
 		            }
 		            elseif($equipment['grade'] == 4)
 		            {
-		                echo '<span class="color-orange">' . $equipment['name'] . '</span>';
+		                echo '<span class="name color-orange">' . $equipment['name'] . '</span>';
 		            }
 
 		            echo '<div class="equipment-item-detail">';
@@ -133,7 +134,7 @@
 		            echo '</p>';
 		            echo '</div>';
 
-		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
+		            echo '<ul class="menu" style="display:none;">';
 		            if($equipment['is_equipped'] == '1')
 		            {
 		                echo '<li><a href="' . site_url('role/equipment/unequip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-arrowthick-1-s"></span>卸下</a></li>';
@@ -143,7 +144,7 @@
 		                echo '<li><a href="' . site_url('role/equipment/equip/' . $equipment['id']) . '"><span class="ui-icon ui-icon-arrowthick-1-n"></span>装备</a></li>';
 		            }
 		            echo '<li><a href="' . site_url('role/equipment/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-transferthick-e-w"></span>出售</a></li>';
-		            echo '<li><a href="' . site_url('action/market/sell/' . $equipment['id']) . '"><span class="ui-icon ui-icon-person"></span>拍卖行</a></li>';
+		            echo '<li><a class="market_sell" href="#"><span class="ui-icon ui-icon-person"></span>在市场中出售</a></li>';
 		            if($equipment['is_locked'] == '1')
 		            {
 		                echo '<li><a href="' . site_url('role/equipment/unlock/' . $equipment['id']) . '"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
@@ -163,4 +164,29 @@
             <div class="right_bottom"></div>
         </div>
     	<div class="clear"></div>
+
+	    <div id="market_sell_form" title="在市场中出售">
+	        <div class="dialog-item-property"></div>
+	        <hr>
+	        <p>单价：<input type="text" id="dialog_market_sell_sprice" name="dialog_market_sell_sprice" value="" /></p>
+	        <p>总价：<input type="text" readonly="readonly" id="dialog_market_sell_price" name="dialog_market_sell_price" value="" /></p>
+	        <p>有效期：
+                <select id="dialog_market_sell_endtime" name="dialog_market_sell_endtime">
+                    <option value="1">一天</option>
+                    <option value="3">三天</option>
+                    <option value="7">一周</option>
+                    <option value="30">一个月</option>
+                    <option value="90">三个月</option>
+                    <option value="365">一年</option>
+                </select>
+            </p>
+	    </div>
+	    <div id="dialog_message" title="信息">
+	        <p id="dialog_message_content"></p>
+	    </div>
+	    <div id="dialog_alert" class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;display:none;position:absolute;right:10px;top:10px;z-index:10000;">
+	        <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+	        <strong class="dialog_alert_content"></strong></p>
+	    </div>
+<script src="<?php echo base_url('resources/js/const.config.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo base_url('resources/js/equipment.js'); ?>" type="text/javascript"></script>

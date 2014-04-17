@@ -35,7 +35,7 @@
 		            echo '<p>' . $row['comment'] . '</p>';
 		            echo '</div>';
 
-		            echo '<ul class="menu" style="display:none;margin-left:20px;">';
+		            echo '<ul class="menu" style="display:none;">';
 		            if($row['type'] == '4')
 		            {
 		                echo '<li><a class="learn_blueprint" href="#"><span class="ui-icon ui-icon-lightbulb"></span>学习</a></li>';

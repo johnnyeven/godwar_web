@@ -334,6 +334,7 @@ class Item extends CI_Controller
 			$result = $this->mitem->read($key);
 			if(!empty($result))
 			{
+				$result = $result[0];
 				$parameter = array(
 					'is_locked'		=>	1
 				); 

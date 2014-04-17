@@ -53,6 +53,20 @@ define('GATHER_ERROR_NOT_TIME', 21041);				//时间冷却未到
 define('GATHER_ERROR_MAP_NOT_EXIST', 21042);		//地图编号不存在
 define('GATHER_ERROR_ITEM_NOT_EXIST', 21045);		//物品编号不存在
 
+define('EQUIPMENT_MARKET_SELL_SUCCESS', 30001);		//寄售成功
+define('EQUIPMENT_MARKET_ERROR_NOT_ENOUGH', 31035);	//物品数量不足
+define('EQUIPMENT_MARKET_ERROR_EQUIPPED', 31038);	//物品已装备
+define('EQUIPMENT_MARKET_ERROR_LOCKED', 31043);		//物品已锁定
+define('EQUIPMENT_MARKET_ERROR_NOT_EXIST', 31045);	//物品不存在
+define('EQUIPMENT_MARKET_ERROR_NO_PARAM', 31046);	//参数不正确
+
+define('MARKET_CANCEL_SUCCESS', 40001);				//取消订单成功
+define('MARKET_BUY_SUCCESS', 40002);				//购买订单成功
+define('MARKET_ERROR_SELF_ORDER', 41037);			//不能购买自己的订单
+define('MARKET_ERROR_NOT_ENOUGH_GOLD', 41036);		//金币不足
+define('MARKET_ERROR_NOT_EXIST', 41045);			//订单不存在
+define('MARKET_ERROR_NO_PARAM', 41046);				//参数不正确
+
 define('ITEM_SELL_SUCCESS', 1);						//物品出售成功
 define('ITEM_SELL_ERROR_LOCKED', 1043);				//物品被锁定
 define('ITEM_SELL_ERROR_NOT_ENOUGH', 1044);			//指定数量超过当前持有量
