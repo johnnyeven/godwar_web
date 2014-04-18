@@ -104,7 +104,10 @@ class Item extends CI_Controller
 						);
 						$item = $this->mongo_db->where($params)->get('item');
 						$item = $item[0];
-						$this->currentRole->role['append_status'][$id] = time() + $item['remain_time'];
+						$this->currentRole->role['append_status'][$id] = array(
+							'type'		=>	'item',
+							'endtime'	=>	time() + $item['remain_time']
+						);
 						$this->currentRole->check_role_status(true);
 
 						$json = array(

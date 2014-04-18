@@ -44,38 +44,48 @@ class Battle extends CI_Controller {
 			}
 			else
 			{
-				$this->load->config('base.config');
-
-				$recover_health = $this->config->item('base_recover_health_rate');
-				$battle_rest_time = $this->config->item('base_battle_rest_time');
-
 				$time = time ();
-				$pass = $time - $this->currentRole->role ['battletime'];
-				$recover = $pass * $recover_health;
-				$this->currentRole->role ['health'] += $recover;
-				if ($this->currentRole->role ['health'] > $this->currentRole->role ['health_max']) {
-					$this->currentRole->role ['health'] = $this->currentRole->role ['health_max'];
-				}
-				if ($this->currentRole->role ['next_battletime'] > $time) {
+				if ($this->currentRole->role ['next_battletime'] > $time)
+				{
 					$battleResult = array (
 							'err' => ERROR_BATTLE_TIME_NOT_TO,
 							'attacker' => $this->currentRole->role,
 							'timestamp' => $time,
 							'next_battletime' => $this->currentRole->role ['next_battletime'] 
 					);
-					if ($this->currentRole->role ['health'] != $this->currentRole->role ['health_max']) {
-						$this->load->model ( 'role' );
-						$parameter = array (
-								'health' => $this->currentRole->role ['health'],
-								'battletime' => $time 
-						);
-						$this->role->update ( $this->currentRole->role ['id'], $parameter );
-					}
-				} else {
-					$monster = $this->getMonsterByNearestLevel ();
+					// if ($this->currentRole->role ['health'] != $this->currentRole->role ['health_max']) {
+					// 	$this->load->model ( 'role' );
+					// 	$parameter = array (
+					// 			'health' => $this->currentRole->role ['health'],
+					// 			'battletime' => $time 
+					// 	);
+					// 	$this->role->update ( $this->currentRole->role ['id'], $parameter );
+					// }
+				}
+				else
+				{
+					$this->load->config('base.config');
 
-					$monster ['health_max'] = $monster ['health'];
+					$recover_health = $this->config->item('base_recover_health_rate');
+					$battle_rest_time = $this->config->item('base_battle_rest_time');
+
 					$this->_hook_gifts($this->currentRole->role);
+					
+					$pass = $time - $this->currentRole->role ['battletime'];
+					$parameter = array(
+						'pass'		=>	$pass,
+						'recover'	=>	$recover_health
+					);
+					//Gift hook: 血量恢复
+					$this->gift->call_hook('before_recover_health', $parameter);
+					$recover = $parameter['pass'] * $parameter['recover_health'];
+					$this->currentRole->role ['health'] += $recover;
+					if ($this->currentRole->role ['health'] > $this->currentRole->role ['health_max']) {
+						$this->currentRole->role ['health'] = $this->currentRole->role ['health_max'];
+					}
+
+					$monster = $this->getMonsterByNearestLevel ();
+					$monster ['health_max'] = $monster ['health'];
 
 					$dex = 10;
 					$k = 1.13;
@@ -352,7 +362,7 @@ class Battle extends CI_Controller {
 	{
 		if(isset($role['gift']))
 		{
-			$gifts = json_decode($role['gift']);
+			$gifts = $role['gift'];
 			if(is_array($gifts))
 			{
 				$this->load->config('gifts.config');
@@ -371,6 +381,20 @@ class Battle extends CI_Controller {
 							$this->gift->hook($parameter);
 						}
 					}
+				}
+			}
+		}
+
+		if(!empty($role['append_status']))
+		{
+			foreach($role['append_status'] as $key => $value)
+			{
+				if($value['type'] == 'hook')
+				{
+					$parameter = array(
+						'action'	=>	$value['action'],
+						'gift_id'	=>	$key
+					);
 				}
 			}
 		}

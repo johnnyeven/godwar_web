@@ -69,7 +69,7 @@ class RoleAdapter
 			$changed = false;
 			foreach($this->role['append_status'] as $key => $value)
 			{
-				if($this->role['append_status'][$key] <= time())
+				if($value['endtime'] <= time())
 				{
 					unset($this->role['append_status'][$key]);
 					$changed = true;
