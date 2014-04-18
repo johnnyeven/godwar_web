@@ -72,10 +72,36 @@ class Gather extends CI_Controller {
 							}
 							else
 							{
-								$parameter['name'] = $item['name'];
-								$parameter['type'] = $item['type'];
-								$parameter['count'] = 1;
-								$parameter['price'] = $item['price'];
+								$params = array(
+									'name'				=>	$item['name'],
+									'type'				=>	$item['type'],
+									'count'				=>	1,
+									'price'				=>	$item['price'],
+									'comment'			=>	$item['comment'],
+									'remain_time'		=>	$item['remain_time'],
+									'atk_inc'			=>	$item['atk_inc'],
+									'atk_inc_unit'		=>	$item['atk_inc_unit'],
+									'def_inc'			=>	$item['def_inc'],
+									'def_inc_unit'		=>	$item['def_inc_unit'],
+									'mdef_inc'			=>	$item['mdef_inc'],
+									'mdef_inc_unit'		=>	$item['mdef_inc_unit'],
+									'health_max_inc'	=>	$item['health_max_inc'],
+									'health_max_inc_unit'=>	$item['health_max_inc_unit'],
+									'hit_inc'			=>	$item['hit_inc'],
+									'hit_inc_unit'		=>	$item['hit_inc_unit'],
+									'crit_inc'			=>	$item['crit_inc'],
+									'crit_inc_unit'		=>	$item['crit_inc_unit'],
+									'flee_inc'			=>	$item['flee_inc'],
+									'flee_inc_unit'		=>	$item['flee_inc_unit'],
+									'exp_inc'			=>	$item['exp_inc'],
+									'exp_inc_unit'		=>	$item['exp_inc_unit'],
+									'gold_inc'			=>	$item['gold_inc'],
+									'gold_inc_unit'		=>	$item['gold_inc_unit'],
+									'vitality_inc'		=>	$item['vitality_inc'],
+									'vitality_inc_unit'	=>	$item['vitality_inc_unit'],
+									'make_item_id'		=>	$item['make_item_id'],
+								);
+								$parameter = array_merge($parameter, $params);
 								$this->mitem->create($parameter);
 							}
 

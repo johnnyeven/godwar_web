@@ -46,7 +46,7 @@
 		            }
 
 		            echo '<li><a class="sell" href="#"><span class="ui-icon ui-icon-transferthick-e-w"></span>出售</a></li>';
-		            // echo '<li><a href="' . site_url('action/market/sell/' . $row['id']) . '">拍卖行</a></li>';
+		            echo '<li><a class="market_sell" href="#"><span class="ui-icon ui-icon-person"></span>在市场中出售</a></li>';
 	                echo '<li';
 	                if($row['is_locked'] != '1') echo ' class="hidden"';
 	                echo '><a class="unlock" href="#"><span class="ui-icon ui-icon-unlocked"></span>解锁</a></li>';
@@ -66,6 +66,24 @@
             <div class="right_bottom"></div>
         </div>
     	<div class="clear"></div>
+
+	    <div id="market_sell_form" title="在市场中出售">
+	        <div class="dialog-item-property"></div>
+	        <hr>
+	        <p>单价：<input type="text" id="dialog_market_sell_sprice" name="dialog_market_sell_sprice" value="" /></p>
+	        <p>总价：<input type="text" readonly="readonly" id="dialog_market_sell_price" name="dialog_market_sell_price" value="" /></p>
+	        <p>数量：<input type="text" id="dialog_market_sell_count" name="dialog_market_sell_count" value="" /></p>
+	        <p>有效期：
+                <select id="dialog_market_sell_endtime" name="dialog_market_sell_endtime">
+                    <option value="1">一天</option>
+                    <option value="3">三天</option>
+                    <option value="7">一周</option>
+                    <option value="30">一个月</option>
+                    <option value="90">三个月</option>
+                    <option value="365">一年</option>
+                </select>
+            </p>
+	    </div>
 
 	    <div id="dialog_form" title="请输入要出售物品的数量">
 	        <p>名称：<span class="dialog-item-name" id="dialog_item_name"></span></p>
