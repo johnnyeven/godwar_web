@@ -24,6 +24,7 @@ class Item extends CI_Controller
 		$result = $this->mitem->read($parameter);
 
 		$data = array(
+			'role'			=>	$this->currentRole->role,
 			'result'		=>	$result
 		);
 

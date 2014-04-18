@@ -49,6 +49,7 @@ class Alchemy extends CI_Controller
 		$item_result = $this->mitem->read($parameter);
 
 		$data = array(
+			'role'		=>	$this->currentRole->role,
 			'result'	=>	$result,
 			'queue'		=>	$queue_result,
 			'items'		=>	$item_result

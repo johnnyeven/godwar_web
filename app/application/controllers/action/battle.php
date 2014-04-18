@@ -229,7 +229,7 @@ class Battle extends CI_Controller {
 							$battleResult['result'] = 1;
 							$battleResult['settle'] = $settle;
 
-							$restHealthPercentage = .7;
+							$restHealthPercentage = 1;
 							$judgmentHealth = $this->currentRole->role ['health_max'] * $restHealthPercentage;
 							if ($this->currentRole->role ['health'] <= $judgmentHealth) {
 								$restTime = ceil ( ($judgmentHealth - $this->currentRole->role ['health']) / $recover_health );
