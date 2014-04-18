@@ -64,20 +64,38 @@ $(function() {
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.sell").click(function() {
-		var item = $(this).parent().parent().parent();
-		id = item.find('span.id').text();
-		name = item.find('span.name').text();
-		current_count = parseInt(item.find('span.count').text());
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
+		current_count = parseInt(current_item.find('span.count').text());
 
 		$("#dialog_item_name").text(name);
 		$("#dialog_item_count").val(current_count);
 		$("#dialog_form").dialog("open");
 	});
 
+	$("#content > div.equipment-item > ul.menu > li > a.market_sell").click(function() {
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
+		current_count = parseInt(current_item.find('span.count').text());
+
+		$("#dialog_item_name").text(name);
+		$("#market_sell_form > div.dialog-item-property").html(current_item.find("div.equipment-item-detail").html());
+		$("#dialog_market_sell_count").val(current_count);
+		$("#market_sell_form").dialog("open");
+	});
+
 	$("#content > div.equipment-item > ul.menu > li > a.learn_blueprint").click(function() {
-		var item = $(this).parent().parent().parent();
-		id = item.find('span.id').text();
-		name = item.find('span.name').text();
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
 
 		var parameter = {
 			"id": id
@@ -86,9 +104,11 @@ $(function() {
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.use").click(function() {
-		var item = $(this).parent().parent().parent();
-		id = item.find('span.id').text();
-		name = item.find('span.name').text();
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
 
 		var parameter = {
 			"id": id
@@ -97,9 +117,11 @@ $(function() {
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.lock").click(function() {
-		var item = $(this).parent().parent().parent();
-		id = item.find('span.id').text();
-		name = item.find('span.name').text();
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
 
 		var parameter = {
 			"id": id
@@ -108,9 +130,11 @@ $(function() {
 	});
 
 	$("#content > div.equipment-item > ul.menu > li > a.unlock").click(function() {
-		var item = $(this).parent().parent().parent();
-		id = item.find('span.id').text();
-		name = item.find('span.name').text();
+		if(!current_item) {
+			current_item = $(this).parent().parent().parent();
+		}
+		id = current_item.find('span.id').text();
+		name = current_item.find('span.name').text();
 
 		var parameter = {
 			"id": id
@@ -128,6 +152,27 @@ $(function() {
 			current_menu.hide();
 			current_menu = null;
 		}
+	});
+
+	$("#market_sell_form").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 400,
+		buttons: [
+			{
+				text: "Ok",
+				click: function() {
+					request_market_sell(id);
+					$( this ).dialog( "close" );
+				}
+			},
+			{
+				text: "Cancel",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		]
 	});
 
 	$("#dialog_form").dialog({
@@ -173,6 +218,22 @@ $(function() {
 		]
 	});
 
+	$("#dialog_market_sell_sprice").keyup(function() {
+		var sprice = $("#dialog_market_sell_sprice").val();
+		var count = $("#dialog_market_sell_count").val();
+		if(!sprice) sprice = 0;
+		if(!count) count = 0;
+		$("#dialog_market_sell_price").val(parseInt(sprice) * parseInt(count));
+	});
+
+	$("#dialog_market_sell_count").keyup(function() {
+		var sprice = $("#dialog_market_sell_sprice").val();
+		var count = $("#dialog_market_sell_count").val();
+		if(!sprice) sprice = 0;
+		if(!count) count = 0;
+		$("#dialog_market_sell_price").val(parseInt(sprice) * parseInt(count));
+	});
+
 	var request_sell = function(i, c) {
 		if(i && c > 0)
 		{
@@ -183,6 +244,38 @@ $(function() {
 			$.post("item/sell", parameter, onItemSold);
 		}
 	};
+
+	var request_market_sell = function(i) {
+		if(i)
+		{
+			var parameter = {
+				"id": i,
+				'type': 2,
+				'count': $("#dialog_market_sell_count").val(),
+				'price': $("#dialog_market_sell_price").val(),
+				'endtime': $("#dialog_market_sell_endtime").val()
+			};
+			$.post("../action/market/sell_submit", parameter, onItemMarketSold);
+		}
+	};
+
+	var onItemMarketSold = function(data) {
+		if(data.code == EQUIPMENT_MARKET_SELL_SUCCESS) {
+			var i = data.params.id;
+			var item = $("#content").find('div.equipment-item > span.id:contains("' + id + '")').parent();
+			if(item.length > 0) {
+				item.remove();
+			}
+			$("#dialog_alert").find("p > strong").text("成功寄售物品 " + data.params.name);
+			$("#dialog_alert").fadeIn();
+			setTimeout(function() {
+				$("#dialog_alert").fadeOut();
+			}, 3000);
+		} else {
+			$("#dialog_message_content").text(data.code);
+			$("#dialog_message").dialog("open");
+		}
+	}
 
 	var onItemSold = function(data) {
 		if(data.code == ITEM_SELL_SUCCESS) {

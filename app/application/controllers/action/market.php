@@ -160,17 +160,18 @@ class Market extends CI_Controller
 					if($type == '1')
 					{
 						$this->myitem->delete($id);
+						$count = 1;
 					}
 					else
 					{
-						if($result['count'] > 1)
+						if($result['count'] > $count)
 						{
 							$role_id = $this->currentRole->role['id'];
-							$sql = "UPDATE `items` SET `count`=`count`-1 WHERE `id`={$id} AND `role_id`={$role_id}";
+							$sql = "UPDATE `items` SET `count`=`count`-{$count} WHERE `id`={$id} AND `role_id`={$role_id}";
 							$this->myitem->db()->query($sql);
-							$remain = $result['count'] - 1;
+							$remain = $result['count'] - $count;
 						}
-						elseif($result['count'] == 1)
+						elseif($result['count'] == $count)
 						{
 							$this->myitem->delete($key);
 							$remain = 0;
@@ -195,6 +196,7 @@ class Market extends CI_Controller
 					$parameter = array(
 						'role_id'				=>	$this->currentRole->role['id'],
 						'name'					=>	$result['name'],
+						'count'					=>	$count,
 						'price'					=>	$price,
 						'property'				=>	json_encode($result),
 						'starttime'				=>	$time,
