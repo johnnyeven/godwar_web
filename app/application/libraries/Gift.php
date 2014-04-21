@@ -12,20 +12,31 @@ class Gift
 
 	// $param = array(
 	// 	'action'		=>	'pre_battle',
+	//	'type'			=>	'gift', //gift, item, status
 	// 	'gift_id'		=>	'1700001'
 	// );
 	public function hook($param)
 	{
 		if(is_array($param) && isset($param['gift_id']))
 		{
-			$filepath = APPPATH . 'models/gifts/gift_' . $param['gift_id'] . '.php';
+			if($param['type'] == 'gift')
+			{
+				$filepath = APPPATH . 'models/gifts/gift_';
+				$class = 'Gift_';
+			}
+			elseif($param['type'] == 'status')
+			{
+				$filepath = APPPATH . 'models/skills/status_';
+				$class = 'Status_';
+			}
+			$class .= $param['gift_id'];
+			$filepath .= $param['gift_id'] . '.php';
 
 			if ( ! file_exists($filepath))
 			{
 				return FALSE;
 			}
 
-			$class = 'Gift_' . $param['gift_id'];
 			if ( ! class_exists($class))
 			{
 				require($filepath);
@@ -47,7 +58,6 @@ class Gift
 		{
 			return;
 		}
-
 		if(isset($this->hooks[$action]))
 		{
 			foreach($this->hooks[$action] as $hook)
@@ -72,7 +82,18 @@ class Gift
 		{
 			if (isset($hook['gift_id']))
 			{
-				$filepath = APPPATH . 'models/gifts/gift_' . $hook['gift_id'] . '.php';
+				if($hook['type'] == 'gift')
+				{
+					$filepath = APPPATH . 'models/gifts/gift_';
+					$class = 'Gift_';
+				}
+				elseif($hook['type'] == 'status')
+				{
+					$filepath = APPPATH . 'models/skills/status_';
+					$class = 'Status_';
+				}
+				$class .= $hook['gift_id'];
+				$filepath .= $hook['gift_id'] . '.php';
 
 				if ( ! file_exists($filepath))
 				{
@@ -81,7 +102,6 @@ class Gift
 
 				$this->in_progress = true;
 
-				$class = 'Gift_' . $hook['gift_id'];
 				if ( ! class_exists($class))
 				{
 					require($filepath);

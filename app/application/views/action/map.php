@@ -17,8 +17,17 @@
 	        	?>
 	            <div style="clear:both"></div>
 	        </div>
+	        <?php if(!empty($current_selected_map['interface'])): ?>
+	        <div id="interfaces" class="row-item">
+	        	<h5><?php echo $current_selected_map['name']; ?> 提供的功能</h5>
+	        	<?php foreach($current_selected_map['interface'] as $interface): ?>
+	            <div style="float:left;width:100px;height:30px;line-height:30px;padding:0 10px;"><a href="<?php echo site_url($interface['script']); ?>"><?php echo $interface['name']; ?></a></div>
+	            <?php endforeach; ?>
+	            <div style="clear:both"></div>
+	        </div>
+	    	<?php endif; ?>
 	        <div id="monsters" class="row-item">
-	        	<h5><?php echo $current_selected_map['name']; ?>包含的野怪</h5>
+	        	<h5><?php echo $current_selected_map['name']; ?> 包含的野怪</h5>
 	        	<?php foreach($monsters as $monster): ?>
 	            <div style="float:left;width:100px;height:30px;line-height:30px;padding:0 10px;"><?php echo $monster['name']; ?>(<?php echo $monster['level']; ?>)</div>
 	            <?php endforeach; ?>

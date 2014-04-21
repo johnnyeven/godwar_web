@@ -67,6 +67,9 @@ define('MARKET_ERROR_NOT_ENOUGH_GOLD', 41036);		//金币不足
 define('MARKET_ERROR_NOT_EXIST', 41045);			//订单不存在
 define('MARKET_ERROR_NO_PARAM', 41046);				//参数不正确
 
+define('REBIRTH_SUCCESS', 50001);					//重生
+define('REBIRTH_ERROR_NOT_DEAD', 51009);			//角色没有死亡
+
 define('ITEM_SELL_SUCCESS', 1);						//物品出售成功
 define('ITEM_SELL_ERROR_LOCKED', 1043);				//物品被锁定
 define('ITEM_SELL_ERROR_NOT_ENOUGH', 1044);			//指定数量超过当前持有量
