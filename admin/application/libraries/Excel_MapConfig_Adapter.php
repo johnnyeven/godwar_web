@@ -24,8 +24,9 @@ class Excel_MapConfig_Adapter {
 					'id'				=>	intval($objPHPExcel->getActiveSheet()->getCell("A$j")->getValue()),
 					'name'				=>	$objPHPExcel->getActiveSheet()->getCell("B$j")->getValue(),
 					'comment'			=>	$objPHPExcel->getActiveSheet()->getCell("C$j")->getValue(),
-					'monster'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("D$j")->getValue()),
-					'gather'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("E$j")->getValue())
+					'interface'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("D$j")->getValue()),
+					'monster'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("E$j")->getValue()),
+					'gather'			=>	json_decode($objPHPExcel->getActiveSheet()->getCell("F$j")->getValue())
 				);
 				array_push($result, $row);
 			}

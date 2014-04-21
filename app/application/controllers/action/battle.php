@@ -76,11 +76,13 @@ class Battle extends CI_Controller {
 						'pass'		=>	$pass,
 						'recover'	=>	$recover_health
 					);
+					
 					//Gift hook: 血量恢复
 					$this->gift->call_hook('before_recover_health', $parameter);
-					$recover = $parameter['pass'] * $parameter['recover_health'];
+					$recover = $parameter['pass'] * $parameter['recover'];
 					$this->currentRole->role ['health'] += $recover;
-					if ($this->currentRole->role ['health'] > $this->currentRole->role ['health_max']) {
+					if ($this->currentRole->role ['health'] > $this->currentRole->role ['health_max'])
+					{
 						$this->currentRole->role ['health'] = $this->currentRole->role ['health_max'];
 					}
 
@@ -375,6 +377,7 @@ class Battle extends CI_Controller {
 						{
 							$parameter = array(
 								'action'	=>	$action,
+								'type'		=>	'gift',
 								'gift_id'	=>	$gift
 							);
 
@@ -393,8 +396,11 @@ class Battle extends CI_Controller {
 				{
 					$parameter = array(
 						'action'	=>	$value['action'],
+						'type'		=>	'status',
 						'gift_id'	=>	$key
 					);
+
+					$this->gift->hook($parameter);
 				}
 			}
 		}
