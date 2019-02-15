@@ -49,8 +49,8 @@ $active_group = 'platform';
 $active_record = TRUE;
 
 $db['platform']['hostname'] = '127.0.0.1';
-$db['platform']['username'] = 'godwar_web';
-$db['platform']['password'] = '2GpnT5vfRyQ4GfmY';
+$db['platform']['username'] = 'root';
+$db['platform']['password'] = '123456';
 $db['platform']['database'] = 'profzone_accountdb';
 $db['platform']['dbdriver'] = 'mysqli';
 $db['platform']['dbprefix'] = '';
@@ -65,8 +65,8 @@ $db['platform']['autoinit'] = TRUE;
 $db['platform']['stricton'] = FALSE;
 
 $db['gamedb']['hostname'] = '127.0.0.1';
-$db['gamedb']['username'] = 'godwar_web';
-$db['gamedb']['password'] = '2GpnT5vfRyQ4GfmY';
+$db['gamedb']['username'] = 'root';
+$db['gamedb']['password'] = '123456';
 $db['gamedb']['database'] = 'profzone_godwar_gamedb';
 $db['gamedb']['dbdriver'] = 'mysqli';
 $db['gamedb']['dbprefix'] = '';
@@ -79,6 +79,22 @@ $db['gamedb']['dbcollat'] = 'utf8_general_ci';
 $db['gamedb']['swap_pre'] = '';
 $db['gamedb']['autoinit'] = TRUE;
 $db['gamedb']['stricton'] = FALSE;
+
+$db['configdb']['hostname'] = '127.0.0.1';
+$db['configdb']['username'] = 'root';
+$db['configdb']['password'] = '123456';
+$db['configdb']['database'] = 'profzone_godwar_configdb';
+$db['configdb']['dbdriver'] = 'mysqli';
+$db['configdb']['dbprefix'] = '';
+$db['configdb']['pconnect'] = FALSE;
+$db['configdb']['db_debug'] = TRUE;
+$db['configdb']['cache_on'] = FALSE;
+$db['configdb']['cachedir'] = '';
+$db['configdb']['char_set'] = 'utf8';
+$db['configdb']['dbcollat'] = 'utf8_general_ci';
+$db['configdb']['swap_pre'] = '';
+$db['configdb']['autoinit'] = TRUE;
+$db['configdb']['stricton'] = FALSE;
 
 
 /* End of file database.php */

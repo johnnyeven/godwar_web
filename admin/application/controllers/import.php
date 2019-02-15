@@ -43,14 +43,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_baseconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_baseconfig_adapter->RemoveNull($result);
-			var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'base');
-				$this->mongo_db->batch_insert('base', $result);
-		
-				var_dump($this->mongo_db->get('base'));
+				$this->load->model('base_config');
+				foreach ($result as $key => $value) {
+                    $this->base_config->create($value);
+                }
+				var_dump($this->base_config->read());
 			}
 		}
 	}
@@ -85,14 +84,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_raceconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_raceconfig_adapter->RemoveNull($result);
-			
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'race');
-				$this->mongo_db->batch_insert('race', $result);
-		
-				var_dump($this->mongo_db->get('race'));
+                $this->load->model('race_config');
+                foreach ($result as $key => $value) {
+                    $this->race_config->create($value);
+                }
+                var_dump($this->race_config->read());
 			}
 		}
 	}
@@ -127,15 +125,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_expconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_expconfig_adapter->RemoveNull($result);
-			
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'exp');
-				$this->mongo_db->batch_insert('exp', $result);
-				$this->mongo_db->add_index('exp', array('level' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('exp'));
+                $this->load->model('exp_config');
+                foreach ($result as $key => $value) {
+                    $this->exp_config->create($value);
+                }
+                var_dump($this->exp_config->read());
 			}
 		}
 	}
@@ -170,15 +166,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_monsterconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_monsterconfig_adapter->RemoveNull($result);
-			
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'monster');
-				$this->mongo_db->batch_insert('monster', $result);
-				$this->mongo_db->add_index('monster', array('id' => 'asc'), array('unique' => TRUE));
-				$this->mongo_db->add_index('monster', array('level' => 'desc'));
-				var_dump($this->mongo_db->get('monster'));
+                $this->load->model('monster_config');
+                foreach ($result as $key => $value) {
+                    $this->monster_config->create($value);
+                }
+                var_dump($this->monster_config->read());
 			}
 		}
 	}
@@ -213,7 +207,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_mapconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_mapconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');
@@ -256,7 +251,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_jobconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_jobconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');
@@ -299,7 +295,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_itemconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_itemconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');
@@ -342,7 +339,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_equipmentconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_equipmentconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');
@@ -385,7 +383,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_magicwordconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');
@@ -428,7 +427,8 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_alchemyconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
-			
+
+            var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->library('Mongo_db');

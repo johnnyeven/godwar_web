@@ -7,7 +7,7 @@ class Excel_ExpConfig_Adapter {
 	
 		include_once 'PHPExcel.php';
 		include_once 'PHPExcel/IOFactory.php';
-		include_once 'PHPExcel/Reader\Excel5.php';
+		include_once 'PHPExcel/Reader/Excel5.php';
 
 		$result = array();
 		if(!empty($file)) //如果上传文件成功，就执行导入excel操作

@@ -49,8 +49,8 @@ $active_group = 'platform';
 $active_record = TRUE;
 
 $db['platform']['hostname'] = '127.0.0.1';
-$db['platform']['username'] = 'godwar_web';
-$db['platform']['password'] = '2GpnT5vfRyQ4GfmY';
+$db['platform']['username'] = 'root';
+$db['platform']['password'] = '123456';
 $db['platform']['database'] = 'profzone_accountdb';
 $db['platform']['dbdriver'] = 'mysqli';
 $db['platform']['dbprefix'] = '';
@@ -65,8 +65,8 @@ $db['platform']['autoinit'] = TRUE;
 $db['platform']['stricton'] = FALSE;
 
 $db['gamedb']['hostname'] = '127.0.0.1';
-$db['gamedb']['username'] = 'godwar_web';
-$db['gamedb']['password'] = '2GpnT5vfRyQ4GfmY';
+$db['gamedb']['username'] = 'root';
+$db['gamedb']['password'] = '123456';
 $db['gamedb']['database'] = 'profzone_godwar_gamedb';
 $db['gamedb']['dbdriver'] = 'mysqli';
 $db['gamedb']['dbprefix'] = '';
