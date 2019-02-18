@@ -98,11 +98,11 @@ class Item extends CI_Controller
 					if($result['type'] == '2')
 					{
 						//状态药剂
-						$this->load->library('Mongo_db');
+                        $this->load->model('config/item_config');
 						$params = array(
 							'id'	=>	$id
 						);
-						$item = $this->mongo_db->where($params)->get('item');
+						$item = $this->item_config->read($params);
 						$item = $item[0];
 						$this->currentRole->role['append_status'][$id] = array(
 							'type'		=>	'item',

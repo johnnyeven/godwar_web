@@ -41,20 +41,21 @@ class Gather extends CI_Controller {
 				if($rand <= $this->currentRole->role['gather_trigger'])
 				{
 					$map_id = intval($this->currentRole->role['map_id']);
-					$this->load->library('Mongo_db');
+                    $this->load->model('config/map_config');
 					$parameter = array(
 						'id'		=>	$map_id
 					);
-					$result = $this->mongo_db->where($parameter)->get('map');
+					$result = $this->map_config->read($parameter);
 					if(!empty($result))
 					{
 						$result = $result[0];
 						$this->load->helper('array');
 						$id = intval(rate_random_element($result['gather']));
+                        $this->load->model('config/item_config');
 						$parameter = array(
 							'id'	=>	$id
 						);
-						$item = $this->mongo_db->where($parameter)->get('item');
+						$item = $this->item_config->read($parameter);
 						if(!empty($item))
 						{
 							$item = $item[0];

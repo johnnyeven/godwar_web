@@ -18,11 +18,11 @@ class Gift extends CI_Controller
 	
 	public function index()
 	{
-		$this->load->library('Mongo_db');
+        $this->load->model('config/race_config');
 		$parameter = array(
 			'id'	=>	$this->currentRole->role['race']
 		);
-		$result = $this->mongo_db->where($parameter)->get('race');
+		$result = $this->race_config->read($parameter);
 		$parameter = array (
 				'role'	=>	$this->currentRole->role,
 				'race'	=>	$result[0]
@@ -37,11 +37,11 @@ class Gift extends CI_Controller
 		{
 			if($this->currentRole->role['gift_point'] > 0)
 			{
-				$this->load->library('Mongo_db');
+                $this->load->model('config/race_config');
 				$parameter = array(
 					'id'	=>	$this->currentRole->role['race']
 				);
-				$result = $this->mongo_db->where($parameter)->get('race');
+				$result = $this->race_config->read($parameter);
 				$exist = false;
 				$level_limit = 0;
 				if(!empty($result))

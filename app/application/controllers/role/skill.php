@@ -17,8 +17,8 @@ class Skill extends CI_Controller
 
 	public function index()
 	{
-		$this->load->library('Mongo_db');
-		$result = $this->mongo_db->get('job');
+        $this->load->model('config/job_config');
+		$result = $this->job_config->read();
 		$parameter = array (
 				'role'	=>	$this->currentRole->role,
 				'job'	=>	$result
@@ -31,11 +31,11 @@ class Skill extends CI_Controller
 	{
 		if(!empty($id))
 		{
-			$this->load->library('Mongo_db');
+            $this->load->model('config/job_config');
 			$parameter = array(
 				'id'	=>	intval($this->currentRole->role['job'])
 			);
-			$result = $this->mongo_db->where($parameter)->get('job');
+			$result = $this->job_config->read($parameter);
 			$exist = false;
 			$level_limit = 0;
 			if(!empty($result))
@@ -128,11 +128,11 @@ class Skill extends CI_Controller
 	{
 		if($id === '0' || !empty($id))
 		{
-			$this->load->library('Mongo_db');
+            $this->load->model('config/job_config');
 			$parameter = array(
 				'id'	=>	intval($this->currentRole->role['job'])
 			);
-			$result = $this->mongo_db->where($parameter)->get('job');
+			$result = $this->job_config->read($parameter);
 			if(!empty($result))
 			{
 				$result = $result[0];
@@ -142,7 +142,7 @@ class Skill extends CI_Controller
 				$parameter = array(
 					'id'	=>	intval($id)
 				);
-				$result = $this->mongo_db->where($parameter)->get('job');
+				$result = $this->job_config->read($parameter);
 				if(!empty($result))
 				{
 					$result = $result[0];

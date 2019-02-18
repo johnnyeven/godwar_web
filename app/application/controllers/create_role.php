@@ -26,11 +26,11 @@ class Create_role extends CI_Controller
 
             if ( !empty( $roleName ) && !empty( $roleRace ) )
             {
-                $this->load->library('Mongo_db');
+                $this->load->model('config/race_config', 'race_config');
                 $parameter = array(
                     'id'	=>	$roleRace
                 );
-                $result = $this->mongo_db->where($parameter)->get('race');
+                $result = $this->race_config->read($parameter);
                 $result = $result[0];
 
                 $gifts = array();
@@ -44,13 +44,15 @@ class Create_role extends CI_Controller
                     }
                 }
 
-                $baseResult = $this->mongo_db->get('base');
+                $this->load->model('config/base_config');
+                $baseResult = $this->base_config->read();
                 $baseResult = $baseResult[0];
 
+                $this->load->model('config/exp_config');
                 $parameter = array(
                     'level'	=>	1
                 );
-                $expResult = $this->mongo_db->where($parameter)->get('exp');
+                $expResult = $this->exp_config->read($parameter);
                 $expResult = $expResult[0];
 
                 $this->load->model('role');

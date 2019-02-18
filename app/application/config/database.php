@@ -80,6 +80,22 @@ $db['gamedb']['swap_pre'] = '';
 $db['gamedb']['autoinit'] = TRUE;
 $db['gamedb']['stricton'] = FALSE;
 
+$db['configdb']['hostname'] = '127.0.0.1';
+$db['configdb']['username'] = 'root';
+$db['configdb']['password'] = '123456';
+$db['configdb']['database'] = 'profzone_godwar_configdb';
+$db['configdb']['dbdriver'] = 'mysqli';
+$db['configdb']['dbprefix'] = '';
+$db['configdb']['pconnect'] = FALSE;
+$db['configdb']['db_debug'] = TRUE;
+$db['configdb']['cache_on'] = FALSE;
+$db['configdb']['cachedir'] = '';
+$db['configdb']['char_set'] = 'utf8';
+$db['configdb']['dbcollat'] = 'utf8_general_ci';
+$db['configdb']['swap_pre'] = '';
+$db['configdb']['autoinit'] = TRUE;
+$db['configdb']['stricton'] = FALSE;
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

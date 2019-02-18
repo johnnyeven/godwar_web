@@ -187,11 +187,11 @@ class Alchemy extends CI_Controller
 				$result = $result[0];
 				$parameter = array();
 
-				$this->load->library('Mongo_db');
+                $this->load->model('config/alchemy_config');
 				$param = array(
 					'id'	=>	$id
 				);
-				$result = $this->mongo_db->where($param)->get('alchemy');
+				$result = $this->alchemy_config->read($param);
 				$result = $result[0];
 
 				$json = array(
@@ -248,11 +248,11 @@ class Alchemy extends CI_Controller
 					$result = $result[0];
 					$parameter = array();
 
-					$this->load->library('Mongo_db');
+                    $this->load->model('config/alchemy_config');
 					$param = array(
 						'id'	=>	$id
 					);
-					$result = $this->mongo_db->where($param)->get('alchemy');
+					$result = $this->alchemy_config->read($param);
 					if(!empty($result))
 					{
 						$result = $result[0];
@@ -368,11 +368,11 @@ class Alchemy extends CI_Controller
 				$result = $result[0];
 				$product_id = intval($result['product_id']);
 
-				$this->load->library('Mongo_db');
+                $this->load->model('config/item_config');
 				$parameter = array(
 					'id'	=>	$product_id
 				);
-				$item = $this->mongo_db->where($parameter)->get('item');
+				$item = $this->item_config->read($parameter);
 				$item = $item[0];
 
 				$this->load->model('mitem');
