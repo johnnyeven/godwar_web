@@ -207,16 +207,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_mapconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_mapconfig_adapter->RemoveNull($result);
-
-            var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'map');
-				$this->mongo_db->batch_insert('map', $result);
-				$this->mongo_db->add_index('map', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('map'));
+                $this->load->model('map_config');
+                foreach ($result as $key => $value) {
+                    $this->map_config->create($value);
+                }
+                var_dump($this->map_config->read());
 			}
 		}
 	}
@@ -251,16 +248,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_jobconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_jobconfig_adapter->RemoveNull($result);
-
-            var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'job');
-				$this->mongo_db->batch_insert('job', $result);
-				$this->mongo_db->add_index('job', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('job'));
+                $this->load->model('job_config');
+                foreach ($result as $key => $value) {
+                    $this->job_config->create($value);
+                }
+                var_dump($this->job_config->read());
 			}
 		}
 	}
@@ -295,16 +289,14 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_itemconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_itemconfig_adapter->RemoveNull($result);
-
             var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'item');
-				$this->mongo_db->batch_insert('item', $result);
-				$this->mongo_db->add_index('item', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('item'));
+                $this->load->model('item_config');
+                foreach ($result as $key => $value) {
+                    $this->item_config->create($value);
+                }
+                var_dump($this->item_config->read());
 			}
 		}
 	}
@@ -339,16 +331,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_equipmentconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_equipmentconfig_adapter->RemoveNull($result);
-
-            var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'equipment');
-				$this->mongo_db->batch_insert('equipment', $result);
-				$this->mongo_db->add_index('equipment', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('equipment'));
+                $this->load->model('equipment_config');
+                foreach ($result as $key => $value) {
+                    $this->equipment_config->create($value);
+                }
+                var_dump($this->equipment_config->read());
 			}
 		}
 	}
@@ -383,16 +372,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_magicwordconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
-
-            var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'magic_word');
-				$this->mongo_db->batch_insert('magic_word', $result);
-				$this->mongo_db->add_index('magic_word', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('magic_word'));
+                $this->load->model('magic_word_config');
+                foreach ($result as $key => $value) {
+                    $this->magic_word_config->create($value);
+                }
+                var_dump($this->magic_word_config->read());
 			}
 		}
 	}
@@ -427,16 +413,13 @@ class Import extends CI_Controller
 		{
 			$result = $this->excel_alchemyconfig_adapter->ParseExcel($fileName);
 			// $result = $this->excel_magicwordconfig_adapter->RemoveNull($result);
-
-            var_dump($result);
 			if(!empty($result))
 			{
-				$this->load->library('Mongo_db');
-				$this->mongo_db->drop_collection('godwar', 'alchemy');
-				$this->mongo_db->batch_insert('alchemy', $result);
-				$this->mongo_db->add_index('alchemy', array('id' => 'asc'), array('unique' => TRUE));
-		
-				var_dump($this->mongo_db->get('alchemy'));
+                $this->load->model('alchemy_config');
+                foreach ($result as $key => $value) {
+                    $this->alchemy_config->create($value);
+                }
+                var_dump($this->alchemy_config->read());
 			}
 		}
 	}

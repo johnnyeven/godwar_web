@@ -21,7 +21,7 @@ class Excel_AlchemyConfig_Adapter {
 			$highestColumn = $sheet->getHighestColumn(); // 取得总列数
 
 			$this->CI =& get_instance();
-			$this->CI->load->library('Mongo_db');
+			$this->CI->load->model('item_config');
 			for($j=2; $j<=$highestRow; $j++)
 			{
 				$materials = json_decode($objPHPExcel->getActiveSheet()->getCell("C$j")->getValue(), TRUE);
@@ -30,7 +30,7 @@ class Excel_AlchemyConfig_Adapter {
 					$parameter = array(
 						'id'	=>	$value['id']
 					);
-					$m = $this->CI->mongo_db->where($parameter)->get('item');
+					$m = $this->CI->item_config->read($parameter);
 					$m = $m[0];
 
 					$materials[$key]['name'] = $m['name'];
@@ -41,14 +41,14 @@ class Excel_AlchemyConfig_Adapter {
 				$parameter = array(
 					'id'	=>	$blueprint_id
 				);
-				$b = $this->CI->mongo_db->where($parameter)->get('item');
+                $b = $this->CI->item_config->read($parameter);
 				$b = $b[0];
 
 				$product_id = intval($objPHPExcel->getActiveSheet()->getCell("B$j")->getValue());
 				$parameter = array(
 					'id'	=>	$product_id
 				);
-				$p = $this->CI->mongo_db->where($parameter)->get('item');
+                $p = $this->CI->item_config->read($parameter);
 				$p = $p[0];
 
 				$costtime = intval($objPHPExcel->getActiveSheet()->getCell("D$j")->getValue());
